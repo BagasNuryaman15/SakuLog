@@ -1,46 +1,90 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  BarChart3,
-  LayoutDashboard,
-  ListChecks,
-  Plus,
-  Settings,
-  WalletCards
+  ChartSpline,
+  CirclePlus,
+  GalleryVerticalEnd,
+  LayoutGrid,
+  PanelLeftClose,
+  ReceiptText,
+  SlidersHorizontal
 } from "lucide-react";
 
 import { LogoutButton } from "@/components/auth/logout-button";
+import { BrandMark } from "@/components/layout/brand-mark";
 import { mainNavigation } from "@/lib/constants/navigation";
 import { cn } from "@/lib/utils";
 import type { NavigationItem } from "@/types/navigation";
 
 const icons: Record<NavigationItem["icon"], React.ComponentType<{ className?: string }>> = {
-  "layout-dashboard": LayoutDashboard,
-  list: ListChecks,
-  plus: Plus,
-  chart: BarChart3,
-  settings: Settings
+  "layout-dashboard": LayoutGrid,
+  list: ReceiptText,
+  plus: CirclePlus,
+  chart: ChartSpline,
+  settings: SlidersHorizontal
 };
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <aside className="group/sidebar relative z-20 hidden min-h-screen w-24 shrink-0 overflow-hidden border-r border-white/10 bg-card/46 px-4 py-6 shadow-[24px_0_90px_rgba(0,0,0,0.28)] backdrop-blur-2xl transition-[width] duration-300 ease-out hover:w-72 focus-within:w-72 lg:flex lg:flex-col">
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-primary/35 to-transparent" />
-      <Link href="/dashboard" className="flex h-12 items-center gap-3 rounded-md px-2">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-cyan-300 via-primary to-violet-400 text-primary-foreground shadow-[0_16px_48px_rgba(20,184,166,0.26)]">
-          <WalletCards className="h-5 w-5" />
-        </span>
-        <span className="min-w-0 whitespace-nowrap opacity-0 transition-all duration-300 group-hover/sidebar:opacity-100 group-focus-within/sidebar:opacity-100">
-          <span className="block text-lg font-semibold tracking-tight">SakuLog</span>
-          <span className="block text-xs text-muted-foreground">Private finance</span>
-        </span>
-      </Link>
+    <aside
+      className={cn(
+        "group/sidebar relative z-20 hidden min-h-screen shrink-0 overflow-hidden border-r border-white/10 bg-black/20 py-6 shadow-[28px_0_110px_rgba(0,0,0,0.36)] backdrop-blur-2xl transition-[width,padding] duration-300 ease-out lg:flex lg:flex-col",
+        isCollapsed ? "w-[6.5rem] px-4" : "w-[18.5rem] px-5"
+      )}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_0%,rgba(119,92,255,0.18),transparent_18rem)]" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-indigo-300/35 to-transparent" />
 
-      <nav className="mt-10 space-y-1.5">
+      <div className="relative flex h-14 items-center justify-between gap-3 rounded-2xl px-1">
+        {isCollapsed ? (
+          <button
+            type="button"
+            onClick={() => setIsCollapsed(false)}
+            className="mx-auto flex rounded-2xl transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70"
+            aria-label="Expand sidebar"
+            title="Expand sidebar"
+          >
+            <BrandMark compact />
+          </button>
+        ) : (
+          <>
+            <Link href="/dashboard" aria-label="SakuLog dashboard">
+              <BrandMark />
+            </Link>
+            <button
+              type="button"
+              onClick={() => setIsCollapsed(true)}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.055] text-indigo-100/68 shadow-[0_12px_36px_rgba(0,0,0,0.22)] transition hover:bg-white/[0.09] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70"
+              aria-label="Collapse sidebar"
+            >
+              <PanelLeftClose className="h-4 w-4" />
+            </button>
+          </>
+        )}
+      </div>
+
+      <div
+        className={cn(
+          "relative mt-7 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent",
+          isCollapsed ? "mx-auto w-12" : "mx-1"
+        )}
+      />
+
+      <nav className={cn("relative space-y-2", isCollapsed ? "mt-7" : "mt-7")}>
+        <p
+          className={cn(
+            "px-3 text-xs font-medium uppercase tracking-[0.22em] text-white/32 transition",
+            isCollapsed && "sr-only"
+          )}
+        >
+          General
+        </p>
         {mainNavigation.map((item) => {
           const Icon = icons[item.icon];
           const isActive = pathname === item.href;
@@ -50,21 +94,29 @@ export function AppSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "group relative flex h-12 items-center gap-3 rounded-md px-3 text-sm font-medium text-muted-foreground transition-all",
-                "hover:bg-white/[0.06] hover:text-foreground",
+                "group relative flex h-12 items-center rounded-2xl text-sm font-medium text-indigo-100/52 transition-all",
+                isCollapsed ? "h-14 justify-center px-0" : "gap-3 px-3",
+                "hover:bg-white/[0.06] hover:text-white",
                 isActive &&
-                  "border border-primary/25 bg-gradient-to-r from-primary/20 to-white/[0.04] text-foreground shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
+                  "border border-white/12 bg-[linear-gradient(135deg,rgba(102,119,255,0.28),rgba(255,255,255,0.06))] text-white shadow-[0_18px_55px_rgba(79,70,229,0.2)]"
               )}
+              title={isCollapsed ? item.title : undefined}
             >
+              {isActive ? (
+                <span className="absolute inset-y-3 left-0 w-1 rounded-r-full bg-cyan-300 shadow-[0_0_22px_rgba(103,232,249,0.75)]" />
+              ) : null}
               <span
                 className={cn(
-                  "flex h-7 w-7 items-center justify-center rounded-md transition",
-                  isActive ? "bg-primary/18 text-primary" : "bg-white/[0.04] text-muted-foreground group-hover:text-foreground"
+                  "flex items-center justify-center rounded-xl transition",
+                  isCollapsed ? "h-10 w-10" : "h-8 w-8",
+                  isActive
+                    ? "bg-white/12 text-cyan-100"
+                    : "bg-white/[0.045] text-indigo-100/52 group-hover:text-white"
                 )}
               >
                 <Icon className="h-4 w-4" />
               </span>
-              <span className="whitespace-nowrap opacity-0 transition-all duration-300 group-hover/sidebar:opacity-100 group-focus-within/sidebar:opacity-100">
+              <span className={cn("whitespace-nowrap transition", isCollapsed && "hidden")}>
                 {item.title}
               </span>
             </Link>
@@ -72,16 +124,31 @@ export function AppSidebar() {
         })}
       </nav>
 
-      <div className="mt-auto rounded-md border border-white/10 bg-background/36 p-3 shadow-[0_18px_50px_rgba(0,0,0,0.18)] backdrop-blur-xl">
-        <p className="whitespace-nowrap text-sm font-medium opacity-0 transition-all duration-300 group-hover/sidebar:opacity-100 group-focus-within/sidebar:opacity-100">
-          Private workspace
+      <div
+        className={cn(
+          "relative mt-7 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent",
+          isCollapsed ? "mx-auto w-10" : "mx-1"
+        )}
+      />
+
+      <div
+        className={cn(
+          "relative mt-auto rounded-3xl border border-white/10 bg-[linear-gradient(155deg,rgba(255,255,255,0.09),rgba(255,255,255,0.035))] shadow-[0_24px_80px_rgba(0,0,0,0.32)] transition-all",
+          isCollapsed ? "flex flex-col items-center gap-3 p-2" : "p-4"
+        )}
+      >
+        <div className={cn("flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-300/10 text-cyan-100", !isCollapsed && "mb-4")}>
+          <GalleryVerticalEnd className="h-4 w-4" />
+        </div>
+        <p className={cn("text-sm font-semibold text-white", isCollapsed && "sr-only")}>
+          Session secured
         </p>
-        <p className="mt-1 hidden text-xs leading-5 text-muted-foreground group-hover/sidebar:block group-focus-within/sidebar:block">
-          Your session is active. Sign out when you are done reviewing your finances.
+        <p className={cn("mt-2 text-xs leading-5 text-indigo-100/48", isCollapsed && "hidden")}>
+          Workspace pribadi untuk membaca cashflow tanpa noise.
         </p>
         <LogoutButton
-          className="mt-3 justify-start px-3"
-          labelClassName="whitespace-nowrap opacity-0 transition-all duration-300 group-hover/sidebar:opacity-100 group-focus-within/sidebar:opacity-100"
+          className={cn("mt-3 justify-start px-3", isCollapsed && "h-10 w-10 justify-center px-0")}
+          labelClassName={cn(isCollapsed && "sr-only")}
           variant="secondary"
         />
       </div>

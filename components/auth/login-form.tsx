@@ -38,11 +38,11 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="mt-8 space-y-5">
       <div className="space-y-2">
-        <label htmlFor="email" className="text-sm font-medium text-foreground">
+        <label htmlFor="email" className="text-sm font-medium text-indigo-50/78">
           Email
         </label>
         <div className="relative">
-          <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-indigo-100/42" />
           <input
             id="email"
             name="email"
@@ -51,18 +51,18 @@ export function LoginForm() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="h-11 w-full rounded-md border border-white/10 bg-background/45 pl-10 pr-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-muted-foreground focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
+            className="finance-input with-leading-icon"
             placeholder="you@example.com"
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="password" className="text-sm font-medium text-foreground">
+        <label htmlFor="password" className="text-sm font-medium text-indigo-50/78">
           Password
         </label>
         <div className="relative">
-          <LockKeyhole className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <LockKeyhole className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-indigo-100/42" />
           <input
             id="password"
             name="password"
@@ -71,19 +71,27 @@ export function LoginForm() {
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="h-11 w-full rounded-md border border-white/10 bg-background/45 pl-10 pr-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-muted-foreground focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
+            className="finance-input with-leading-icon"
             placeholder="Enter your password"
           />
         </div>
       </div>
 
       {error ? (
-        <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive shadow-sm">
+        <div className="rounded-2xl border border-red-300/20 bg-red-500/10 px-3 py-2 text-sm text-red-100 shadow-sm">
           {error}
         </div>
       ) : null}
 
-      <Button type="submit" className="h-11 w-full" disabled={isLoading}>
+      <div className="flex items-center justify-between gap-4 text-sm text-indigo-50/54">
+        <label className="flex items-center gap-2">
+          <span className="h-4 w-4 rounded-md border border-white/14 bg-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]" />
+          Keep session
+        </label>
+        <span className="text-indigo-100/42">Private access</span>
+      </div>
+
+      <Button type="submit" className="h-12 w-full" disabled={isLoading}>
         {isLoading ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" />

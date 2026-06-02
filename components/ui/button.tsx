@@ -5,22 +5,22 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-[0_14px_32px_rgba(20,184,166,0.18)] hover:bg-primary/90 hover:shadow-[0_18px_42px_rgba(20,184,166,0.24)]",
+          "border border-white/12 bg-[linear-gradient(135deg,rgba(105,118,255,0.98),rgba(210,74,255,0.78))] text-primary-foreground shadow-[0_16px_48px_rgba(120,87,255,0.32)] hover:shadow-[0_20px_60px_rgba(190,80,255,0.38)]",
         secondary:
-          "border border-border/70 bg-secondary/80 text-secondary-foreground shadow-sm hover:bg-secondary",
-        ghost: "text-muted-foreground hover:bg-accent/70 hover:text-accent-foreground",
+          "border border-white/10 bg-white/[0.075] text-secondary-foreground shadow-sm hover:bg-white/[0.11]",
+        ghost: "text-indigo-100/62 hover:bg-white/[0.07] hover:text-white",
         outline:
-          "border border-border/80 bg-card/45 text-foreground shadow-sm hover:border-primary/40 hover:bg-accent/60 hover:text-accent-foreground"
+          "border border-white/12 bg-black/18 text-foreground shadow-sm hover:border-indigo-200/30 hover:bg-white/[0.07] hover:text-white"
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-11 rounded-md px-8",
+        sm: "h-8 rounded-xl px-3 text-xs",
+        lg: "h-12 rounded-2xl px-8",
         icon: "h-10 w-10"
       }
     },

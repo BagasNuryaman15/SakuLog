@@ -14,8 +14,8 @@ export default function AddPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        title="Add"
-        description="Pilih jenis transaksi dulu, lalu isi detailnya dengan cepat dan rapi."
+        title="Create Record"
+        description="Pilih flow pemasukan atau pengeluaran dulu, lalu record transaksi tanpa distraksi."
       />
 
       {!selectedType ? (

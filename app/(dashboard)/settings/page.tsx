@@ -6,13 +6,13 @@ export default function SettingsPage() {
     <div className="space-y-8">
       <PageHeader
         title="Settings"
-        description="Preferences and account-related options will be shaped in a later task."
+        description="Kontrol sesi dan preferensi workspace pribadi kamu."
       />
-      <section className="rounded-lg border border-white/10 bg-card/68 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.16)] backdrop-blur-xl">
+      <section className="rounded-[1.8rem] border border-white/10 bg-black/24 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-medium">Session</p>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-sm font-semibold text-white">Session</p>
+            <p className="mt-1 text-sm text-indigo-100/50">
               Sign out of SakuLog on this device.
             </p>
           </div>

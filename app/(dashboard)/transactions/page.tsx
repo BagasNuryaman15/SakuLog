@@ -6,7 +6,7 @@ export default function TransactionsPage() {
     <div className="space-y-8">
       <PageHeader
         title="Transactions"
-        description="Lihat, filter, edit, dan hapus transaksi yang sudah kamu catat."
+        description="Lihat, filter, edit, dan hapus record uang yang sudah kamu catat."
       />
       <TransactionsList />
     </div>

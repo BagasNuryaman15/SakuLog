@@ -85,11 +85,13 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
   }
 
   return (
-    <section className="rounded-lg border border-white/10 bg-card/70 p-5 shadow-[0_22px_80px_rgba(0,0,0,0.22)] backdrop-blur-xl sm:p-6">
+    <section className="rounded-[1.8rem] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:p-6">
       <div className="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm font-medium text-muted-foreground">Pemasukan</p>
-          <h2 className="mt-1 text-2xl font-semibold tracking-tight">Tambah Pemasukan</h2>
+          <p className="text-sm font-medium text-emerald-200/78">Pemasukan</p>
+          <h2 className="mt-1 text-2xl font-semibold tracking-[-0.04em] text-white">
+            Tambah Pemasukan
+          </h2>
         </div>
         <Button type="button" variant="ghost" onClick={onBack} className="justify-start sm:w-auto">
           <ArrowLeft className="h-4 w-4" />
@@ -104,7 +106,7 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
               type="text"
               value={values.name}
               onChange={(event) => updateValue("name", event.target.value)}
-              className="h-11 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-muted-foreground focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
+              className="finance-input"
               placeholder="Contoh: Uang bulanan"
             />
           </Field>
@@ -116,10 +118,10 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
               inputMode="numeric"
               value={values.amount || ""}
               onChange={(event) => updateValue("amount", Number(event.target.value))}
-              className="h-11 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-muted-foreground focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
+              className="finance-input"
               placeholder="0"
             />
-            <p className="mt-2 text-xs text-muted-foreground">{formattedAmount}</p>
+            <p className="mt-2 text-xs text-indigo-100/48">{formattedAmount}</p>
             <QuickAmount
               value={values.amount}
               onChange={(amount) => updateValue("amount", amount)}
@@ -130,7 +132,7 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
             <select
               value={values.category}
               onChange={(event) => updateValue("category", event.target.value)}
-              className="h-11 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
+              className="finance-input"
             >
               <option value="">Pilih kategori</option>
               {incomeCategories.map((category) => (
@@ -145,7 +147,7 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
             <select
               value={values.source}
               onChange={(event) => updateValue("source", event.target.value)}
-              className="h-11 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
+              className="finance-input"
             >
               <option value="">Pilih sumber</option>
               {incomeSources.map((source) => (
@@ -161,7 +163,7 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
               type="date"
               value={values.transactionDate}
               onChange={(event) => updateValue("transactionDate", event.target.value)}
-              className="h-11 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
+              className="finance-input"
             />
           </Field>
 
@@ -169,7 +171,7 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
             <select
               value={values.receiptMethod}
               onChange={(event) => updateValue("receiptMethod", event.target.value)}
-              className="h-11 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
+              className="finance-input"
             >
               <option value="">Pilih metode</option>
               {incomeReceiptMethods.map((method) => (
@@ -185,20 +187,20 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
           <textarea
             value={values.note}
             onChange={(event) => updateValue("note", event.target.value)}
-            className="min-h-28 w-full rounded-md border border-white/10 bg-background/45 px-3 py-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-muted-foreground focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
+            className="finance-input"
             placeholder="Catatan tambahan"
           />
         </Field>
 
         {isSubmitted ? (
-          <div className="flex items-center gap-2 rounded-md border border-primary/25 bg-primary/10 px-3 py-2 text-sm text-primary shadow-sm">
+          <div className="flex items-center gap-2 rounded-2xl border border-emerald-200/20 bg-emerald-300/10 px-3 py-2 text-sm text-emerald-100 shadow-sm">
             <CheckCircle2 className="h-4 w-4" />
             Pemasukan berhasil disimpan. Kamu bisa menambahkan transaksi lain.
           </div>
         ) : null}
 
         {saveError ? (
-          <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive shadow-sm">
+          <div className="rounded-2xl border border-red-300/20 bg-red-500/10 px-3 py-2 text-sm text-red-100 shadow-sm">
             {saveError}
           </div>
         ) : null}
@@ -231,12 +233,12 @@ function Field({
 }) {
   return (
     <div className="block space-y-2">
-      <span className="flex items-center justify-between text-sm font-medium text-foreground/90">
+      <span className="flex items-center justify-between text-sm font-medium text-indigo-100/70">
         {label}
-        {optional ? <span className="text-xs font-normal text-muted-foreground">Opsional</span> : null}
+        {optional ? <span className="text-xs font-normal text-indigo-100/42">Opsional</span> : null}
       </span>
       {children}
-      {error ? <span className="block text-xs text-destructive">{error}</span> : null}
+      {error ? <span className="block text-xs text-rose-200">{error}</span> : null}
     </div>
   );
 }

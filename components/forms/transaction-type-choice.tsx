@@ -1,7 +1,6 @@
 "use client";
 
-import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
-
+import { ExpenseGlyph, IncomeGlyph } from "@/components/forms/transaction-glyphs";
 import { cn } from "@/lib/utils";
 import type { TransactionType } from "@/types/transaction";
 
@@ -13,24 +12,24 @@ const choices = [
   {
     type: "expense" as const,
     title: "Tambah Pengeluaran",
-    description: "Catat uang yang kamu pakai.",
-    icon: ArrowUpRight,
-    tone: "border-destructive/25 bg-destructive/10 text-destructive",
-    glow: "group-hover:shadow-[0_24px_80px_rgba(251,113,133,0.14)]"
+    description: "Record uang keluar dengan kategori yang jelas.",
+    icon: ExpenseGlyph,
+    tone: "border-rose-200/16 bg-rose-300/10 text-rose-200",
+    glow: "group-hover:shadow-[0_28px_95px_rgba(251,113,133,0.18)]"
   },
   {
     type: "income" as const,
     title: "Tambah Pemasukan",
-    description: "Catat uang yang kamu terima.",
-    icon: ArrowDownLeft,
-    tone: "border-primary/25 bg-primary/10 text-primary",
-    glow: "group-hover:shadow-[0_24px_80px_rgba(20,184,166,0.14)]"
+    description: "Record uang masuk dari gaji, freelance, atau sumber lain.",
+    icon: IncomeGlyph,
+    tone: "border-emerald-200/16 bg-emerald-300/10 text-emerald-200",
+    glow: "group-hover:shadow-[0_28px_95px_rgba(52,211,153,0.18)]"
   }
 ];
 
 export function TransactionTypeChoice({ onSelect }: TransactionTypeChoiceProps) {
   return (
-    <section className="grid gap-4 md:grid-cols-2">
+    <section className="grid gap-5 md:grid-cols-2">
       {choices.map((choice) => {
         const Icon = choice.icon;
 
@@ -40,22 +39,23 @@ export function TransactionTypeChoice({ onSelect }: TransactionTypeChoiceProps) 
             type="button"
             onClick={() => onSelect(choice.type)}
             className={cn(
-              "group rounded-lg border border-white/10 bg-card/68 p-5 text-left shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl transition-all",
-              "hover:-translate-y-0.5 hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70",
+              "group relative overflow-hidden rounded-[1.8rem] border border-white/10 bg-black/24 p-6 text-left shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl transition-all",
+              "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_18%_0%,rgba(129,140,248,0.18),transparent_18rem)] before:opacity-0 before:transition-opacity",
+              "hover:-translate-y-1 hover:border-indigo-200/24 hover:before:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70",
               choice.glow
             )}
           >
             <div
               className={cn(
-                "flex h-12 w-12 items-center justify-center rounded-md border transition group-hover:scale-105",
+                "relative flex h-16 w-16 items-center justify-center rounded-2xl border transition group-hover:scale-105",
                 choice.tone
               )}
             >
-              <Icon className="h-5 w-5" />
+              <Icon className="h-10 w-10" />
             </div>
-            <div className="mt-5 space-y-2">
-              <h2 className="text-xl font-semibold tracking-tight">{choice.title}</h2>
-              <p className="text-sm leading-6 text-muted-foreground">{choice.description}</p>
+            <div className="relative mt-8 space-y-2">
+              <h2 className="text-2xl font-semibold tracking-[-0.045em] text-white">{choice.title}</h2>
+              <p className="max-w-sm text-sm leading-6 text-indigo-100/52">{choice.description}</p>
             </div>
           </button>
         );
