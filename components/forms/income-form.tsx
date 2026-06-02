@@ -1,34 +1,38 @@
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 
 import { QuickAmount } from "@/components/forms/quick-amount";
 import { Button } from "@/components/ui/button";
 import { incomeCategories, incomeSources } from "@/lib/constants/categories";
 import { incomeReceiptMethods } from "@/lib/constants/payment-methods";
+import { createIncomeTransaction } from "@/lib/transactions/mutations";
+import { validateIncomeValues, type ValidationErrors } from "@/lib/transactions/validators";
 import type { IncomeFormValues } from "@/types/transaction";
 
 type IncomeFormProps = {
   onBack: () => void;
 };
 
-type IncomeFormErrors = Partial<Record<keyof IncomeFormValues, string>>;
-
-const initialFormValues: IncomeFormValues = {
-  name: "",
-  amount: 0,
-  category: "",
-  source: "",
-  receiptMethod: "",
-  transactionDate: new Date().toISOString().slice(0, 10),
-  note: ""
-};
+function getInitialFormValues(): IncomeFormValues {
+  return {
+    name: "",
+    amount: 0,
+    category: "",
+    source: "",
+    receiptMethod: "",
+    transactionDate: new Date().toISOString().slice(0, 10),
+    note: ""
+  };
+}
 
 export function IncomeForm({ onBack }: IncomeFormProps) {
-  const [values, setValues] = useState<IncomeFormValues>(initialFormValues);
-  const [errors, setErrors] = useState<IncomeFormErrors>({});
+  const [values, setValues] = useState<IncomeFormValues>(getInitialFormValues);
+  const [errors, setErrors] = useState<ValidationErrors<IncomeFormValues>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const formattedAmount = useMemo(() => {
     if (!values.amount) {
@@ -46,49 +50,38 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
     setValues((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined }));
     setIsSubmitted(false);
+    setSaveError(null);
   }
 
   function validateForm() {
-    const nextErrors: IncomeFormErrors = {};
+    const validation = validateIncomeValues(values);
 
-    if (!values.name.trim()) {
-      nextErrors.name = "Nama pemasukan wajib diisi.";
-    }
-
-    if (values.amount <= 0) {
-      nextErrors.amount = "Nominal harus lebih dari 0.";
-    }
-
-    if (!values.category) {
-      nextErrors.category = "Kategori pemasukan wajib dipilih.";
-    }
-
-    if (!values.source) {
-      nextErrors.source = "Sumber pemasukan wajib dipilih.";
-    }
-
-    if (!values.transactionDate) {
-      nextErrors.transactionDate = "Tanggal wajib diisi.";
-    }
-
-    if (!values.receiptMethod) {
-      nextErrors.receiptMethod = "Metode penerimaan wajib dipilih.";
-    }
-
-    setErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
+    setErrors(validation.errors);
+    return validation.isValid;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSaveError(null);
 
     if (!validateForm()) {
       setIsSubmitted(false);
       return;
     }
 
-    console.log("Income form values:", values);
-    setIsSubmitted(true);
+    setIsSaving(true);
+
+    try {
+      await createIncomeTransaction(values);
+      setValues(getInitialFormValues());
+      setErrors({});
+      setIsSubmitted(true);
+    } catch (error) {
+      setIsSubmitted(false);
+      setSaveError(error instanceof Error ? error.message : "Gagal menyimpan pemasukan.");
+    } finally {
+      setIsSaving(false);
+    }
   }
 
   return (
@@ -200,12 +193,25 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
         {isSubmitted ? (
           <div className="flex items-center gap-2 rounded-md border border-primary/25 bg-primary/10 px-3 py-2 text-sm text-primary">
             <CheckCircle2 className="h-4 w-4" />
-            Pemasukan siap disimpan nanti. Belum ada data yang dikirim ke Supabase.
+            Pemasukan berhasil disimpan. Kamu bisa menambahkan transaksi lain.
           </div>
         ) : null}
 
-        <Button type="submit" className="w-full sm:w-auto">
-          Simpan Placeholder
+        {saveError ? (
+          <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {saveError}
+          </div>
+        ) : null}
+
+        <Button type="submit" className="w-full sm:w-auto" disabled={isSaving}>
+          {isSaving ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Menyimpan
+            </>
+          ) : (
+            "Simpan Pemasukan"
+          )}
         </Button>
       </form>
     </section>

@@ -1,33 +1,37 @@
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 
 import { QuickAmount } from "@/components/forms/quick-amount";
 import { Button } from "@/components/ui/button";
 import { expenseCategories } from "@/lib/constants/categories";
 import { expensePaymentMethods } from "@/lib/constants/payment-methods";
+import { createExpenseTransaction } from "@/lib/transactions/mutations";
+import { validateExpenseValues, type ValidationErrors } from "@/lib/transactions/validators";
 import type { ExpenseFormValues } from "@/types/transaction";
 
 type ExpenseFormProps = {
   onBack: () => void;
 };
 
-type ExpenseFormErrors = Partial<Record<keyof ExpenseFormValues, string>>;
-
-const initialFormValues: ExpenseFormValues = {
-  name: "",
-  amount: 0,
-  category: "",
-  paymentMethod: "",
-  transactionDate: new Date().toISOString().slice(0, 10),
-  note: ""
-};
+function getInitialFormValues(): ExpenseFormValues {
+  return {
+    name: "",
+    amount: 0,
+    category: "",
+    paymentMethod: "",
+    transactionDate: new Date().toISOString().slice(0, 10),
+    note: ""
+  };
+}
 
 export function ExpenseForm({ onBack }: ExpenseFormProps) {
-  const [values, setValues] = useState<ExpenseFormValues>(initialFormValues);
-  const [errors, setErrors] = useState<ExpenseFormErrors>({});
+  const [values, setValues] = useState<ExpenseFormValues>(getInitialFormValues);
+  const [errors, setErrors] = useState<ValidationErrors<ExpenseFormValues>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const formattedAmount = useMemo(() => {
     if (!values.amount) {
@@ -48,45 +52,38 @@ export function ExpenseForm({ onBack }: ExpenseFormProps) {
     setValues((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined }));
     setIsSubmitted(false);
+    setSaveError(null);
   }
 
   function validateForm() {
-    const nextErrors: ExpenseFormErrors = {};
+    const validation = validateExpenseValues(values);
 
-    if (!values.name.trim()) {
-      nextErrors.name = "Nama pengeluaran wajib diisi.";
-    }
-
-    if (values.amount <= 0) {
-      nextErrors.amount = "Nominal harus lebih dari 0.";
-    }
-
-    if (!values.category) {
-      nextErrors.category = "Kategori wajib dipilih.";
-    }
-
-    if (!values.transactionDate) {
-      nextErrors.transactionDate = "Tanggal wajib diisi.";
-    }
-
-    if (!values.paymentMethod) {
-      nextErrors.paymentMethod = "Metode pembayaran wajib dipilih.";
-    }
-
-    setErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
+    setErrors(validation.errors);
+    return validation.isValid;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSaveError(null);
 
     if (!validateForm()) {
       setIsSubmitted(false);
       return;
     }
 
-    console.log("Expense form values:", values);
-    setIsSubmitted(true);
+    setIsSaving(true);
+
+    try {
+      await createExpenseTransaction(values);
+      setValues(getInitialFormValues());
+      setErrors({});
+      setIsSubmitted(true);
+    } catch (error) {
+      setIsSubmitted(false);
+      setSaveError(error instanceof Error ? error.message : "Gagal menyimpan pengeluaran.");
+    } finally {
+      setIsSaving(false);
+    }
   }
 
   return (
@@ -183,12 +180,25 @@ export function ExpenseForm({ onBack }: ExpenseFormProps) {
         {isSubmitted ? (
           <div className="flex items-center gap-2 rounded-md border border-primary/25 bg-primary/10 px-3 py-2 text-sm text-primary">
             <CheckCircle2 className="h-4 w-4" />
-            Pengeluaran siap disimpan nanti. Belum ada data yang dikirim ke Supabase.
+            Pengeluaran berhasil disimpan. Kamu bisa menambahkan transaksi lain.
           </div>
         ) : null}
 
-        <Button type="submit" className="w-full sm:w-auto">
-          Simpan Placeholder
+        {saveError ? (
+          <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {saveError}
+          </div>
+        ) : null}
+
+        <Button type="submit" className="w-full sm:w-auto" disabled={isSaving}>
+          {isSaving ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Menyimpan
+            </>
+          ) : (
+            "Simpan Pengeluaran"
+          )}
         </Button>
       </form>
     </section>

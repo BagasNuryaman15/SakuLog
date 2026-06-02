@@ -3,8 +3,10 @@ import type {
   expensePaymentMethods,
   incomeReceiptMethods
 } from "@/lib/constants/payment-methods";
+import type { Tables } from "@/types/supabase";
 
 export type TransactionType = "expense" | "income";
+export type TransactionFilter = "all" | TransactionType;
 
 export type ExpenseCategory = (typeof expenseCategories)[number];
 export type IncomeCategory = (typeof incomeCategories)[number];
@@ -32,6 +34,21 @@ export type IncomeFormValues = {
   category: string;
   source: string;
   receiptMethod: string;
+  transactionDate: string;
+  note?: string;
+};
+
+export type Transaction = Omit<Tables<"transactions">, "type"> & {
+  type: TransactionType;
+};
+
+export type TransactionUpdateValues = {
+  type: TransactionType;
+  name: string;
+  amount: number;
+  category: string;
+  paymentMethod: string;
+  source?: string | null;
   transactionDate: string;
   note?: string;
 };
