@@ -1,15 +1,30 @@
+"use client";
+
+import { useState } from "react";
+
+import { ExpenseForm } from "@/components/forms/expense-form";
+import { IncomeForm } from "@/components/forms/income-form";
+import { TransactionTypeChoice } from "@/components/forms/transaction-type-choice";
 import { PageHeader } from "@/components/layout/page-header";
+import type { TransactionType } from "@/types/transaction";
 
 export default function AddPage() {
+  const [selectedType, setSelectedType] = useState<TransactionType | null>(null);
+
   return (
     <div className="space-y-8">
       <PageHeader
         title="Add"
-        description="A dedicated entry point for future income and expense forms."
+        description="Pilih jenis transaksi dulu, lalu isi detailnya dengan cepat dan rapi."
       />
-      <section className="rounded-md border bg-card/78 p-6 shadow-sm backdrop-blur">
-        <p className="text-sm text-muted-foreground">Transaction forms are not implemented yet.</p>
-      </section>
+
+      {!selectedType ? (
+        <TransactionTypeChoice onSelect={setSelectedType} />
+      ) : selectedType === "expense" ? (
+        <ExpenseForm onBack={() => setSelectedType(null)} />
+      ) : (
+        <IncomeForm onBack={() => setSelectedType(null)} />
+      )}
     </div>
   );
 }

@@ -1,0 +1,37 @@
+import type { expenseCategories, incomeCategories, incomeSources } from "@/lib/constants/categories";
+import type {
+  expensePaymentMethods,
+  incomeReceiptMethods
+} from "@/lib/constants/payment-methods";
+
+export type TransactionType = "expense" | "income";
+
+export type ExpenseCategory = (typeof expenseCategories)[number];
+export type IncomeCategory = (typeof incomeCategories)[number];
+export type IncomeSource = (typeof incomeSources)[number];
+export type ExpensePaymentMethod = (typeof expensePaymentMethods)[number];
+export type IncomeReceiptMethod = (typeof incomeReceiptMethods)[number];
+
+export type SelectOption = {
+  label: string;
+  value: string;
+};
+
+export type ExpenseFormValues = {
+  name: string;
+  amount: number;
+  category: string;
+  paymentMethod: string;
+  transactionDate: string;
+  note?: string;
+};
+
+export type IncomeFormValues = {
+  name: string;
+  amount: number;
+  category: string;
+  source: string;
+  receiptMethod: string;
+  transactionDate: string;
+  note?: string;
+};
