@@ -8,7 +8,7 @@ export default function SettingsPage() {
         title="Settings"
         description="Preferences and account-related options will be shaped in a later task."
       />
-      <section className="rounded-md border bg-card/78 p-6 shadow-sm backdrop-blur">
+      <section className="rounded-lg border border-white/10 bg-card/68 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.16)] backdrop-blur-xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium">Session</p>

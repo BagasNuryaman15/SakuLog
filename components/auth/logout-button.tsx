@@ -10,10 +10,11 @@ import { cn } from "@/lib/utils";
 
 type LogoutButtonProps = {
   className?: string;
+  labelClassName?: string;
   variant?: "default" | "secondary" | "ghost" | "outline";
 };
 
-export function LogoutButton({ className, variant = "outline" }: LogoutButtonProps) {
+export function LogoutButton({ className, labelClassName, variant = "outline" }: LogoutButtonProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,9 +35,10 @@ export function LogoutButton({ className, variant = "outline" }: LogoutButtonPro
       className={cn("w-full justify-center", className)}
       disabled={isLoading}
       onClick={handleLogout}
+      aria-label="Logout"
     >
       {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />}
-      {isLoading ? "Signing out" : "Logout"}
+      <span className={labelClassName}>{isLoading ? "Signing out" : "Logout"}</span>
     </Button>
   );
 }

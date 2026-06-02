@@ -51,7 +51,7 @@ export function LoginForm() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="h-11 w-full rounded-md border bg-background/80 pl-10 pr-3 text-sm shadow-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-ring/30"
+            className="h-11 w-full rounded-md border border-white/10 bg-background/45 pl-10 pr-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-muted-foreground focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
             placeholder="you@example.com"
           />
         </div>
@@ -71,14 +71,14 @@ export function LoginForm() {
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="h-11 w-full rounded-md border bg-background/80 pl-10 pr-3 text-sm shadow-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-ring/30"
+            className="h-11 w-full rounded-md border border-white/10 bg-background/45 pl-10 pr-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-muted-foreground focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
             placeholder="Enter your password"
           />
         </div>
       </div>
 
       {error ? (
-        <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+        <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive shadow-sm">
           {error}
         </div>
       ) : null}

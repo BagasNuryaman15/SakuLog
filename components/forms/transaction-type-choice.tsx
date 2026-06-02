@@ -15,14 +15,16 @@ const choices = [
     title: "Tambah Pengeluaran",
     description: "Catat uang yang kamu pakai.",
     icon: ArrowUpRight,
-    tone: "bg-destructive/10 text-destructive"
+    tone: "border-destructive/25 bg-destructive/10 text-destructive",
+    glow: "group-hover:shadow-[0_24px_80px_rgba(251,113,133,0.14)]"
   },
   {
     type: "income" as const,
     title: "Tambah Pemasukan",
     description: "Catat uang yang kamu terima.",
     icon: ArrowDownLeft,
-    tone: "bg-primary/10 text-primary"
+    tone: "border-primary/25 bg-primary/10 text-primary",
+    glow: "group-hover:shadow-[0_24px_80px_rgba(20,184,166,0.14)]"
   }
 ];
 
@@ -37,11 +39,15 @@ export function TransactionTypeChoice({ onSelect }: TransactionTypeChoiceProps) 
             key={choice.type}
             type="button"
             onClick={() => onSelect(choice.type)}
-            className="group rounded-md border bg-card/80 p-5 text-left shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_22px_70px_rgba(27,37,31,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className={cn(
+              "group rounded-lg border border-white/10 bg-card/68 p-5 text-left shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl transition-all",
+              "hover:-translate-y-0.5 hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70",
+              choice.glow
+            )}
           >
             <div
               className={cn(
-                "flex h-12 w-12 items-center justify-center rounded-md transition group-hover:scale-105",
+                "flex h-12 w-12 items-center justify-center rounded-md border transition group-hover:scale-105",
                 choice.tone
               )}
             >

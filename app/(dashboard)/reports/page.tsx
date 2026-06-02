@@ -9,7 +9,10 @@ export default function ReportsPage() {
       />
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {["Daily", "Weekly", "Monthly", "Yearly"].map((period) => (
-          <div key={period} className="rounded-md border bg-card/78 p-5 shadow-sm backdrop-blur">
+          <div
+            key={period}
+            className="rounded-lg border border-white/10 bg-card/68 p-5 shadow-[0_18px_60px_rgba(0,0,0,0.16)] backdrop-blur-xl"
+          >
             <p className="text-sm font-medium">{period}</p>
             <p className="mt-2 text-sm text-muted-foreground">Report placeholder</p>
           </div>

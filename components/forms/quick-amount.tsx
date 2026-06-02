@@ -21,7 +21,7 @@ export function QuickAmount({ value, onChange }: QuickAmountProps) {
             key={amount}
             type="button"
             onClick={() => onChange(value + amount)}
-            className="rounded-md border bg-background/70 px-3 py-2 text-xs font-medium shadow-sm transition hover:border-primary/40 hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-md border border-white/10 bg-background/42 px-3 py-2 text-xs font-medium text-muted-foreground shadow-sm transition hover:border-primary/35 hover:bg-primary/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
           >
             +{formatter.format(amount)}
           </button>

@@ -15,10 +15,11 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="grid min-h-screen place-items-center px-4 py-12">
-      <section className="w-full max-w-md rounded-md border bg-card/86 p-8 shadow-[0_24px_80px_rgba(27,37,31,0.12)] backdrop-blur">
+    <main className="relative grid min-h-screen place-items-center overflow-hidden px-4 py-12">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(20,184,166,0.16),transparent_30rem)]" />
+      <section className="relative w-full max-w-md rounded-lg border border-white/10 bg-card/76 p-8 shadow-[0_30px_100px_rgba(0,0,0,0.34)] backdrop-blur-2xl">
         <div className="flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
+          <span className="flex h-11 w-11 items-center justify-center rounded-md bg-gradient-to-br from-primary to-emerald-300 text-primary-foreground shadow-[0_16px_42px_rgba(20,184,166,0.25)]">
             <WalletCards className="h-5 w-5" />
           </span>
           <div>

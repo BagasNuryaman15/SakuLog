@@ -195,20 +195,21 @@ export function TransactionsList() {
 
   return (
     <section className="space-y-5">
-      <div className="flex flex-col gap-4 rounded-md border bg-card/78 p-4 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 rounded-lg border border-white/10 bg-card/68 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm font-medium">Transaction history</p>
           <p className="mt-1 text-sm text-muted-foreground">{totalLabel}</p>
         </div>
-        <div className="grid grid-cols-3 gap-2 rounded-md bg-muted/70 p-1">
+        <div className="grid grid-cols-3 gap-2 rounded-md border border-white/10 bg-background/36 p-1">
           {filters.map((item) => (
             <button
               key={item.value}
               type="button"
               onClick={() => setFilter(item.value)}
               className={cn(
-                "rounded-md px-3 py-2 text-xs font-medium text-muted-foreground transition",
-                filter === item.value && "bg-card text-foreground shadow-sm"
+                "rounded-md px-3 py-2 text-xs font-medium text-muted-foreground transition-all",
+                filter === item.value &&
+                  "bg-gradient-to-b from-primary/18 to-white/[0.04] text-foreground shadow-sm"
               )}
             >
               {item.label}
@@ -218,18 +219,18 @@ export function TransactionsList() {
       </div>
 
       {error ? (
-        <div className="rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+        <div className="rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive shadow-sm">
           {error}
         </div>
       ) : null}
 
       {isLoading ? (
-        <div className="rounded-md border bg-card/78 p-8 text-center shadow-sm backdrop-blur">
+        <div className="rounded-lg border border-white/10 bg-card/68 p-8 text-center shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl">
           <Loader2 className="mx-auto h-5 w-5 animate-spin text-muted-foreground" />
           <p className="mt-3 text-sm text-muted-foreground">Memuat transaksi...</p>
         </div>
       ) : transactions.length === 0 ? (
-        <div className="rounded-md border bg-card/78 p-8 text-center shadow-sm backdrop-blur">
+        <div className="rounded-lg border border-white/10 bg-card/68 p-8 text-center shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl">
           <p className="text-sm font-medium">Belum ada transaksi</p>
           <p className="mt-2 text-sm text-muted-foreground">
             Tambahkan pengeluaran atau pemasukan dari halaman Add.
@@ -300,7 +301,7 @@ function TransactionItem({
     return (
       <form
         onSubmit={onEditSubmit}
-        className="rounded-md border bg-card/86 p-5 shadow-sm backdrop-blur"
+        className="rounded-lg border border-white/10 bg-card/74 p-5 shadow-[0_22px_80px_rgba(0,0,0,0.22)] backdrop-blur-xl"
       >
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -323,7 +324,7 @@ function TransactionItem({
               type="text"
               value={editValues.name}
               onChange={(event) => onEditValueChange("name", event.target.value)}
-              className="h-10 w-full rounded-md border bg-background/80 px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/30"
+              className="h-10 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
             />
           </EditField>
 
@@ -333,7 +334,7 @@ function TransactionItem({
               min="0"
               value={editValues.amount || ""}
               onChange={(event) => onEditValueChange("amount", Number(event.target.value))}
-              className="h-10 w-full rounded-md border bg-background/80 px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/30"
+              className="h-10 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
             />
             <QuickAmount
               value={editValues.amount}
@@ -345,7 +346,7 @@ function TransactionItem({
             <select
               value={editValues.category}
               onChange={(event) => onEditValueChange("category", event.target.value)}
-              className="h-10 w-full rounded-md border bg-background/80 px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/30"
+              className="h-10 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
             >
               {(editValues.type === "income" ? incomeCategories : expenseCategories).map(
                 (category) => (
@@ -362,7 +363,7 @@ function TransactionItem({
               <select
                 value={editValues.source ?? ""}
                 onChange={(event) => onEditValueChange("source", event.target.value)}
-                className="h-10 w-full rounded-md border bg-background/80 px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/30"
+                className="h-10 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
               >
                 <option value="">Pilih sumber</option>
                 {incomeSources.map((source) => (
@@ -381,7 +382,7 @@ function TransactionItem({
             <select
               value={editValues.paymentMethod}
               onChange={(event) => onEditValueChange("paymentMethod", event.target.value)}
-              className="h-10 w-full rounded-md border bg-background/80 px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/30"
+              className="h-10 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
             >
               {(editValues.type === "income" ? incomeReceiptMethods : expensePaymentMethods).map(
                 (method) => (
@@ -398,7 +399,7 @@ function TransactionItem({
               type="date"
               value={editValues.transactionDate}
               onChange={(event) => onEditValueChange("transactionDate", event.target.value)}
-              className="h-10 w-full rounded-md border bg-background/80 px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/30"
+              className="h-10 w-full rounded-md border border-white/10 bg-background/45 px-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
             />
           </EditField>
         </div>
@@ -407,12 +408,12 @@ function TransactionItem({
           <textarea
             value={editValues.note ?? ""}
             onChange={(event) => onEditValueChange("note", event.target.value)}
-            className="min-h-24 w-full rounded-md border bg-background/80 px-3 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/30"
+            className="min-h-24 w-full rounded-md border border-white/10 bg-background/45 px-3 py-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-primary/45 focus:bg-background/60 focus:ring-2 focus:ring-ring/25"
           />
         </EditField>
 
         {editError ? (
-          <div className="mt-4 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          <div className="mt-4 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive shadow-sm">
             {editError}
           </div>
         ) : null}
@@ -432,10 +433,15 @@ function TransactionItem({
   }
 
   return (
-    <article className="rounded-md border bg-card/82 p-5 shadow-sm backdrop-blur">
+    <article className="rounded-lg border border-white/10 bg-card/70 p-5 shadow-[0_18px_60px_rgba(0,0,0,0.16)] backdrop-blur-xl transition-all hover:border-primary/20 hover:bg-card/78">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex gap-3">
-          <div className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-md border", accent)}>
+          <div
+            className={cn(
+              "flex h-11 w-11 shrink-0 items-center justify-center rounded-md border shadow-sm",
+              accent
+            )}
+          >
             <Icon className="h-5 w-5" />
           </div>
           <div>
@@ -443,7 +449,7 @@ function TransactionItem({
               <h2 className="font-semibold tracking-tight">{transaction.name}</h2>
               <span
                 className={cn(
-                  "rounded-md border px-2 py-1 text-[11px] font-medium uppercase tracking-[0.12em]",
+                  "rounded-md border px-2 py-1 text-[11px] font-medium uppercase tracking-[0.12em] shadow-sm",
                   accent
                 )}
               >
@@ -509,7 +515,7 @@ function EditField({
 }) {
   return (
     <label className={cn("block space-y-2", className)}>
-      <span className="text-sm font-medium text-foreground">{label}</span>
+      <span className="text-sm font-medium text-foreground/90">{label}</span>
       {children}
       {error ? <span className="block text-xs text-destructive">{error}</span> : null}
     </label>
