@@ -1,0 +1,34 @@
+import Link from "next/link";
+import { WalletCards } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+export default function LoginPage() {
+  return (
+    <main className="grid min-h-screen place-items-center px-4 py-12">
+      <section className="w-full max-w-md rounded-md border bg-card/82 p-8 shadow-[0_24px_80px_rgba(27,37,31,0.12)] backdrop-blur">
+        <div className="flex items-center gap-3">
+          <span className="flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <WalletCards className="h-5 w-5" />
+          </span>
+          <div>
+            <p className="text-lg font-semibold tracking-tight">SakuLog</p>
+            <p className="text-sm text-muted-foreground">Login placeholder</p>
+          </div>
+        </div>
+
+        <div className="mt-10 space-y-3">
+          <h1 className="text-3xl font-semibold tracking-tight">Welcome back</h1>
+          <p className="text-sm leading-6 text-muted-foreground">
+            Authentication is intentionally not implemented yet. This page is ready for the future
+            login flow.
+          </p>
+        </div>
+
+        <Button asChild className="mt-8 w-full">
+          <Link href="/dashboard">Go to dashboard</Link>
+        </Button>
+      </section>
+    </main>
+  );
+}
