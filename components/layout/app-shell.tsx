@@ -14,7 +14,7 @@ export function AppShell({ children }: AppShellProps) {
       <div className="pointer-events-none fixed left-1/2 top-0 h-72 w-[44rem] -translate-x-1/2 rounded-full bg-indigo-500/12 blur-3xl" />
       <AppSidebar />
       <div className="relative z-10 flex min-h-screen flex-1 flex-col">
-        <main className="mx-auto w-full max-w-[86rem] flex-1 px-4 pb-28 pt-5 sm:px-6 sm:pt-8 lg:px-8 lg:pb-12">
+        <main className="mx-auto w-full max-w-[94rem] flex-1 px-4 pb-28 pt-5 sm:px-6 sm:pt-8 lg:px-8 lg:pb-12">
           {children}
         </main>
         <BottomNav />
