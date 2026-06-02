@@ -1,3 +1,4 @@
+import { LogoutButton } from "@/components/auth/logout-button";
 import { PageHeader } from "@/components/layout/page-header";
 
 export default function SettingsPage() {
@@ -8,7 +9,15 @@ export default function SettingsPage() {
         description="Preferences and account-related options will be shaped in a later task."
       />
       <section className="rounded-md border bg-card/78 p-6 shadow-sm backdrop-blur">
-        <p className="text-sm text-muted-foreground">Settings placeholder only.</p>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-medium">Session</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Sign out of SakuLog on this device.
+            </p>
+          </div>
+          <LogoutButton className="sm:w-auto" />
+        </div>
       </section>
     </div>
   );

@@ -3,6 +3,12 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import type { Database } from "@/types/supabase";
 
+const protectedRoutes = ["/dashboard", "/transactions", "/add", "/reports", "/settings"];
+
+function isProtectedRoute(pathname: string) {
+  return protectedRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`));
+}
+
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({
     request
@@ -36,7 +42,27 @@ export async function updateSession(request: NextRequest) {
     }
   });
 
-  await supabase.auth.getUser();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  const { pathname } = request.nextUrl;
+
+  if (!user && isProtectedRoute(pathname)) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/login";
+    redirectUrl.search = "";
+
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (user && pathname === "/login") {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/dashboard";
+    redirectUrl.search = "";
+
+    return NextResponse.redirect(redirectUrl);
+  }
 
   return response;
 }

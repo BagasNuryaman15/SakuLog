@@ -11,6 +11,7 @@ import {
   WalletCards
 } from "lucide-react";
 
+import { LogoutButton } from "@/components/auth/logout-button";
 import { mainNavigation } from "@/lib/constants/navigation";
 import { cn } from "@/lib/utils";
 import type { NavigationItem } from "@/types/navigation";
@@ -61,10 +62,11 @@ export function AppSidebar() {
       </nav>
 
       <div className="mt-auto rounded-md border bg-background/70 p-4">
-        <p className="text-sm font-medium">Focused foundation</p>
+        <p className="text-sm font-medium">Private workspace</p>
         <p className="mt-1 text-xs leading-5 text-muted-foreground">
-          Routing and navigation are ready. Data and auth stay intentionally untouched.
+          Your session is active. Sign out when you are done reviewing your finances.
         </p>
+        <LogoutButton className="mt-4" variant="secondary" />
       </div>
     </aside>
   );
