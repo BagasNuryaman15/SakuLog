@@ -47,7 +47,7 @@ export function AppSidebar() {
     <aside
       className={cn(
         "group/sidebar relative z-20 hidden min-h-screen shrink-0 transition-[width,padding] duration-300 ease-out lg:flex",
-        isCollapsed ? "w-[6rem] px-3 py-4" : "w-64 px-4 py-4"
+        isCollapsed ? "w-[5.5rem] px-2.5 py-4" : "w-64 px-4 py-4"
       )}
     >
       <div
@@ -157,7 +157,7 @@ export function AppSidebar() {
         <div
           className={cn(
             "relative mt-auto border-slate-600/45 transition-all",
-            isCollapsed ? "flex flex-col items-center gap-3 pb-1 pt-4" : "rounded-md border p-3"
+            isCollapsed ? "flex flex-col items-center gap-2.5 pb-2.5 pt-4" : "rounded-md border p-3"
           )}
         >
           <div className={cn("flex h-10 w-10 items-center justify-center rounded-full border border-slate-500/55 text-xs font-medium text-slate-300", !isCollapsed && "mb-3")}>

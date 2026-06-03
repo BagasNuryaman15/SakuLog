@@ -9,8 +9,8 @@ import {
 } from "@/lib/reports/dashboard";
 import { cn } from "@/lib/utils";
 
-const shellClass = "min-w-0 rounded-lg bg-[#07111b] p-0 text-slate-300";
-const cardClass = "min-w-0 rounded-lg border border-slate-600/60 bg-[#0a1723]";
+const shellClass = "w-full min-w-0 rounded-[1.5rem] bg-[#07111b] p-0 text-slate-300";
+const cardClass = "min-w-0 rounded-[1.5rem] border border-slate-600/60 bg-[#0a1723]";
 const lineClass = "h-2 rounded-sm bg-slate-500/50";
 
 export function Web3Dashboard() {
@@ -56,11 +56,11 @@ export function Web3Dashboard() {
     <div className={shellClass} data-dashboard-data-hook={dataHookIsPreserved ? "preserved" : "idle"}>
       <WireframeTopBar />
 
-      <section className="mt-2 grid min-w-0 gap-2.5 xl:grid-cols-[minmax(24rem,1.14fr)_minmax(21rem,0.92fr)_minmax(21rem,0.88fr)]">
+      <section className="mt-4 grid w-full min-w-0 gap-4 xl:grid-cols-[minmax(25.5rem,1.35fr)_minmax(22rem,0.95fr)_minmax(20rem,21.25rem)] xl:grid-rows-[auto_auto] xl:[grid-template-areas:'hero_kpis_right'_'cashflow_cashflow_right']">
         <WireframeHero />
         <WireframeKpis />
 
-        <aside className="row-span-2 grid min-w-0 gap-2.5 xl:grid-rows-[auto_auto_auto_minmax(0,1fr)]">
+        <aside className="grid min-w-0 gap-4 xl:[grid-area:right] xl:grid-rows-[auto_auto_auto_minmax(0,1fr)]">
           <WireframeCategory />
           <WireframeMoneySignals />
           <WireframeMiniInsight />
@@ -75,13 +75,13 @@ export function Web3Dashboard() {
 
 function WireframeTopBar() {
   return (
-    <header className={cn(cardClass, "px-4 py-2.5")}>
+    <header className={cn(cardClass, "flex min-h-[4.75rem] flex-col justify-center px-5 py-3")}>
       <ZoneLabel>2. TOP BAR</ZoneLabel>
-      <div className="mt-2 flex min-w-0 flex-col gap-2.5 lg:flex-row lg:items-center lg:justify-end">
-        <WireframeBlock className="h-9 min-w-0 flex-1 lg:max-w-[44rem]" />
-        <WireframeBlock className="h-9 w-full shrink-0 lg:w-44" />
-        <WireframeBlock className="h-9 w-11 shrink-0" />
-        <WireframeBlock className="h-9 w-full shrink-0 lg:w-48" />
+      <div className="mt-3 flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-end">
+        <WireframeBlock className="h-10 min-w-0 flex-1 lg:max-w-[30rem]" />
+        <WireframeBlock className="h-10 w-full shrink-0 lg:w-40" />
+        <WireframeBlock className="h-10 w-11 shrink-0" />
+        <WireframeBlock className="h-10 w-full shrink-0 lg:w-44" />
       </div>
     </header>
   );
@@ -89,9 +89,9 @@ function WireframeTopBar() {
 
 function WireframeHero() {
   return (
-    <WireframeCard className="min-h-[18.75rem] p-4">
+    <WireframeCard className="h-[24.25rem] p-5 xl:[grid-area:hero]">
       <ZoneLabel>3. HERO</ZoneLabel>
-      <div className="mt-5 grid h-[calc(100%-1.75rem)] min-w-0 grid-cols-[minmax(0,1fr)_7.75rem] gap-5">
+      <div className="mt-6 grid h-[calc(100%-1.875rem)] min-w-0 grid-cols-[minmax(0,1fr)_7.75rem] gap-5">
         <div className="flex min-w-0 flex-col">
           <WireframeLine className="h-7 w-36" />
           <WireframeLines className="mt-6" widths={["72%", "64%"]} />
@@ -109,7 +109,7 @@ function WireframeHero() {
           </div>
         </div>
 
-        <WireframeImageBox className="mt-12 hidden h-32 lg:block" />
+        <WireframeImageBox className="mt-12 hidden h-36 lg:block" />
       </div>
     </WireframeCard>
   );
@@ -117,7 +117,7 @@ function WireframeHero() {
 
 function WireframeKpis() {
   return (
-    <div className="grid min-w-0 gap-3 sm:grid-cols-2">
+    <div className="grid min-w-0 gap-4 sm:grid-cols-2 xl:h-[24.25rem] xl:grid-rows-2 xl:[grid-area:kpis]">
       <WireframeKpi label="4. KPI 1" />
       <WireframeKpi label="5. KPI 2" />
       <WireframeKpi label="6. KPI 3" />
@@ -128,18 +128,18 @@ function WireframeKpis() {
 
 function WireframeKpi({ label }: { label: string }) {
   return (
-    <WireframeCard className="min-h-[9.1rem] p-4">
+    <WireframeCard className="h-[11.625rem] p-4 xl:h-full">
       <ZoneLabel>{label}</ZoneLabel>
-      <WireframeBlock className="mt-3 h-8 w-8" />
+      <WireframeBlock className="mt-4 h-9 w-9" />
       <WireframeLines className="mt-4" widths={["58%", "74%", "28%"]} />
-      <WireframeSparkline className="mt-3" />
+      <WireframeSparkline className="mt-4" />
     </WireframeCard>
   );
 }
 
 function WireframeCategory() {
   return (
-    <WireframeCard className="p-3.5">
+    <WireframeCard className="h-[14rem] p-4">
       <ZoneLabel>8. EXPENSE BY CATEGORY</ZoneLabel>
       <div className="mt-4 grid min-w-0 grid-cols-[6.75rem_minmax(0,1fr)] items-center gap-4">
         <WireframeDonut />
@@ -153,22 +153,22 @@ function WireframeCategory() {
           ))}
         </div>
       </div>
-      <WireframeBlock className="mt-4 h-8 w-full" />
+      <WireframeBlock className="mt-5 h-9 w-full" />
     </WireframeCard>
   );
 }
 
 function WireframeMoneySignals() {
   return (
-    <WireframeCard className="p-3.5">
+    <WireframeCard className="h-[10rem] p-4">
       <ZoneLabel>9. MONEY SIGNALS</ZoneLabel>
-      <div className="mt-4 divide-y divide-slate-500/35">
+      <div className="mt-3 divide-y divide-slate-500/35">
         {[0, 1, 2].map((item) => (
-          <div key={item} className="grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)_3.25rem_0.75rem] items-center gap-3 py-2.5">
-            <WireframeBlock className="h-6 w-6" />
+          <div key={item} className="grid min-h-[1.75rem] min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_3.25rem_0.5rem] items-center gap-2.5 py-1">
+            <WireframeBlock className="h-5 w-5" />
             <WireframeLine className="w-[58%]" />
             <WireframeLine className="w-full" />
-            <span className="h-3 w-3 rounded-full bg-slate-500/55" />
+            <span className="h-2 w-2 rounded-full bg-slate-500/55" />
           </div>
         ))}
       </div>
@@ -178,10 +178,10 @@ function WireframeMoneySignals() {
 
 function WireframeMiniInsight() {
   return (
-    <WireframeCard className="p-3.5">
+    <WireframeCard className="h-[6.75rem] p-4">
       <ZoneLabel>10. MINI INSIGHT</ZoneLabel>
-      <div className="mt-3 grid min-w-0 grid-cols-[5.25rem_minmax(0,1fr)] gap-3">
-        <WireframeImageBox className="h-14" />
+      <div className="mt-3 grid min-w-0 grid-cols-[4.75rem_minmax(0,1fr)] gap-3">
+        <WireframeImageBox className="h-12" />
         <div className="min-w-0 pt-1">
           <WireframeLines widths={["84%", "66%", "28%"]} />
         </div>
@@ -192,12 +192,12 @@ function WireframeMiniInsight() {
 
 function WireframeRecentTransactions() {
   return (
-    <WireframeCard className="p-3.5">
+    <WireframeCard className="min-h-[10rem] p-4">
       <div className="flex min-w-0 items-start justify-between gap-3">
         <ZoneLabel>11. RECENT TRANSACTIONS</ZoneLabel>
         <WireframeBlock className="h-6 w-16 shrink-0" />
       </div>
-      <div className="mt-4 space-y-2.5">
+      <div className="mt-4 space-y-3">
         {[0, 1, 2, 3, 4].map((item) => (
           <div key={item} className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_3.75rem_3.25rem] items-center gap-3">
             <WireframeBlock className="h-5 w-5" />
@@ -213,7 +213,7 @@ function WireframeRecentTransactions() {
 
 function WireframeCashflowTrend() {
   return (
-    <WireframeCard className="p-4 xl:col-span-2">
+    <WireframeCard className="h-[19rem] p-5 xl:[grid-area:cashflow]">
       <div className="flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <ZoneLabel>12. CASHFLOW TREND</ZoneLabel>
@@ -226,21 +226,21 @@ function WireframeCashflowTrend() {
         </div>
       </div>
 
-      <div className="mt-4 h-[17.75rem] min-w-0">
+      <div className="mt-4 h-[12.75rem] min-w-0 pb-4">
         <div className="grid h-full min-w-0 grid-cols-[3rem_minmax(0,1fr)] gap-3">
-          <div className="flex h-full flex-col justify-between pb-7 pt-4">
+          <div className="flex h-full flex-col justify-between pb-9 pt-4">
             {[0, 1, 2, 3, 4].map((item) => (
               <WireframeLine key={item} className="w-7" />
             ))}
           </div>
-          <div className="flex h-full min-w-0 items-end gap-5 border-b border-l border-slate-500/50 pl-4">
+          <div className="flex h-full min-w-0 items-end gap-5 border-b border-l border-slate-500/50 pb-6 pl-4">
             {[62, 45, 66, 50, 72, 56, 74, 58, 78, 63, 82, 52].map((height, index) => (
               <div key={`${height}-${index}`} className="flex h-full min-w-0 flex-1 flex-col justify-end">
                 <div
                   className="mx-auto w-full max-w-8 border border-slate-500/60 bg-transparent"
                   style={{ height: `${height}%` }}
                 />
-                {index % 2 === 0 ? <WireframeLine className="mx-auto mt-4 w-10" /> : <span className="mt-4 h-2" />}
+                {index % 2 === 0 ? <WireframeLine className="mx-auto mt-3 w-10" /> : <span className="mt-3 h-2" />}
               </div>
             ))}
           </div>
