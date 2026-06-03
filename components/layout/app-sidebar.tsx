@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import {
   ChartSpline,
   CirclePlus,
-  GalleryVerticalEnd,
   LayoutGrid,
   PanelLeftClose,
   ReceiptText,
@@ -14,7 +13,6 @@ import {
 } from "lucide-react";
 
 import { LogoutButton } from "@/components/auth/logout-button";
-import { BrandMark } from "@/components/layout/brand-mark";
 import { mainNavigation } from "@/lib/constants/navigation";
 import { cn } from "@/lib/utils";
 import type { NavigationItem } from "@/types/navigation";
@@ -48,128 +46,145 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        "group/sidebar relative z-20 hidden min-h-screen shrink-0 overflow-hidden border-r border-white/10 bg-black/20 py-6 shadow-[28px_0_110px_rgba(0,0,0,0.36)] backdrop-blur-2xl transition-[width,padding] duration-300 ease-out lg:flex lg:flex-col",
-        isCollapsed ? "w-[6rem] px-4" : "w-64 px-5"
+        "group/sidebar relative z-20 hidden min-h-screen shrink-0 transition-[width,padding] duration-300 ease-out lg:flex",
+        isCollapsed ? "w-[6rem] px-3 py-4" : "w-64 px-4 py-4"
       )}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_0%,rgba(119,92,255,0.18),transparent_18rem)]" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-indigo-300/35 to-transparent" />
-
-      <div className="relative flex h-14 items-center justify-between gap-3 rounded-2xl px-1">
-        {isCollapsed ? (
-          <button
-            type="button"
-            onClick={() => setIsCollapsed(false)}
-            className="mx-auto flex rounded-2xl transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70"
-            aria-label="Expand sidebar"
-            title="Expand sidebar"
-          >
-            <BrandMark compact />
-          </button>
-        ) : (
-          <>
-            <Link href="/dashboard" aria-label="SakuLog dashboard">
-              <BrandMark />
-            </Link>
-            <button
-              type="button"
-              onClick={() => setIsCollapsed(true)}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.055] text-indigo-100/68 shadow-[0_12px_36px_rgba(0,0,0,0.22)] transition hover:bg-white/[0.09] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70"
-              aria-label="Collapse sidebar"
-            >
-              <PanelLeftClose className="h-4 w-4" />
-            </button>
-          </>
-        )}
-      </div>
-
       <div
         className={cn(
-          "relative mt-7 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent",
-          isCollapsed ? "mx-auto w-12" : "mx-1"
-        )}
-      />
-
-      <nav className="relative mt-7 space-y-6">
-        {navigationSections.map((section) => (
-          <div key={section.title} className="space-y-2">
-            <p
-              className={cn(
-                "px-3 text-xs font-medium uppercase tracking-[0.22em] text-white/32 transition",
-                isCollapsed && "sr-only"
-              )}
-            >
-              {section.title}
-            </p>
-            {section.items.map((item) => {
-              const Icon = icons[item.icon];
-              const isActive = pathname === item.href;
-
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "group relative flex h-12 items-center rounded-2xl text-sm font-medium text-indigo-100/52 transition-all",
-                    isCollapsed ? "h-14 justify-center px-0" : "gap-3 px-3",
-                    "hover:bg-white/[0.06] hover:text-white",
-                    isActive &&
-                      "border border-white/12 bg-[linear-gradient(135deg,rgba(64,212,255,0.18),rgba(158,74,255,0.34),rgba(255,67,188,0.22))] text-white shadow-[0_18px_55px_rgba(109,92,255,0.28)]"
-                  )}
-                  title={isCollapsed ? item.title : undefined}
-                >
-                  {isActive ? (
-                    <span className="absolute inset-y-3 left-0 w-1 rounded-r-full bg-cyan-300 shadow-[0_0_22px_rgba(103,232,249,0.75)]" />
-                  ) : null}
-                  <span
-                    className={cn(
-                      "flex items-center justify-center rounded-xl transition",
-                      isCollapsed ? "h-10 w-10" : "h-8 w-8",
-                      isActive
-                        ? "bg-white/12 text-cyan-100"
-                        : "bg-white/[0.045] text-indigo-100/52 group-hover:text-white"
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className={cn("whitespace-nowrap transition", isCollapsed && "hidden")}>
-                    {item.title}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        ))}
-      </nav>
-
-      <div
-        className={cn(
-          "relative mt-7 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent",
-          isCollapsed ? "mx-auto w-10" : "mx-1"
-        )}
-      />
-
-      <div
-        className={cn(
-          "relative mt-auto rounded-3xl border border-white/10 bg-[linear-gradient(155deg,rgba(255,255,255,0.09),rgba(255,255,255,0.035))] shadow-[0_24px_80px_rgba(0,0,0,0.32)] transition-all",
-          isCollapsed ? "flex flex-col items-center gap-3 p-2" : "p-4"
+          "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-slate-600/45 bg-[#030811]",
+          isCollapsed ? "rounded-[2rem] px-2 py-4" : "rounded-[1.5rem] px-4 py-4"
         )}
       >
-        <div className={cn("flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-300/10 text-cyan-100", !isCollapsed && "mb-4")}>
-          <GalleryVerticalEnd className="h-4 w-4" />
+        <div className="pointer-events-none absolute inset-0 bg-[#06101a]/45" />
+
+        <div className="relative flex h-12 items-center justify-between gap-3 px-1">
+          {isCollapsed ? (
+            <button
+              type="button"
+              onClick={() => setIsCollapsed(false)}
+              className="mx-auto flex h-10 w-10 items-center justify-center rounded-md border border-slate-500/55 text-slate-300 transition hover:border-slate-400 hover:bg-slate-800/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500/60"
+              aria-label="Expand sidebar"
+              title="Expand sidebar"
+            >
+              <WireframeCube />
+            </button>
+          ) : (
+            <>
+              <Link
+                href="/dashboard"
+                className="flex h-11 items-center gap-3 rounded-md border border-slate-500/45 px-3 text-sm font-semibold text-slate-200"
+                aria-label="SakuLog dashboard"
+              >
+                <WireframeCube />
+                SakuLog
+              </Link>
+              <button
+                type="button"
+                onClick={() => setIsCollapsed(true)}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-slate-500/45 text-slate-300 transition hover:bg-slate-800/35 hover:text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500/60"
+                aria-label="Collapse sidebar"
+              >
+                <PanelLeftClose className="h-4 w-4" />
+              </button>
+            </>
+          )}
         </div>
-        <p className={cn("text-sm font-semibold text-white", isCollapsed && "sr-only")}>
-          Session secured
-        </p>
-        <p className={cn("mt-2 text-xs leading-5 text-indigo-100/48", isCollapsed && "hidden")}>
-          Workspace pribadi untuk membaca cashflow tanpa noise.
-        </p>
-        <LogoutButton
-          className={cn("mt-3 justify-start px-3", isCollapsed && "h-10 w-10 justify-center px-0")}
-          labelClassName={cn(isCollapsed && "sr-only")}
-          variant="secondary"
+
+        <div
+          className={cn(
+            "relative mt-4 h-px bg-slate-600/45",
+            isCollapsed ? "mx-auto w-10" : "mx-1"
+          )}
         />
+
+        <nav className="relative mt-4 space-y-3">
+          {navigationSections.map((section) => (
+            <div key={section.title} className="space-y-1">
+              <p
+                className={cn(
+                  "px-3 text-xs font-medium uppercase tracking-[0.18em] text-slate-500 transition",
+                  isCollapsed && "sr-only"
+                )}
+              >
+                {section.title}
+              </p>
+              {section.items.map((item) => {
+                const Icon = icons[item.icon];
+                const isActive = pathname === item.href;
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "group relative flex h-12 items-center rounded-md text-sm font-medium text-slate-500 transition",
+                      isCollapsed ? "h-10 justify-center px-0" : "gap-3 px-3",
+                      "hover:bg-slate-800/28 hover:text-slate-200",
+                      isActive && "border border-slate-500/55 bg-slate-800/28 text-slate-100"
+                    )}
+                    title={isCollapsed ? item.title : undefined}
+                  >
+                    {isActive ? (
+                      <span className="absolute inset-y-2.5 left-0 w-px bg-slate-300/70" />
+                    ) : null}
+                    <span
+                      className={cn(
+                        "flex items-center justify-center rounded-md border border-slate-600/40 transition",
+                        isCollapsed ? "h-8 w-8" : "h-8 w-8",
+                        isActive ? "border-slate-400/65 text-slate-100" : "text-slate-500 group-hover:text-slate-200"
+                      )}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span className={cn("whitespace-nowrap transition", isCollapsed && "hidden")}>
+                      {item.title}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
+        </nav>
+
+        <div
+          className={cn(
+            "relative mt-4 h-px bg-slate-600/40",
+            isCollapsed ? "mx-auto w-9" : "mx-1"
+          )}
+        />
+
+        <div
+          className={cn(
+            "relative mt-auto border-slate-600/45 transition-all",
+            isCollapsed ? "flex flex-col items-center gap-3 pb-1 pt-4" : "rounded-md border p-3"
+          )}
+        >
+          <div className={cn("flex h-10 w-10 items-center justify-center rounded-full border border-slate-500/55 text-xs font-medium text-slate-300", !isCollapsed && "mb-3")}>
+            AN
+          </div>
+          <p className={cn("text-sm font-semibold text-slate-200", isCollapsed && "sr-only")}>
+            Session secured
+          </p>
+          <p className={cn("mt-2 text-xs leading-5 text-slate-500", isCollapsed && "hidden")}>
+            Workspace pribadi untuk membaca cashflow tanpa noise.
+          </p>
+          <LogoutButton
+            className={cn("mt-3 justify-start px-3", isCollapsed && "h-9 w-9 justify-center px-0")}
+            labelClassName={cn(isCollapsed && "sr-only")}
+            variant="secondary"
+          />
+        </div>
       </div>
     </aside>
+  );
+}
+
+function WireframeCube() {
+  return (
+    <span className="relative block h-5 w-5 border border-slate-500/70">
+      <span className="absolute left-0 top-1/2 h-px w-full rotate-45 bg-slate-500/70" />
+      <span className="absolute left-0 top-1/2 h-px w-full -rotate-45 bg-slate-500/70" />
+    </span>
   );
 }
