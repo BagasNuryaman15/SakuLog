@@ -52,18 +52,18 @@ export function AppSidebar() {
     >
       <div
         className={cn(
-          "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-slate-600/45 bg-[#030811]",
+          "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-[rgba(125,163,255,0.22)] bg-[linear-gradient(180deg,rgba(9,14,31,0.94),rgba(3,7,18,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_20px_48px_rgba(0,0,0,0.32)] backdrop-blur-[18px]",
           isCollapsed ? "rounded-[2rem] px-2 py-4" : "rounded-[1.5rem] px-4 py-4"
         )}
       >
-        <div className="pointer-events-none absolute inset-0 bg-[#06101a]/45" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(124,58,237,0.16),transparent_38%),radial-gradient(circle_at_60%_42%,rgba(34,211,238,0.08),transparent_32%)]" />
 
         <div className="relative flex h-12 items-center justify-between gap-3 px-1">
           {isCollapsed ? (
             <button
               type="button"
               onClick={() => setIsCollapsed(false)}
-              className="mx-auto flex h-10 w-10 items-center justify-center rounded-md border border-slate-500/55 text-slate-300 transition hover:border-slate-400 hover:bg-slate-800/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500/60"
+              className="mx-auto flex h-10 w-10 items-center justify-center rounded-md border border-[rgba(148,163,184,0.2)] bg-[rgba(15,23,42,0.46)] text-slate-300 transition hover:border-[rgba(103,232,249,0.32)] hover:bg-[rgba(34,211,238,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/35"
               aria-label="Expand sidebar"
               title="Expand sidebar"
             >
@@ -73,7 +73,7 @@ export function AppSidebar() {
             <>
               <Link
                 href="/dashboard"
-                className="flex h-11 items-center gap-3 rounded-md border border-slate-500/45 px-3 text-sm font-semibold text-slate-200"
+                className="flex h-11 items-center gap-3 rounded-md border border-[rgba(148,163,184,0.2)] bg-[rgba(15,23,42,0.46)] px-3 text-sm font-semibold text-slate-200"
                 aria-label="SakuLog dashboard"
               >
                 <WireframeCube />
@@ -82,7 +82,7 @@ export function AppSidebar() {
               <button
                 type="button"
                 onClick={() => setIsCollapsed(true)}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-slate-500/45 text-slate-300 transition hover:bg-slate-800/35 hover:text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500/60"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[rgba(148,163,184,0.2)] bg-[rgba(15,23,42,0.36)] text-slate-300 transition hover:border-[rgba(103,232,249,0.32)] hover:bg-[rgba(34,211,238,0.08)] hover:text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/35"
                 aria-label="Collapse sidebar"
               >
                 <PanelLeftClose className="h-4 w-4" />
@@ -93,7 +93,7 @@ export function AppSidebar() {
 
         <div
           className={cn(
-            "relative mt-4 h-px bg-slate-600/45",
+            "relative mt-4 h-px bg-cyan-100/12",
             isCollapsed ? "mx-auto w-10" : "mx-1"
           )}
         />
@@ -120,19 +120,22 @@ export function AppSidebar() {
                     className={cn(
                       "group relative flex h-12 items-center rounded-md text-sm font-medium text-slate-500 transition",
                       isCollapsed ? "h-10 justify-center px-0" : "gap-3 px-3",
-                      "hover:bg-slate-800/28 hover:text-slate-200",
-                      isActive && "border border-slate-500/55 bg-slate-800/28 text-slate-100"
+                      "hover:bg-[rgba(34,211,238,0.06)] hover:text-slate-200",
+                      isActive &&
+                        "border border-[rgba(103,232,249,0.42)] bg-[linear-gradient(135deg,rgba(59,130,246,0.35),rgba(217,70,239,0.34))] text-slate-100 shadow-[0_0_24px_rgba(34,211,238,0.16),0_0_28px_rgba(168,85,247,0.16)]"
                     )}
                     title={isCollapsed ? item.title : undefined}
                   >
                     {isActive ? (
-                      <span className="absolute inset-y-2.5 left-0 w-px bg-slate-300/70" />
+                      <span className="absolute inset-y-2.5 left-0 w-px bg-cyan-200/90 shadow-[0_0_14px_rgba(34,211,238,0.42)]" />
                     ) : null}
                     <span
                       className={cn(
-                        "flex items-center justify-center rounded-md border border-slate-600/40 transition",
+                        "flex items-center justify-center rounded-md border transition",
                         isCollapsed ? "h-8 w-8" : "h-8 w-8",
-                        isActive ? "border-slate-400/65 text-slate-100" : "text-slate-500 group-hover:text-slate-200"
+                        isActive
+                          ? "border-white/20 bg-white/10 text-cyan-50"
+                          : "border-[rgba(148,163,184,0.16)] bg-[rgba(15,23,42,0.36)] text-slate-400/70 group-hover:border-[rgba(103,232,249,0.28)] group-hover:text-slate-200"
                       )}
                     >
                       <Icon className="h-4 w-4" />
@@ -149,18 +152,18 @@ export function AppSidebar() {
 
         <div
           className={cn(
-            "relative mt-4 h-px bg-slate-600/40",
+            "relative mt-4 h-px bg-cyan-100/10",
             isCollapsed ? "mx-auto w-9" : "mx-1"
           )}
         />
 
         <div
           className={cn(
-            "relative mt-auto border-slate-600/45 transition-all",
+            "relative mt-auto border-cyan-100/12 transition-all",
             isCollapsed ? "flex flex-col items-center gap-2.5 pb-2.5 pt-4" : "rounded-md border p-3"
           )}
         >
-          <div className={cn("flex h-10 w-10 items-center justify-center rounded-full border border-slate-500/55 text-xs font-medium text-slate-300", !isCollapsed && "mb-3")}>
+          <div className={cn("flex h-10 w-10 items-center justify-center rounded-full border border-violet-200/24 bg-violet-300/[0.04] text-xs font-medium text-slate-300", !isCollapsed && "mb-3")}>
             AN
           </div>
           <p className={cn("text-sm font-semibold text-slate-200", isCollapsed && "sr-only")}>
@@ -182,9 +185,9 @@ export function AppSidebar() {
 
 function WireframeCube() {
   return (
-    <span className="relative block h-5 w-5 border border-slate-500/70">
-      <span className="absolute left-0 top-1/2 h-px w-full rotate-45 bg-slate-500/70" />
-      <span className="absolute left-0 top-1/2 h-px w-full -rotate-45 bg-slate-500/70" />
+    <span className="relative block h-5 w-5 border border-cyan-200/34">
+      <span className="absolute left-0 top-1/2 h-px w-full rotate-45 bg-violet-200/34" />
+      <span className="absolute left-0 top-1/2 h-px w-full -rotate-45 bg-cyan-200/34" />
     </span>
   );
 }
