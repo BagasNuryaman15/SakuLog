@@ -114,7 +114,7 @@ function WireframeTopBar() {
           <div
             className={cn(
               navLabel,
-              "flex h-10 min-w-0 flex-1 items-center rounded-md border border-[rgba(203,213,225,0.28)] bg-[rgba(24,39,68,0.66)] px-3 text-slate-400/72 lg:w-72 lg:flex-none"
+              "flex h-10 min-w-0 flex-1 items-center rounded-md border border-[rgba(179,107,255,0.24)] bg-[rgba(44,31,64,0.52)] px-3 text-[#9B89B8] lg:w-72 lg:flex-none"
             )}
           >
             <span className="truncate">Cari transaksi, kategori, atau insight...</span>
@@ -122,7 +122,7 @@ function WireframeTopBar() {
           <div
             className={cn(
               navLabel,
-              "flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-[rgba(148,163,184,0.24)] bg-[rgba(22,36,62,0.56)] px-3 text-slate-300/84 lg:w-40"
+              "flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-[rgba(91,67,129,0.55)] bg-[rgba(29,21,41,0.56)] px-3 text-[#C7B8E8] lg:w-40"
             )}
           >
             <span className="truncate">Juni 2026</span>
@@ -132,7 +132,7 @@ function WireframeTopBar() {
             type="button"
             className={cn(
               navLabel,
-              "h-10 w-full shrink-0 rounded-md border border-violet-200/20 bg-[linear-gradient(135deg,#6366f1_0%,#7c5df2_52%,#b45cf0_100%)] px-4 text-white shadow-[0_14px_30px_rgba(124,92,242,0.2),inset_0_1px_0_rgba(255,255,255,0.14),inset_0_0_0_1px_rgba(255,255,255,0.035)] lg:w-44"
+              "h-10 w-full shrink-0 rounded-md border border-[#E0B3FF]/22 bg-[linear-gradient(135deg,#6A2CFF_0%,#B040FF_56%,#D946EF_100%)] px-4 text-[#F8F4FF] shadow-[0_14px_34px_rgba(106,44,255,0.28),0_0_22px_rgba(176,64,255,0.18),inset_0_1px_0_rgba(255,255,255,0.16)] lg:w-44"
             )}
           >
             Tambah Transaksi
@@ -157,11 +157,11 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
           <div className={cn(cardClass, nestedSurfaceClass, "mt-auto p-5")}>
             <div className="flex min-w-0 items-start justify-between gap-4">
               <div className="min-w-0 flex-1">
-                <p className={cn(metricLabel, "truncate text-cyan-200/84")}>Sisa uang bulan ini</p>
+                <p className={cn(metricLabel, "truncate text-[#9DECF6]/86")}>Sisa uang bulan ini</p>
                 <p className={cn(metricValuePlaceholder, "mt-4 max-w-full truncate whitespace-nowrap")}>
                   {formatCurrencyIDR(summary.monthBalance)}
                 </p>
-                <p className={cn(captionText, "mt-4 truncate text-slate-400/78")}>Cashflow positif</p>
+                <p className={cn(captionText, "mt-4 truncate text-emerald-200/78")}>Cashflow positif</p>
               </div>
               <WireframeBlock className="h-12 w-12 shrink-0" tone="violet" />
             </div>
@@ -257,8 +257,8 @@ function WireframeCategory({ summary }: { summary: DashboardSummary }) {
         <div className="min-w-0 space-y-3">
           <div className="grid min-w-0 grid-cols-[0.6rem_minmax(0,1fr)_4.25rem_2rem] items-center gap-2">
             <WireframeBlock className="h-2.5 w-2.5" tone={topCategory ? "cyan" : "default"} />
-            <span className={cn(metricLabel, "truncate text-slate-300/88")}>{categoryName}</span>
-            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-slate-300/86")}>
+            <span className={cn(metricLabel, "truncate text-[#F8F4FF]/88")}>{categoryName}</span>
+            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-[#C7B8E8]/86")}>
               {formatCurrencyIDR(categoryAmount)}
             </span>
             <span className={cn(captionText, "whitespace-nowrap text-right tabular-nums text-cyan-200/72")}>
@@ -267,18 +267,18 @@ function WireframeCategory({ summary }: { summary: DashboardSummary }) {
           </div>
           <div className="grid min-w-0 grid-cols-[0.6rem_minmax(0,1fr)_4.25rem_2rem] items-center gap-2">
             <WireframeBlock className="h-2.5 w-2.5" tone="default" />
-            <span className={cn(metricLabel, "truncate text-slate-400/72")}>Kategori lain</span>
-            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-slate-400/72")}>
+            <span className={cn(metricLabel, "truncate text-[#9B89B8]/78")}>Kategori lain</span>
+            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-[#9B89B8]/78")}>
               {formatCurrencyIDR(otherAmount)}
             </span>
-            <span className={cn(captionText, "whitespace-nowrap text-right tabular-nums text-slate-500/72")}>
+            <span className={cn(captionText, "whitespace-nowrap text-right tabular-nums text-[#6F5F86]/82")}>
               {otherPercentage}%
             </span>
           </div>
         </div>
       </div>
-      <div className="mt-5 flex h-9 items-center justify-center rounded-md border border-[rgba(203,213,225,0.28)] bg-[rgba(24,39,68,0.66)]">
-        <span className={cn(navLabel, "text-cyan-200/72")}>Lihat semua kategori</span>
+      <div className="mt-5 flex h-9 items-center justify-center rounded-md border border-[rgba(179,107,255,0.28)] bg-[rgba(44,31,64,0.64)]">
+        <span className={cn(navLabel, "text-[#D8B4FE]/82")}>Lihat semua kategori</span>
       </div>
     </WireframeCard>
   );
@@ -314,21 +314,21 @@ function WireframeMoneySignals({ summary }: { summary: DashboardSummary }) {
           <h3 className={cn(rightRailTitle, "truncate")}>Money Signals</h3>
           <p className={cn(captionText, "mt-1 truncate")}>Yang perlu kamu lihat cepat</p>
         </div>
-        <span className={cn(captionText, "shrink-0 truncate text-cyan-200/72")}>Lihat semua</span>
+        <span className={cn(captionText, "shrink-0 truncate text-[#D8B4FE]/78")}>Lihat semua</span>
       </div>
-      <div className="mt-3 divide-y divide-cyan-100/10">
+      <div className="mt-3 divide-y divide-[#B36BFF]/12">
         {signals.map((signal, item) => (
           <div key={signal.label} className="grid min-h-[1.75rem] min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_minmax(3.25rem,4.25rem)_0.5rem] items-center gap-2.5 py-1">
             <WireframeBlock className="h-5 w-5" tone={signal.tone} />
             <span className={cn(metricLabel, "truncate")}>{signal.label}</span>
-            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-slate-300/86")}>
+            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-[#C7B8E8]/90")}>
               {signal.value}
             </span>
             <span
               className={cn(
                 "h-2 w-2 rounded-full",
                 item === 1
-                  ? "bg-fuchsia-400/70 shadow-[0_0_14px_rgba(217,70,239,0.24)]"
+                  ? "bg-[#EC4899]/78 shadow-[0_0_14px_rgba(236,72,153,0.22)]"
                   : "bg-cyan-300/70 shadow-[0_0_14px_rgba(34,211,238,0.24)]"
               )}
             />
@@ -354,10 +354,10 @@ function WireframeMiniInsight({ summary }: { summary: DashboardSummary }) {
       <div className="mt-3 grid min-w-0 grid-cols-[4.75rem_minmax(0,1fr)] gap-3">
         <WireframeImageBox className="h-12" />
         <div className="min-w-0">
-          <p className={cn(metricLabel, "line-clamp-2 text-slate-300/84")}>
+          <p className={cn(metricLabel, "line-clamp-2 text-[#C7B8E8]/90")}>
             {insight}
           </p>
-          <p className={cn(captionText, "mt-1 truncate text-cyan-200/62")}>{tip}</p>
+          <p className={cn(captionText, "mt-1 truncate text-[#D8B4FE]/68")}>{tip}</p>
         </div>
       </div>
     </WireframeCard>
@@ -387,7 +387,7 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
           <h3 className={cn(rightRailTitle, "truncate")}>Recent Transactions</h3>
           <p className={cn(captionText, "mt-1 truncate")}>Aktivitas terakhir yang tercatat</p>
         </div>
-        <span className={cn(captionText, "shrink-0 truncate text-cyan-200/72")}>Lihat semua</span>
+        <span className={cn(captionText, "shrink-0 truncate text-[#D8B4FE]/78")}>Lihat semua</span>
       </div>
       {transactions.length > 0 ? (
         <div className="mt-4 space-y-3">
@@ -400,13 +400,13 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
                   className={cn(
                     "h-5 w-5 rounded-md border shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
                     isIncome
-                      ? "border-emerald-200/34 bg-emerald-300/12 shadow-[0_0_14px_rgba(16,185,129,0.12)]"
-                      : "border-fuchsia-200/34 bg-fuchsia-300/12 shadow-[0_0_14px_rgba(217,70,239,0.12)]"
+                      ? "border-cyan-200/38 bg-cyan-300/14 shadow-[0_0_14px_rgba(34,211,238,0.14)]"
+                      : "border-[#F472B6]/38 bg-[#BA319F]/18 shadow-[0_0_14px_rgba(236,72,153,0.14)]"
                   )}
                   aria-hidden="true"
                 />
                 <div className="min-w-0">
-                  <p className={cn(metricLabel, "truncate text-slate-300/88")}>{transaction.name}</p>
+                  <p className={cn(metricLabel, "truncate text-[#F8F4FF]/88")}>{transaction.name}</p>
                   <p className={cn(captionText, "mt-0.5 truncate")}>
                     {transaction.category} · {formatTransactionDate(transaction.transaction_date)}
                   </p>
@@ -415,7 +415,7 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
                   className={cn(
                     captionText,
                     "truncate whitespace-nowrap text-right font-semibold tabular-nums",
-                    isIncome ? "text-emerald-200/86" : "text-fuchsia-200/86"
+                    isIncome ? "text-cyan-200/90" : "text-[#F472B6]/90"
                   )}
                 >
                   {formatTransactionAmount(transaction)}
@@ -425,8 +425,8 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
           })}
         </div>
       ) : (
-        <div className="mt-4 rounded-md border border-[rgba(148,163,184,0.18)] bg-[rgba(15,23,42,0.34)] p-3">
-          <p className={cn(metricLabel, "truncate text-slate-300/86")}>Belum ada transaksi</p>
+        <div className="mt-4 rounded-md border border-[rgba(91,67,129,0.45)] bg-[rgba(29,21,41,0.42)] p-3">
+          <p className={cn(metricLabel, "truncate text-[#F8F4FF]/86")}>Belum ada transaksi</p>
           <p className={cn(captionText, "mt-1 line-clamp-2")}>
             Catat transaksi pertamamu untuk mulai melihat aktivitas.
           </p>
@@ -445,12 +445,12 @@ function WireframeCashflowTrend() {
           <p className={cn(cardSubtitle, "mt-2 truncate")}>Income vs expense 6 bulan terakhir</p>
         </div>
         <div className="hidden shrink-0 items-center gap-8 md:flex">
-          <span className={cn(chartLabel, "text-cyan-200/70")}>Pemasukan</span>
-          <span className={cn(chartLabel, "text-fuchsia-200/70")}>Pengeluaran</span>
+          <span className={cn(chartLabel, "text-cyan-200/76")}>Pemasukan</span>
+          <span className={cn(chartLabel, "text-[#F472B6]/76")}>Pengeluaran</span>
           <span
             className={cn(
               navLabel,
-              "flex h-9 w-24 items-center justify-center rounded-md border border-[rgba(148,163,184,0.24)] bg-[rgba(22,36,62,0.56)] text-slate-300/78"
+              "flex h-9 w-24 items-center justify-center rounded-md border border-[rgba(91,67,129,0.55)] bg-[rgba(44,31,64,0.52)] text-[#C7B8E8]"
             )}
           >
             6 Bulan
@@ -465,15 +465,15 @@ function WireframeCashflowTrend() {
               <WireframeLine key={item} className={cn(chartLabel, "h-1.5 w-7")} tone="muted" />
             ))}
           </div>
-          <div className="flex h-full min-w-0 items-end gap-5 rounded-sm border-b border-l border-cyan-100/24 bg-[linear-gradient(rgba(125,163,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(125,163,255,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(15,23,42,0.24),rgba(3,7,18,0.06))] bg-[size:100%_25%,64px_64px,auto] pb-6 pl-4">
+          <div className="flex h-full min-w-0 items-end gap-5 rounded-sm border-b border-l border-[#B36BFF]/24 bg-[linear-gradient(rgba(224,179,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(224,179,255,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(44,31,64,0.28),rgba(10,10,10,0.08))] bg-[size:100%_25%,64px_64px,auto] pb-6 pl-4">
             {[62, 45, 66, 50, 72, 56, 74, 58, 78, 63, 82, 52].map((height, index) => (
               <div key={`${height}-${index}`} className="flex h-full min-w-0 flex-1 flex-col justify-end">
                 <div
                   className={cn(
-                    "mx-auto w-full max-w-8 rounded-sm border shadow-[0_0_18px_rgba(34,211,238,0.09)]",
+                    "mx-auto w-full max-w-8 rounded-sm border shadow-[0_0_18px_rgba(176,64,255,0.1)]",
                     index % 2 === 0
-                      ? "border-cyan-200/36 bg-[linear-gradient(180deg,rgba(45,212,191,0.78),rgba(34,211,238,0.26))]"
-                      : "border-fuchsia-300/36 bg-[linear-gradient(180deg,rgba(236,72,153,0.78),rgba(217,70,239,0.26))]"
+                      ? "border-cyan-200/42 bg-[linear-gradient(180deg,rgba(34,211,238,0.82),rgba(56,189,248,0.3))]"
+                      : "border-[#F472B6]/44 bg-[linear-gradient(180deg,rgba(236,72,153,0.82),rgba(217,70,239,0.3))]"
                   )}
                   style={{ height: `${height}%` }}
                 />

@@ -52,18 +52,18 @@ export function AppSidebar() {
     >
       <div
         className={cn(
-          "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-[rgba(125,163,255,0.22)] bg-[linear-gradient(180deg,rgba(9,14,31,0.94),rgba(3,7,18,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_20px_48px_rgba(0,0,0,0.32)] backdrop-blur-[18px]",
+          "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-[rgba(179,107,255,0.24)] bg-[linear-gradient(180deg,rgba(16,7,37,0.94),rgba(10,10,10,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_20px_52px_rgba(0,0,0,0.42),0_0_30px_rgba(176,64,255,0.07)] backdrop-blur-[18px]",
           isCollapsed ? "rounded-[2rem] px-2 py-4" : "rounded-[1.5rem] px-4 py-4"
         )}
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(124,58,237,0.16),transparent_38%),radial-gradient(circle_at_60%_42%,rgba(34,211,238,0.08),transparent_32%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(176,64,255,0.18),transparent_38%),radial-gradient(circle_at_60%_42%,rgba(34,211,238,0.055),transparent_32%)]" />
 
         <div className="relative flex h-12 items-center justify-between gap-3 px-1">
           {isCollapsed ? (
             <button
               type="button"
               onClick={() => setIsCollapsed(false)}
-              className="mx-auto flex h-10 w-10 items-center justify-center rounded-md border border-[rgba(148,163,184,0.2)] bg-[rgba(15,23,42,0.46)] text-slate-300 transition hover:border-[rgba(103,232,249,0.32)] hover:bg-[rgba(34,211,238,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/35"
+              className="mx-auto flex h-10 w-10 items-center justify-center rounded-md border border-[rgba(179,107,255,0.24)] bg-[rgba(44,31,64,0.46)] text-[#C7B8E8] transition hover:border-[rgba(224,179,255,0.34)] hover:bg-[rgba(123,0,212,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B36BFF]/35"
               aria-label="Expand sidebar"
               title="Expand sidebar"
             >
@@ -73,7 +73,7 @@ export function AppSidebar() {
             <>
               <Link
                 href="/dashboard"
-                className="flex h-11 items-center gap-3 rounded-md border border-[rgba(148,163,184,0.2)] bg-[rgba(15,23,42,0.46)] px-3 text-sm font-semibold text-slate-200"
+                className="flex h-11 items-center gap-3 rounded-md border border-[rgba(179,107,255,0.24)] bg-[rgba(44,31,64,0.46)] px-3 text-sm font-semibold text-[#F8F4FF]"
                 aria-label="SakuLog dashboard"
               >
                 <WireframeCube />
@@ -82,7 +82,7 @@ export function AppSidebar() {
               <button
                 type="button"
                 onClick={() => setIsCollapsed(true)}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[rgba(148,163,184,0.2)] bg-[rgba(15,23,42,0.36)] text-slate-300 transition hover:border-[rgba(103,232,249,0.32)] hover:bg-[rgba(34,211,238,0.08)] hover:text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/35"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[rgba(179,107,255,0.22)] bg-[rgba(44,31,64,0.36)] text-[#C7B8E8] transition hover:border-[rgba(224,179,255,0.34)] hover:bg-[rgba(123,0,212,0.12)] hover:text-[#F8F4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B36BFF]/35"
                 aria-label="Collapse sidebar"
               >
                 <PanelLeftClose className="h-4 w-4" />
@@ -93,7 +93,7 @@ export function AppSidebar() {
 
         <div
           className={cn(
-            "relative mt-4 h-px bg-cyan-100/12",
+            "relative mt-4 h-px bg-[#B36BFF]/16",
             isCollapsed ? "mx-auto w-10" : "mx-1"
           )}
         />
@@ -103,7 +103,7 @@ export function AppSidebar() {
             <div key={section.title} className="space-y-1">
               <p
                 className={cn(
-                  "px-3 text-xs font-medium uppercase tracking-[0.18em] text-slate-500 transition",
+                  "px-3 text-xs font-medium uppercase tracking-[0.18em] text-[#6F5F86] transition",
                   isCollapsed && "sr-only"
                 )}
               >
@@ -118,24 +118,24 @@ export function AppSidebar() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "group relative flex h-12 items-center rounded-md text-sm font-medium text-slate-500 transition",
+                      "group relative flex h-12 items-center rounded-md text-sm font-medium text-[#9B89B8]/72 transition",
                       isCollapsed ? "h-10 justify-center px-0" : "gap-3 px-3",
-                      "hover:bg-[rgba(34,211,238,0.06)] hover:text-slate-200",
+                      "hover:bg-[rgba(123,0,212,0.1)] hover:text-[#F8F4FF]",
                       isActive &&
-                        "border border-[rgba(103,232,249,0.42)] bg-[linear-gradient(135deg,rgba(59,130,246,0.35),rgba(217,70,239,0.34))] text-slate-100 shadow-[0_0_24px_rgba(34,211,238,0.16),0_0_28px_rgba(168,85,247,0.16)]"
+                        "border border-[rgba(179,107,255,0.42)] bg-[linear-gradient(135deg,rgba(43,15,107,0.62),rgba(176,64,255,0.3),rgba(217,70,239,0.24))] text-[#F8F4FF] shadow-[0_0_28px_rgba(176,64,255,0.2),0_0_18px_rgba(34,211,238,0.08)]"
                     )}
                     title={isCollapsed ? item.title : undefined}
                   >
                     {isActive ? (
-                      <span className="absolute inset-y-2.5 left-0 w-px bg-cyan-200/90 shadow-[0_0_14px_rgba(34,211,238,0.42)]" />
+                      <span className="absolute inset-y-2.5 left-0 w-px bg-[#E0B3FF] shadow-[0_0_16px_rgba(176,64,255,0.52)]" />
                     ) : null}
                     <span
                       className={cn(
                         "flex items-center justify-center rounded-md border transition",
                         isCollapsed ? "h-8 w-8" : "h-8 w-8",
                         isActive
-                          ? "border-white/20 bg-white/10 text-cyan-50"
-                          : "border-[rgba(148,163,184,0.16)] bg-[rgba(15,23,42,0.36)] text-slate-400/70 group-hover:border-[rgba(103,232,249,0.28)] group-hover:text-slate-200"
+                          ? "border-[#E0B3FF]/28 bg-[#B36BFF]/14 text-[#E0B3FF]"
+                          : "border-[rgba(91,67,129,0.42)] bg-[rgba(29,21,41,0.42)] text-[#9B89B8]/78 group-hover:border-[#B36BFF]/34 group-hover:text-[#F8F4FF]"
                       )}
                     >
                       <Icon className="h-4 w-4" />
@@ -152,24 +152,24 @@ export function AppSidebar() {
 
         <div
           className={cn(
-            "relative mt-4 h-px bg-cyan-100/10",
+            "relative mt-4 h-px bg-[#B36BFF]/14",
             isCollapsed ? "mx-auto w-9" : "mx-1"
           )}
         />
 
         <div
           className={cn(
-            "relative mt-auto border-cyan-100/12 transition-all",
+            "relative mt-auto border-[#B36BFF]/16 transition-all",
             isCollapsed ? "flex flex-col items-center gap-2.5 pb-2.5 pt-4" : "rounded-md border p-3"
           )}
         >
-          <div className={cn("flex h-10 w-10 items-center justify-center rounded-full border border-violet-200/24 bg-violet-300/[0.04] text-xs font-medium text-slate-300", !isCollapsed && "mb-3")}>
+          <div className={cn("flex h-10 w-10 items-center justify-center rounded-full border border-[#B36BFF]/28 bg-[#7B00D4]/[0.08] text-xs font-medium text-[#C7B8E8]", !isCollapsed && "mb-3")}>
             AN
           </div>
-          <p className={cn("text-sm font-semibold text-slate-200", isCollapsed && "sr-only")}>
+          <p className={cn("text-sm font-semibold text-[#F8F4FF]", isCollapsed && "sr-only")}>
             Session secured
           </p>
-          <p className={cn("mt-2 text-xs leading-5 text-slate-500", isCollapsed && "hidden")}>
+          <p className={cn("mt-2 text-xs leading-5 text-[#9B89B8]", isCollapsed && "hidden")}>
             Workspace pribadi untuk membaca cashflow tanpa noise.
           </p>
           <LogoutButton
@@ -185,9 +185,9 @@ export function AppSidebar() {
 
 function WireframeCube() {
   return (
-    <span className="relative block h-5 w-5 border border-cyan-200/34">
-      <span className="absolute left-0 top-1/2 h-px w-full rotate-45 bg-violet-200/34" />
-      <span className="absolute left-0 top-1/2 h-px w-full -rotate-45 bg-cyan-200/34" />
+    <span className="relative block h-5 w-5 border border-[#B36BFF]/42">
+      <span className="absolute left-0 top-1/2 h-px w-full rotate-45 bg-[#D8B4FE]/42" />
+      <span className="absolute left-0 top-1/2 h-px w-full -rotate-45 bg-cyan-200/32" />
     </span>
   );
 }

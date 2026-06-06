@@ -73,8 +73,8 @@ export function WireframeLines({
 
 export function WireframeImageBox({ className }: { className?: string }) {
   return (
-    <div className={cn("relative rounded-md border border-violet-200/22 bg-violet-300/[0.04]", className)}>
-      <span className="absolute left-0 top-1/2 h-px w-full rotate-45 bg-violet-200/28" />
+    <div className={cn("relative rounded-md border border-[#B36BFF]/30 bg-[#7B00D4]/[0.08]", className)}>
+      <span className="absolute left-0 top-1/2 h-px w-full rotate-45 bg-[#D8B4FE]/36" />
       <span className="absolute left-0 top-1/2 h-px w-full -rotate-45 bg-cyan-200/24" />
     </div>
   );
@@ -82,12 +82,12 @@ export function WireframeImageBox({ className }: { className?: string }) {
 
 export function WireframeDonut() {
   return (
-    <div className="relative h-24 w-24 rounded-full border border-violet-200/32 bg-[conic-gradient(from_120deg,rgba(34,211,238,0.58)_0_18%,rgba(139,92,246,0.54)_18%_48%,rgba(217,70,239,0.52)_48%_72%,rgba(26,38,64,0.36)_72%_100%)] p-[1px] shadow-[0_0_26px_rgba(139,92,246,0.12),0_0_18px_rgba(34,211,238,0.06)]">
-      <div className="relative h-full w-full rounded-full bg-[rgba(5,13,28,0.86)]">
-        <div className="absolute inset-5 rounded-full border border-cyan-200/24 bg-[rgba(3,7,18,0.7)]" />
-        <span className="absolute left-1/2 top-0 h-full w-px bg-violet-200/24" />
+    <div className="relative h-24 w-24 rounded-full border border-[#B36BFF]/38 bg-[conic-gradient(from_120deg,rgba(176,64,255,0.76)_0_24%,rgba(236,72,153,0.6)_24%_50%,rgba(34,211,238,0.55)_50%_70%,rgba(59,41,90,0.52)_70%_100%)] p-[1px] shadow-[0_0_28px_rgba(176,64,255,0.18),0_0_18px_rgba(34,211,238,0.06)]">
+      <div className="relative h-full w-full rounded-full bg-[rgba(16,7,37,0.9)]">
+        <div className="absolute inset-5 rounded-full border border-[#B36BFF]/24 bg-[rgba(10,10,10,0.7)]" />
+        <span className="absolute left-1/2 top-0 h-full w-px bg-[#D8B4FE]/26" />
         <span className="absolute left-0 top-1/2 h-px w-full bg-cyan-200/22" />
-        <span className="absolute bottom-0 left-1/2 h-1/2 w-px origin-top -rotate-45 bg-fuchsia-200/22" />
+        <span className="absolute bottom-0 left-1/2 h-1/2 w-px origin-top -rotate-45 bg-fuchsia-200/26" />
       </div>
     </div>
   );
@@ -95,14 +95,14 @@ export function WireframeDonut() {
 
 export function WireframeSparkline({ className, tone = "cyan" }: { className?: string; tone?: AccentTone }) {
   const toneClass: Record<AccentTone, string> = {
-    cyan: "border-cyan-100/24 bg-cyan-950/[0.08]",
-    violet: "border-violet-100/24 bg-violet-950/[0.08]",
-    magenta: "border-fuchsia-100/24 bg-fuchsia-950/[0.08]"
+    cyan: "border-cyan-100/26 bg-cyan-950/[0.08]",
+    violet: "border-[#B36BFF]/30 bg-[#2B0F6B]/[0.14]",
+    magenta: "border-fuchsia-100/26 bg-[#BA319F]/[0.1]"
   };
   const strokeClass: Record<AccentTone, string> = {
-    cyan: "border-t-[rgba(34,211,238,0.72)] shadow-[0_0_14px_rgba(34,211,238,0.18)]",
-    violet: "border-t-[rgba(139,92,246,0.7)] shadow-[0_0_14px_rgba(139,92,246,0.18)]",
-    magenta: "border-t-[rgba(217,70,239,0.7)] shadow-[0_0_14px_rgba(217,70,239,0.18)]"
+    cyan: "border-t-[rgba(34,211,238,0.78)] shadow-[0_0_14px_rgba(34,211,238,0.18)]",
+    violet: "border-t-[rgba(176,64,255,0.82)] shadow-[0_0_16px_rgba(176,64,255,0.2)]",
+    magenta: "border-t-[rgba(236,72,153,0.76)] shadow-[0_0_14px_rgba(236,72,153,0.18)]"
   };
 
   return (
