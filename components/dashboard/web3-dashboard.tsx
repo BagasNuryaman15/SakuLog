@@ -90,9 +90,9 @@ export function Web3Dashboard() {
         <WireframeKpis summary={summary} />
 
         <aside className="grid min-w-0 gap-4 xl:[grid-area:right] xl:grid-rows-[auto_auto_auto_minmax(0,1fr)]">
-          <WireframeCategory />
-          <WireframeMoneySignals />
-          <WireframeMiniInsight />
+          <WireframeCategory summary={summary} />
+          <WireframeMoneySignals summary={summary} />
+          <WireframeMiniInsight summary={summary} />
           <WireframeRecentTransactions />
         </aside>
 
@@ -238,50 +238,92 @@ function WireframeKpi({
   );
 }
 
-function WireframeCategory() {
+function WireframeCategory({ summary }: { summary: DashboardSummary }) {
+  const topCategory = summary.topExpenseCategory;
+  const categoryName = topCategory?.category ?? "Belum ada kategori";
+  const categoryAmount = topCategory?.amount ?? 0;
+  const categoryPercentage = topCategory?.percentage ?? 0;
+  const otherAmount = Math.max(summary.monthExpense - categoryAmount, 0);
+  const otherPercentage = topCategory ? Math.max(100 - categoryPercentage, 0) : 0;
+
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[14rem] p-4")}>
-      <div className="flex min-w-0 items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h3 className={cn(rightRailTitle, "truncate")}>Expense by Category</h3>
-          <p className={cn(captionText, "mt-1 truncate")}>Kategori pengeluaran bulan ini</p>
-        </div>
-        <span className={cn(captionText, "shrink-0 truncate text-cyan-200/72")}>Lihat semua kategori</span>
+      <div className="min-w-0">
+        <h3 className={cn(rightRailTitle, "truncate")}>Expense by Category</h3>
+        <p className={cn(captionText, "mt-1 truncate")}>Kategori pengeluaran bulan ini</p>
       </div>
       <div className="mt-4 grid min-w-0 grid-cols-[6.75rem_minmax(0,1fr)] items-center gap-4">
         <WireframeDonut />
         <div className="min-w-0 space-y-3">
-          {[0, 1, 2, 3].map((item) => (
-            <div key={item} className="grid min-w-0 grid-cols-[0.6rem_minmax(0,1fr)_2.2rem] items-center gap-3">
-              <WireframeBlock
-                className="h-2.5 w-2.5"
-                tone={item === 0 ? "cyan" : item === 1 ? "violet" : item === 2 ? "magenta" : "default"}
-              />
-              <WireframeLine
-                className={cn(metricLabel, "h-2 w-full")}
-                tone={item === 0 ? "cyan" : item === 1 ? "violet" : item === 2 ? "magenta" : "default"}
-              />
-              <WireframeLine className={cn(captionText, "h-1.5 w-full")} tone="muted" />
-            </div>
-          ))}
+          <div className="grid min-w-0 grid-cols-[0.6rem_minmax(0,1fr)_4.25rem_2rem] items-center gap-2">
+            <WireframeBlock className="h-2.5 w-2.5" tone={topCategory ? "cyan" : "default"} />
+            <span className={cn(metricLabel, "truncate text-slate-300/88")}>{categoryName}</span>
+            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-slate-300/86")}>
+              {formatCurrencyIDR(categoryAmount)}
+            </span>
+            <span className={cn(captionText, "whitespace-nowrap text-right tabular-nums text-cyan-200/72")}>
+              {categoryPercentage}%
+            </span>
+          </div>
+          <div className="grid min-w-0 grid-cols-[0.6rem_minmax(0,1fr)_4.25rem_2rem] items-center gap-2">
+            <WireframeBlock className="h-2.5 w-2.5" tone="default" />
+            <span className={cn(metricLabel, "truncate text-slate-400/72")}>Kategori lain</span>
+            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-slate-400/72")}>
+              {formatCurrencyIDR(otherAmount)}
+            </span>
+            <span className={cn(captionText, "whitespace-nowrap text-right tabular-nums text-slate-500/72")}>
+              {otherPercentage}%
+            </span>
+          </div>
         </div>
       </div>
-      <WireframeBlock className="mt-5 h-9 w-full" tone="primary" />
+      <div className="mt-5 flex h-9 items-center justify-center rounded-md border border-[rgba(203,213,225,0.28)] bg-[rgba(24,39,68,0.66)]">
+        <span className={cn(navLabel, "text-cyan-200/72")}>Lihat semua kategori</span>
+      </div>
     </WireframeCard>
   );
 }
 
-function WireframeMoneySignals() {
+function WireframeMoneySignals({ summary }: { summary: DashboardSummary }) {
+  const signals: Array<{
+    label: string;
+    value: string;
+    tone: AccentTone;
+  }> = [
+    {
+      label: "Pengeluaran hari ini",
+      value: formatCurrencyIDR(summary.todayExpense),
+      tone: "cyan"
+    },
+    {
+      label: "Pengeluaran minggu ini",
+      value: formatCurrencyIDR(summary.weekExpense),
+      tone: "magenta"
+    },
+    {
+      label: "Kategori terboros",
+      value: summary.topExpenseCategory?.category ?? "Belum ada",
+      tone: "violet"
+    }
+  ];
+
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[10rem] p-4")}>
-      <h3 className={cn(rightRailTitle, "truncate")}>Money Signals</h3>
-      <p className={cn(captionText, "mt-1 truncate")}>Yang perlu kamu lihat cepat</p>
+      <div className="flex min-w-0 items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h3 className={cn(rightRailTitle, "truncate")}>Money Signals</h3>
+          <p className={cn(captionText, "mt-1 truncate")}>Yang perlu kamu lihat cepat</p>
+        </div>
+        <span className={cn(captionText, "shrink-0 truncate text-cyan-200/72")}>Lihat semua</span>
+      </div>
       <div className="mt-3 divide-y divide-cyan-100/10">
-        {["Pengeluaran hari ini", "Pengeluaran minggu ini", "Kategori terboros"].map((label, item) => (
-          <div key={label} className="grid min-h-[1.75rem] min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_3.25rem_0.5rem] items-center gap-2.5 py-1">
-            <WireframeBlock className="h-5 w-5" tone={item === 2 ? "violet" : item === 1 ? "magenta" : "cyan"} />
-            <span className={cn(metricLabel, "truncate")}>{label}</span>
-            <WireframeLine className={cn(captionText, "h-1.5 w-full")} tone={item === 1 ? "magenta" : "cyan"} />
+        {signals.map((signal, item) => (
+          <div key={signal.label} className="grid min-h-[1.75rem] min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_minmax(3.25rem,4.25rem)_0.5rem] items-center gap-2.5 py-1">
+            <WireframeBlock className="h-5 w-5" tone={signal.tone} />
+            <span className={cn(metricLabel, "truncate")}>{signal.label}</span>
+            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-slate-300/86")}>
+              {signal.value}
+            </span>
             <span
               className={cn(
                 "h-2 w-2 rounded-full",
@@ -297,17 +339,25 @@ function WireframeMoneySignals() {
   );
 }
 
-function WireframeMiniInsight() {
+function WireframeMiniInsight({ summary }: { summary: DashboardSummary }) {
+  const topCategory = summary.topExpenseCategory;
+  const insight = topCategory
+    ? `Bulan ini pengeluaran terbesar ada di kategori ${topCategory.category}.`
+    : "Belum ada pola pengeluaran yang bisa dibaca.";
+  const tip = topCategory
+    ? "Pantau kategori ini agar cashflow tetap aman."
+    : "Catat transaksi untuk mulai melihat insight.";
+
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[6.75rem] p-4")}>
       <h3 className={cn(rightRailTitle, "truncate")}>Mini Insight</h3>
       <div className="mt-3 grid min-w-0 grid-cols-[4.75rem_minmax(0,1fr)] gap-3">
         <WireframeImageBox className="h-12" />
         <div className="min-w-0">
-          <p className={cn(metricLabel, "truncate text-slate-300/84")}>Pembacaan sederhana</p>
-          <p className={cn(captionText, "mt-1 line-clamp-2 text-slate-400/76")}>
-            Tip: Bulan ini pengeluaran terbesar kamu akan terlihat di sini setelah data diaktifkan.
+          <p className={cn(metricLabel, "line-clamp-2 text-slate-300/84")}>
+            {insight}
           </p>
+          <p className={cn(captionText, "mt-1 truncate text-cyan-200/62")}>{tip}</p>
         </div>
       </div>
     </WireframeCard>
