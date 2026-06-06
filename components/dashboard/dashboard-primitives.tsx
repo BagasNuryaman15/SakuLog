@@ -93,30 +93,69 @@ export function WireframeDonut() {
   );
 }
 
-export function WireframeSparkline({ className, tone = "cyan" }: { className?: string; tone?: AccentTone }) {
-  const toneClass: Record<AccentTone, string> = {
-    cyan: "border-cyan-100/26 bg-cyan-950/[0.08]",
-    violet: "border-[#B36BFF]/30 bg-[#2B0F6B]/[0.14]",
-    magenta: "border-fuchsia-100/26 bg-[#BA319F]/[0.1]"
+export function WireframeSparkline({
+  className,
+  tone = "cyan",
+  values
+}: {
+  className?: string;
+  tone?: AccentTone;
+  values?: number[];
+}) {
+  const toneClass: Record<AccentTone, { area: string; glow: string; line: string; surface: string }> = {
+    cyan: {
+      area: "rgba(34,211,238,0.13)",
+      glow: "rgba(34,211,238,0.28)",
+      line: "#67E8F9",
+      surface: "border-cyan-100/22 bg-cyan-950/[0.08]"
+    },
+    violet: {
+      area: "rgba(176,64,255,0.14)",
+      glow: "rgba(176,64,255,0.3)",
+      line: "#B36BFF",
+      surface: "border-[#B36BFF]/26 bg-[#2B0F6B]/[0.13]"
+    },
+    magenta: {
+      area: "rgba(236,72,153,0.13)",
+      glow: "rgba(236,72,153,0.28)",
+      line: "#F472B6",
+      surface: "border-fuchsia-100/22 bg-[#BA319F]/[0.1]"
+    }
   };
-  const strokeClass: Record<AccentTone, string> = {
-    cyan: "border-t-[rgba(34,211,238,0.78)] shadow-[0_0_14px_rgba(34,211,238,0.18)]",
-    violet: "border-t-[rgba(176,64,255,0.82)] shadow-[0_0_16px_rgba(176,64,255,0.2)]",
-    magenta: "border-t-[rgba(236,72,153,0.76)] shadow-[0_0_14px_rgba(236,72,153,0.18)]"
-  };
+  const colors = toneClass[tone];
+  const hasRealSeries = Boolean(values?.length);
+  const linePath = hasRealSeries
+    ? buildSparklinePath(values)
+    : "M0 30 C26 29 30 31 48 29 C72 27 84 31 108 29 C132 27 146 30 180 28";
+  const areaOpacity = hasRealSeries ? 1 : 0.38;
+  const glowOpacity = hasRealSeries ? 1 : 0.34;
+  const lineOpacity = hasRealSeries ? 1 : 0.46;
 
   return (
-    <div className={cn("flex h-11 items-end gap-1 rounded-sm border-b pb-2", toneClass[tone], className)}>
-      {[25, 18, 36, 28, 54, 34, 48, 30].map((height, index) => (
-        <span
-          key={`${height}-${index}`}
-          className={cn(
-            "block w-full border-t",
-            index % 3 === 1 ? "border-t-slate-300/34" : strokeClass[tone]
-          )}
-          style={{ height: `${height}%` }}
-        />
-      ))}
+    <div className={cn("h-11 overflow-hidden rounded-sm border-b", colors.surface, className)} aria-hidden="true">
+      <svg className="h-full w-full" viewBox="0 0 180 44" preserveAspectRatio="none">
+        <path d={`${linePath} L180 44 L0 44 Z`} fill={colors.area} opacity={areaOpacity} />
+        <path d={linePath} fill="none" opacity={glowOpacity} stroke={colors.glow} strokeLinecap="round" strokeWidth="5" />
+        <path d={linePath} fill="none" opacity={lineOpacity} stroke={colors.line} strokeLinecap="round" strokeWidth="2.4" />
+      </svg>
     </div>
   );
+}
+
+function buildSparklinePath(values: number[] | undefined) {
+  const series = values?.length ? values : [0];
+  const maxValue = Math.max(...series, 0);
+  const minValue = Math.min(...series, 0);
+  const range = Math.max(maxValue - minValue, 1);
+  const width = 180;
+  const minY = 10;
+  const maxY = 34;
+  const points = series.map((value, index) => {
+    const x = series.length === 1 ? width : (index / (series.length - 1)) * width;
+    const y = maxY - ((value - minValue) / range) * (maxY - minY);
+
+    return `${x.toFixed(1)} ${y.toFixed(1)}`;
+  });
+
+  return `M${points.join(" L")}`;
 }

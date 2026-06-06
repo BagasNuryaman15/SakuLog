@@ -1,6 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  CalendarDays,
+  CircleDollarSign,
+  type LucideIcon
+} from "lucide-react";
 
 import {
   getDashboardSummary,
@@ -204,30 +211,48 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
 }
 
 function WireframeKpis({ summary }: { summary: DashboardSummary }) {
+  const expenseIncomeRatio =
+    summary.monthIncome > 0 ? Math.round((summary.monthExpense / summary.monthIncome) * 100) : null;
   const kpis: Array<{
+    icon: LucideIcon;
     label: string;
+    sparklineValues?: number[];
     value: number;
     tone: AccentTone;
+    caption: string;
+    captionTone?: "positive" | "negative";
   }> = [
     {
+      icon: ArrowUpRight,
       label: "Income this month",
+      sparklineValues: summary.monthSeries.map((item) => item.income),
       value: summary.monthIncome,
-      tone: "cyan"
+      tone: "cyan",
+      caption: "Total pemasukan bulan ini"
     },
     {
+      icon: ArrowDownRight,
       label: "Expenses this month",
+      sparklineValues: summary.monthSeries.map((item) => item.expense),
       value: summary.monthExpense,
-      tone: "magenta"
+      tone: "magenta",
+      caption:
+        expenseIncomeRatio === null ? "Total pengeluaran bulan ini" : `${expenseIncomeRatio}% dari pemasukan`,
+      captionTone: expenseIncomeRatio === null ? undefined : expenseIncomeRatio > 100 ? "negative" : "positive"
     },
     {
+      icon: CalendarDays,
       label: "Expenses today",
       value: summary.todayExpense,
-      tone: "violet"
+      tone: "violet",
+      caption: "Tercatat hari ini"
     },
     {
+      icon: CircleDollarSign,
       label: "Expenses this week",
       value: summary.weekExpense,
-      tone: "cyan"
+      tone: "cyan",
+      caption: "Minggu berjalan"
     }
   ];
 
@@ -241,28 +266,53 @@ function WireframeKpis({ summary }: { summary: DashboardSummary }) {
 }
 
 function WireframeKpi({
+  caption,
+  captionTone,
+  icon: Icon,
   label,
+  sparklineValues,
   value,
   tone
 }: {
+  caption: string;
+  captionTone?: "positive" | "negative";
+  icon: LucideIcon;
   label: string;
+  sparklineValues?: number[];
   value: number;
   tone: AccentTone;
 }) {
+  const badgeClass: Record<AccentTone, string> = {
+    cyan: "border-cyan-200/30 bg-cyan-300/14 text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.16)]",
+    violet: "border-[#B36BFF]/34 bg-[#7B00D4]/18 text-[#D8B4FE] shadow-[0_0_18px_rgba(176,64,255,0.18)]",
+    magenta: "border-[#F472B6]/34 bg-[#BA319F]/18 text-[#F9A8D4] shadow-[0_0_18px_rgba(236,72,153,0.16)]"
+  };
+
   return (
     <WireframeCard className={cn(kpiSurfaceToneClass[tone], "flex h-[13rem] flex-col p-4 xl:h-full")}>
-      <h3 className={cn(cardTitle, "line-clamp-2 text-sm")}>{label}</h3>
-      <div className="mt-4 flex min-w-0 items-start justify-between gap-3">
-        <div className="min-w-0 flex-1">
-          <p className={cn(metricLabel, "truncate")}>Juni 2026</p>
-          <p className={cn(metricValuePlaceholder, "mt-3 max-w-full truncate whitespace-nowrap text-xl")}>
-            {formatCurrencyIDR(value)}
-          </p>
+      <div className="flex min-w-0 items-start justify-between gap-3">
+        <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-full border", badgeClass[tone])}>
+          <Icon className="h-4 w-4" strokeWidth={2.35} />
         </div>
-        <WireframeBlock className="h-9 w-9 shrink-0" tone={tone} />
       </div>
-      <div className="mt-3 h-4" aria-hidden="true" />
-      <WireframeSparkline className="mt-auto" tone={tone} />
+      <h3 className={cn(cardTitle, "mt-3 line-clamp-1 text-xs font-semibold text-[#C7B8E8]/86")}>{label}</h3>
+      <p className={cn(metricValuePlaceholder, "mt-2 max-w-full truncate whitespace-nowrap text-xl")}>
+        {formatCurrencyIDR(value)}
+      </p>
+      <p
+        className={cn(
+          captionText,
+          "mt-2 h-4 truncate",
+          captionTone === "negative"
+            ? "text-[#F472B6]/78"
+            : captionTone === "positive"
+              ? "text-emerald-200/74"
+              : "text-[#9B89B8]/86"
+        )}
+      >
+        {caption}
+      </p>
+      <WireframeSparkline className="mt-auto" tone={tone} values={sparklineValues} />
     </WireframeCard>
   );
 }
