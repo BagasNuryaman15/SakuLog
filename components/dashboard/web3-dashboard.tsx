@@ -14,7 +14,6 @@ import {
   WireframeCard,
   WireframeDonut,
   WireframeImageBox,
-  WireframeLine,
   WireframeSparkline
 } from "./dashboard-primitives";
 import {
@@ -96,7 +95,7 @@ export function Web3Dashboard() {
           <WireframeRecentTransactions summary={summary} />
         </aside>
 
-        <WireframeCashflowTrend />
+        <WireframeCashflowTrend summary={summary} />
       </section>
     </div>
   );
@@ -436,7 +435,32 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
   );
 }
 
-function WireframeCashflowTrend() {
+function WireframeCashflowTrend({ summary }: { summary: DashboardSummary }) {
+  const series = summary.monthSeries;
+  const maxValue = Math.max(...series.flatMap((item) => [item.income, item.expense]), 1);
+  const axisLabels = [maxValue, maxValue * 0.75, maxValue * 0.5, maxValue * 0.25, 0];
+  const hasCashflowData = series.some((item) => item.income > 0 || item.expense > 0);
+
+  function getBarHeight(value: number) {
+    if (value <= 0) {
+      return "0%";
+    }
+
+    return `${Math.max((value / maxValue) * 100, 8)}%`;
+  }
+
+  function formatAxisValue(value: number) {
+    if (value >= 1_000_000) {
+      return `Rp${Math.round(value / 1_000_000)}M`;
+    }
+
+    if (value >= 1_000) {
+      return `Rp${Math.round(value / 1_000)}K`;
+    }
+
+    return formatCurrencyIDR(value);
+  }
+
   return (
     <WireframeCard className={cn(cashflowSurfaceClass, "h-[19rem] p-5 xl:[grid-area:cashflow]")}>
       <div className="flex min-w-0 items-start justify-between gap-3">
@@ -461,29 +485,46 @@ function WireframeCashflowTrend() {
       <div className="mt-4 h-[12.75rem] min-w-0 pb-4">
         <div className="grid h-full min-w-0 grid-cols-[3rem_minmax(0,1fr)] gap-3">
           <div className="flex h-full flex-col justify-between pb-9 pt-4">
-            {[0, 1, 2, 3, 4].map((item) => (
-              <WireframeLine key={item} className={cn(chartLabel, "h-1.5 w-7")} tone="muted" />
+            {axisLabels.map((value) => (
+              <span key={value} className={cn(chartLabel, "truncate text-right text-[#9B89B8]/74")}>
+                {formatAxisValue(value)}
+              </span>
             ))}
           </div>
-          <div className="flex h-full min-w-0 items-end gap-5 rounded-sm border-b border-l border-[#B36BFF]/24 bg-[linear-gradient(rgba(224,179,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(224,179,255,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(44,31,64,0.28),rgba(10,10,10,0.08))] bg-[size:100%_25%,64px_64px,auto] pb-6 pl-4">
-            {[62, 45, 66, 50, 72, 56, 74, 58, 78, 63, 82, 52].map((height, index) => (
-              <div key={`${height}-${index}`} className="flex h-full min-w-0 flex-1 flex-col justify-end">
-                <div
-                  className={cn(
-                    "mx-auto w-full max-w-8 rounded-sm border shadow-[0_0_18px_rgba(176,64,255,0.1)]",
-                    index % 2 === 0
-                      ? "border-cyan-200/42 bg-[linear-gradient(180deg,rgba(34,211,238,0.82),rgba(56,189,248,0.3))]"
-                      : "border-[#F472B6]/44 bg-[linear-gradient(180deg,rgba(236,72,153,0.82),rgba(217,70,239,0.3))]"
-                  )}
-                  style={{ height: `${height}%` }}
-                />
-                {index % 2 === 0 ? (
-                  <WireframeLine className={cn(chartLabel, "mx-auto mt-3 h-1.5 w-10")} tone="muted" />
-                ) : (
-                  <span className="mt-3 h-1.5" />
-                )}
+          <div className="relative flex h-full min-w-0 items-end gap-4 rounded-sm border-b border-l border-[#B36BFF]/24 bg-[linear-gradient(rgba(224,179,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(224,179,255,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(44,31,64,0.28),rgba(10,10,10,0.08))] bg-[size:100%_25%,64px_64px,auto] pb-6 pl-4">
+            {series.length > 0 ? (
+              series.map((item) => (
+                <div key={item.key} className="flex h-full min-w-0 flex-1 flex-col justify-end">
+                  <div className="flex h-full min-w-0 items-end justify-center gap-1.5">
+                    <div
+                      className="w-full max-w-4 rounded-sm border border-cyan-200/42 bg-[linear-gradient(180deg,rgba(34,211,238,0.82),rgba(56,189,248,0.3))] shadow-[0_0_18px_rgba(34,211,238,0.14)]"
+                      style={{ height: getBarHeight(item.income) }}
+                    />
+                    <div
+                      className="w-full max-w-4 rounded-sm border border-[#F472B6]/44 bg-[linear-gradient(180deg,rgba(236,72,153,0.82),rgba(217,70,239,0.3))] shadow-[0_0_18px_rgba(236,72,153,0.13)]"
+                      style={{ height: getBarHeight(item.expense) }}
+                    />
+                  </div>
+                  <span className={cn(chartLabel, "mx-auto mt-3 max-w-10 truncate text-center text-[#9B89B8]/78")}>
+                    {item.label}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <div className="flex h-full min-w-0 flex-1 items-center justify-center px-4 text-center">
+                <div className="min-w-0">
+                  <p className={cn(metricLabel, "text-[#F8F4FF]/86")}>Belum ada data cashflow</p>
+                  <p className={cn(captionText, "mt-1 line-clamp-2")}>
+                    Catat pemasukan dan pengeluaran untuk melihat tren.
+                  </p>
+                </div>
               </div>
-            ))}
+            )}
+            {!hasCashflowData && series.length > 0 ? (
+              <div className="pointer-events-none absolute inset-x-4 top-1/2 -translate-y-1/2 rounded-md border border-[rgba(91,67,129,0.4)] bg-[rgba(16,7,37,0.72)] px-3 py-2 text-center">
+                <p className={cn(captionText, "text-[#C7B8E8]/82")}>Belum ada arus kas pada 6 bulan terakhir.</p>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
