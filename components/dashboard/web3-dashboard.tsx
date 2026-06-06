@@ -41,8 +41,13 @@ import {
   type AccentTone
 } from "./dashboard-style-tokens";
 
+const cashflowRangeOptions = [3, 6, 12] as const;
+type CashflowRange = (typeof cashflowRangeOptions)[number];
+
 export function Web3Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary>(getEmptyDashboardSummary);
+  const [cashflowRange, setCashflowRange] = useState<CashflowRange>(6);
+  const [isCashflowRangeOpen, setIsCashflowRangeOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -95,7 +100,14 @@ export function Web3Dashboard() {
           <WireframeRecentTransactions summary={summary} />
         </aside>
 
-        <WireframeCashflowTrend summary={summary} />
+        <WireframeCashflowTrend
+          cashflowRange={cashflowRange}
+          isCashflowRangeOpen={isCashflowRangeOpen}
+          onCashflowRangeMenuToggle={() => setIsCashflowRangeOpen((isOpen) => !isOpen)}
+          onCashflowRangeChange={setCashflowRange}
+          onCashflowRangeMenuClose={() => setIsCashflowRangeOpen(false)}
+          summary={summary}
+        />
       </section>
     </div>
   );
@@ -435,21 +447,55 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
   );
 }
 
-function WireframeCashflowTrend({ summary }: { summary: DashboardSummary }) {
-  const series = summary.monthSeries;
-  const maxValue = Math.max(...series.flatMap((item) => [item.income, item.expense]), 1);
-  const axisLabels = [maxValue, maxValue * 0.75, maxValue * 0.5, maxValue * 0.25, 0];
+function WireframeCashflowTrend({
+  cashflowRange,
+  isCashflowRangeOpen,
+  onCashflowRangeMenuClose,
+  onCashflowRangeMenuToggle,
+  onCashflowRangeChange,
+  summary
+}: {
+  cashflowRange: CashflowRange;
+  isCashflowRangeOpen: boolean;
+  onCashflowRangeMenuClose: () => void;
+  onCashflowRangeMenuToggle: () => void;
+  onCashflowRangeChange: (range: CashflowRange) => void;
+  summary: DashboardSummary;
+}) {
+  const series = summary.monthSeries.slice(-cashflowRange);
+  const rawMaxValue = Math.max(...series.flatMap((item) => [item.income, item.expense]), 0);
+  const scaleMaxValue = calculateNiceMax(rawMaxValue);
+  const axisLabels = [
+    scaleMaxValue,
+    scaleMaxValue * 0.75,
+    scaleMaxValue * 0.5,
+    scaleMaxValue * 0.25,
+    0
+  ];
   const hasCashflowData = series.some((item) => item.income > 0 || item.expense > 0);
 
-  function getBarHeight(value: number) {
+  function calculateNiceMax(value: number) {
     if (value <= 0) {
-      return "0%";
+      return 1;
     }
 
-    return `${Math.max((value / maxValue) * 100, 8)}%`;
+    const magnitude = 10 ** Math.floor(Math.log10(value));
+    const normalizedValue = value / magnitude;
+    const niceSteps = [1, 1.2, 1.5, 2, 3, 4, 5, 6, 8, 10];
+    const niceNormalizedValue = niceSteps.find((step) => normalizedValue <= step) ?? 10;
+
+    return niceNormalizedValue * magnitude;
   }
 
-  function formatAxisValue(value: number) {
+  function getBarHeightPercent(value: number) {
+    if (value <= 0) {
+      return 0;
+    }
+
+    return (value / scaleMaxValue) * 100;
+  }
+
+  function formatCompactIDR(value: number) {
     if (value >= 1_000_000) {
       return `Rp${Math.round(value / 1_000_000)}M`;
     }
@@ -461,24 +507,110 @@ function WireframeCashflowTrend({ summary }: { summary: DashboardSummary }) {
     return formatCurrencyIDR(value);
   }
 
+  function renderCashflowBar(value: number, tone: "income" | "expense") {
+    const heightPercent = getBarHeightPercent(value);
+    const barClass =
+      tone === "income"
+        ? "border-cyan-200/42 bg-[linear-gradient(180deg,rgba(34,211,238,0.82),rgba(56,189,248,0.28))] shadow-[0_0_12px_rgba(34,211,238,0.11)]"
+        : "border-[#F472B6]/44 bg-[linear-gradient(180deg,rgba(236,72,153,0.82),rgba(217,70,239,0.28))] shadow-[0_0_12px_rgba(236,72,153,0.1)]";
+    const labelClass = tone === "income" ? "text-cyan-100/78" : "text-[#FBCFE8]/78";
+
+    return (
+      <div className="group relative flex h-full w-full max-w-4 items-end justify-center">
+        {value > 0 ? (
+          <span
+            className={cn(
+              chartLabel,
+              "pointer-events-none absolute left-1/2 z-10 -translate-x-1/2 rounded-sm border border-[#B36BFF]/22 bg-[rgba(16,7,37,0.92)] px-1.5 py-0.5 text-[0.58rem] leading-none opacity-0 shadow-[0_8px_18px_rgba(10,10,10,0.24)] transition-opacity duration-150 group-hover:opacity-100",
+              labelClass
+            )}
+            style={{ bottom: `calc(${heightPercent}% + 0.35rem)` }}
+          >
+            {formatCompactIDR(value)}
+          </span>
+        ) : null}
+        <div
+          className={cn("w-full rounded-sm border", barClass)}
+          style={{ height: `${heightPercent}%` }}
+          title={value > 0 ? formatCurrencyIDR(value) : "Rp0"}
+        />
+      </div>
+    );
+  }
+
   return (
     <WireframeCard className={cn(cashflowSurfaceClass, "h-[19rem] p-5 xl:[grid-area:cashflow]")}>
       <div className="flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <h3 className={cn(rightRailTitle, "truncate")}>Cashflow Trend</h3>
-          <p className={cn(cardSubtitle, "mt-2 truncate")}>Income vs expense 6 bulan terakhir</p>
+          <p className={cn(cardSubtitle, "mt-2 truncate")}>Income vs expense {cashflowRange} bulan terakhir</p>
         </div>
-        <div className="hidden shrink-0 items-center gap-8 md:flex">
-          <span className={cn(chartLabel, "text-cyan-200/76")}>Pemasukan</span>
-          <span className={cn(chartLabel, "text-[#F472B6]/76")}>Pengeluaran</span>
-          <span
-            className={cn(
-              navLabel,
-              "flex h-9 w-24 items-center justify-center rounded-md border border-[rgba(91,67,129,0.55)] bg-[rgba(44,31,64,0.52)] text-[#C7B8E8]"
-            )}
-          >
-            6 Bulan
-          </span>
+        <div className="hidden shrink-0 items-center gap-6 md:flex">
+          <span className={cn(chartLabel, "text-xs font-bold text-[#9DECF6]/92")}>Pemasukan</span>
+          <span className={cn(chartLabel, "text-xs font-bold text-[#F9A8D4]/92")}>Pengeluaran</span>
+          <div className="relative">
+            <button
+              type="button"
+              className={cn(
+                navLabel,
+                "grid h-10 w-32 grid-cols-[1rem_minmax(0,1fr)_1rem] items-center rounded-[0.9rem] border border-[rgba(91,67,129,0.58)] bg-[linear-gradient(180deg,rgba(44,31,64,0.88),rgba(29,21,41,0.8))] px-3.5 text-[#F8F4FF] shadow-[0_12px_28px_rgba(10,10,10,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] outline-none transition duration-150 hover:-translate-y-px hover:border-[#B36BFF]/46 hover:bg-[linear-gradient(180deg,rgba(50,36,74,0.96),rgba(29,21,41,0.88))] hover:shadow-[0_15px_30px_rgba(10,10,10,0.28),0_0_18px_rgba(106,44,255,0.12),inset_0_1px_0_rgba(255,255,255,0.1)] focus-visible:border-[#D8B4FE]/58 focus-visible:shadow-[0_0_0_2px_rgba(179,107,255,0.24),0_12px_28px_rgba(10,10,10,0.22)]"
+              )}
+              aria-expanded={isCashflowRangeOpen}
+              aria-haspopup="listbox"
+              onClick={onCashflowRangeMenuToggle}
+            >
+              <span />
+              <span className="truncate text-center">{cashflowRange} Bulan</span>
+              <span
+                className={cn(
+                  "flex flex-col items-center justify-center gap-0.5 justify-self-end text-[0.55rem] leading-none text-[#8B5CF6] transition-colors duration-150",
+                  isCashflowRangeOpen ? "text-[#B36BFF]" : "text-[#8B5CF6]"
+                )}
+                aria-hidden="true"
+              >
+                <span>▲</span>
+                <span>▼</span>
+              </span>
+            </button>
+            <div
+              className={cn(
+                "absolute right-0 top-12 z-20 w-32 overflow-hidden rounded-[0.95rem] border border-[#B36BFF]/22 bg-[rgba(5,5,10,0.96)] p-1.5 shadow-[0_20px_40px_rgba(0,0,0,0.42),0_0_22px_rgba(106,44,255,0.16)] backdrop-blur transition duration-150",
+                isCashflowRangeOpen
+                  ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
+                  : "pointer-events-none -translate-y-1 scale-[0.98] opacity-0"
+              )}
+              role="listbox"
+            >
+              {cashflowRangeOptions.map((range) => {
+                const isActive = cashflowRange === range;
+
+                return (
+                  <button
+                    key={range}
+                    type="button"
+                    className={cn(
+                      navLabel,
+                      "flex h-10 w-full items-center justify-between rounded-[0.78rem] px-3.5 text-left text-[0.78rem] transition-colors focus-visible:bg-[rgba(179,107,255,0.16)] focus-visible:outline-none focus-visible:shadow-[0_0_0_1px_rgba(216,180,254,0.28)]",
+                      isActive
+                        ? "bg-[linear-gradient(180deg,rgba(44,31,64,0.72),rgba(29,21,41,0.68))] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] hover:bg-[linear-gradient(180deg,rgba(50,36,74,0.76),rgba(29,21,41,0.72))]"
+                        : "text-[#9B89B8] hover:bg-[linear-gradient(180deg,rgba(44,31,64,0.5),rgba(29,21,41,0.36))] hover:text-[#E0B3FF]"
+                    )}
+                    aria-selected={isActive}
+                    role="option"
+                    onClick={() => {
+                      onCashflowRangeChange(range);
+                      onCashflowRangeMenuClose();
+                    }}
+                  >
+                    <span>{range} Bulan</span>
+                    {isActive ? (
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#D8B4FE] shadow-[0_0_10px_rgba(216,180,254,0.5)]" />
+                    ) : null}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -487,23 +619,17 @@ function WireframeCashflowTrend({ summary }: { summary: DashboardSummary }) {
           <div className="flex h-full flex-col justify-between pb-9 pt-4">
             {axisLabels.map((value) => (
               <span key={value} className={cn(chartLabel, "truncate text-right text-[#9B89B8]/74")}>
-                {formatAxisValue(value)}
+                {formatCompactIDR(value)}
               </span>
             ))}
           </div>
-          <div className="relative flex h-full min-w-0 items-end gap-4 rounded-sm border-b border-l border-[#B36BFF]/24 bg-[linear-gradient(rgba(224,179,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(224,179,255,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(44,31,64,0.28),rgba(10,10,10,0.08))] bg-[size:100%_25%,64px_64px,auto] pb-6 pl-4">
+          <div className="relative flex h-full min-w-0 items-end gap-4 rounded-sm border-b border-l border-[#B36BFF]/18 bg-[linear-gradient(rgba(224,179,255,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(44,31,64,0.18),rgba(10,10,10,0.04))] bg-[size:100%_25%,auto] pb-6 pl-4 pt-4">
             {series.length > 0 ? (
               series.map((item) => (
                 <div key={item.key} className="flex h-full min-w-0 flex-1 flex-col justify-end">
                   <div className="flex h-full min-w-0 items-end justify-center gap-1.5">
-                    <div
-                      className="w-full max-w-4 rounded-sm border border-cyan-200/42 bg-[linear-gradient(180deg,rgba(34,211,238,0.82),rgba(56,189,248,0.3))] shadow-[0_0_18px_rgba(34,211,238,0.14)]"
-                      style={{ height: getBarHeight(item.income) }}
-                    />
-                    <div
-                      className="w-full max-w-4 rounded-sm border border-[#F472B6]/44 bg-[linear-gradient(180deg,rgba(236,72,153,0.82),rgba(217,70,239,0.3))] shadow-[0_0_18px_rgba(236,72,153,0.13)]"
-                      style={{ height: getBarHeight(item.expense) }}
-                    />
+                    {renderCashflowBar(item.income, "income")}
+                    {renderCashflowBar(item.expense, "expense")}
                   </div>
                   <span className={cn(chartLabel, "mx-auto mt-3 max-w-10 truncate text-center text-[#9B89B8]/78")}>
                     {item.label}

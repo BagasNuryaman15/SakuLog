@@ -97,12 +97,12 @@ export function getDashboardMonthLabel() {
   }).format(date);
 }
 
-export function getDashboardMonthSeries(transactions: Transaction[]) {
+export function getDashboardMonthSeries(transactions: Transaction[], rangeMonths = 12) {
   const yearRange = getCurrentYearRange();
   const monthFormatter = new Intl.DateTimeFormat("id-ID", { month: "short" });
   const now = new Date(`${yearRange.endDate}T00:00:00`);
-  const months = Array.from({ length: 6 }, (_, index) => {
-    const date = new Date(now.getFullYear(), now.getMonth() - (5 - index), 1);
+  const months = Array.from({ length: rangeMonths }, (_, index) => {
+    const date = new Date(now.getFullYear(), now.getMonth() - (rangeMonths - 1 - index), 1);
     const key = `${date.getFullYear()}-${date.getMonth()}`;
 
     return {

@@ -42,7 +42,7 @@ export const metricValuePlaceholder = metricValueLarge;
 export const metricLabel = labelText;
 export const sectionLabel = "text-[0.625rem] font-bold uppercase leading-none tracking-[0.1em] text-[#D8B4FE]/64";
 export const rightRailTitle =
-  "text-[0.6875rem] font-bold uppercase leading-none tracking-[0.085em] text-[#E0B3FF]/88";
+  "text-sm font-bold uppercase leading-5 tracking-[0.075em] text-[#F8F4FF]/94";
 export const chartLabel = "text-[0.625rem] font-semibold leading-none tracking-[-0.005em] text-[#9B89B8]/78 tabular-nums";
 
 export const blockToneClass: Record<BlockTone, string> = {
