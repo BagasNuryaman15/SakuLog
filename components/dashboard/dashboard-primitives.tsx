@@ -7,13 +7,14 @@ import {
   cardClass,
   lineClass,
   lineToneClass,
+  sectionLabel,
   type AccentTone,
   type BlockTone,
   type LineTone
 } from "./dashboard-style-tokens";
 
-export function ZoneLabel({ children }: { children: string }) {
-  return <p className="text-xs font-semibold uppercase tracking-normal text-slate-300/88">{children}</p>;
+export function ZoneLabel({ children, className }: { children: string; className?: string }) {
+  return <p className={cn(sectionLabel, className)}>{children}</p>;
 }
 
 export function WireframeCard({

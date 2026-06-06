@@ -14,17 +14,26 @@ import {
   WireframeDonut,
   WireframeImageBox,
   WireframeLine,
-  WireframeLines,
   WireframeSparkline,
   ZoneLabel
 } from "./dashboard-primitives";
 import {
+  captionText,
   cardClass,
+  cardEyebrow,
+  cardSubtitle,
+  cardTitle,
   cashflowSurfaceClass,
+  chartLabel,
+  dashboardPageSubtitle,
+  dashboardPageTitle,
   heroSurfaceClass,
   kpiSurfaceToneClass,
+  metricLabel,
+  metricValuePlaceholder,
   nestedSurfaceClass,
   rightRailSurfaceClass,
+  rightRailTitle,
   shellClass,
   topbarClass,
   type AccentTone
@@ -94,11 +103,17 @@ function WireframeTopBar() {
   return (
     <header className={cn(cardClass, topbarClass, "flex min-h-[4.75rem] flex-col justify-center px-5 py-3")}>
       <ZoneLabel>2. TOP BAR</ZoneLabel>
-      <div className="mt-3 flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-end">
-        <WireframeBlock className="h-10 min-w-0 flex-1 lg:max-w-[30rem]" tone="primary" />
-        <WireframeBlock className="h-10 w-full shrink-0 lg:w-40" tone="default" />
-        <WireframeBlock className="h-10 w-11 shrink-0" tone="violet" />
-        <WireframeBlock className="h-10 w-full shrink-0 lg:w-44" tone="cta" />
+      <div className="mt-3 flex min-w-0 flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div className="min-w-0 flex-1 space-y-2">
+          <WireframeLine className={cn(dashboardPageTitle, "h-3.5 w-44 max-w-full")} tone="primary" />
+          <WireframeLine className={cn(dashboardPageSubtitle, "h-2 w-64 max-w-full")} tone="muted" />
+        </div>
+        <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-end">
+          <WireframeBlock className="h-10 min-w-0 flex-1 lg:w-72 lg:flex-none" tone="primary" />
+          <WireframeBlock className="h-10 w-full shrink-0 lg:w-40" tone="default" />
+          <WireframeBlock className="h-10 w-11 shrink-0" tone="violet" />
+          <WireframeBlock className="h-10 w-full shrink-0 lg:w-44" tone="cta" />
+        </div>
       </div>
     </header>
   );
@@ -110,16 +125,22 @@ function WireframeHero() {
       <ZoneLabel>3. HERO</ZoneLabel>
       <div className="mt-6 grid h-[calc(100%-1.875rem)] min-w-0 grid-cols-[minmax(0,1fr)_7.75rem] gap-5">
         <div className="flex min-w-0 flex-col">
-          <WireframeLine className="h-7 w-36" tone="primary" />
-          <WireframeLines className="mt-7" widths={["72%", "64%"]} tone="primary" />
-          <WireframeLines className="mt-8" widths={["62%", "54%", "46%"]} thin />
+          <WireframeLine className={cn(cardEyebrow, "h-2.5 w-36")} tone="cyan" />
+          <div className="mt-7 space-y-3">
+            <WireframeLine className={cn(cardTitle, "h-5 w-[72%] max-w-full")} tone="primary" />
+            <WireframeLine className={cn(cardTitle, "h-5 w-[60%] max-w-full")} tone="primary" />
+          </div>
+          <div className="mt-7 space-y-3">
+            <WireframeLine className={cn(cardSubtitle, "h-2.5 w-[62%] max-w-full")} tone="muted" />
+            <WireframeLine className={cn(cardSubtitle, "h-2.5 w-[48%] max-w-full")} tone="muted" />
+          </div>
 
           <div className={cn(cardClass, nestedSurfaceClass, "mt-auto p-5")}>
             <div className="flex min-w-0 items-start justify-between gap-4">
               <div className="min-w-0 flex-1">
-                <WireframeLine className="w-36" tone="cyan" />
-                <WireframeLine className="mt-4 h-3 w-[70%]" tone="primary" />
-                <WireframeLine className="mt-4 h-2 w-[84%]" tone="muted" />
+                <WireframeLine className={cn(metricLabel, "h-2.5 w-36")} tone="cyan" />
+                <WireframeLine className={cn(metricValuePlaceholder, "mt-4 h-6 w-[70%] max-w-full")} tone="primary" />
+                <WireframeLine className={cn(captionText, "mt-4 h-2 w-[84%] max-w-full")} tone="muted" />
               </div>
               <WireframeBlock className="h-12 w-12 shrink-0" tone="violet" />
             </div>
@@ -146,9 +167,15 @@ function WireframeKpis() {
 function WireframeKpi({ label, tone }: { label: string; tone: AccentTone }) {
   return (
     <WireframeCard className={cn(kpiSurfaceToneClass[tone], "flex h-[13rem] flex-col p-4 xl:h-full")}>
-      <ZoneLabel>{label}</ZoneLabel>
-      <WireframeBlock className="mt-4 h-9 w-9" tone={tone} />
-      <WireframeLines className="mt-4" widths={["58%", "74%", "28%"]} tone="primary" />
+      <ZoneLabel className={cardEyebrow}>{label}</ZoneLabel>
+      <div className="mt-4 flex min-w-0 items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <WireframeLine className={cn(metricLabel, "h-2 w-20 max-w-full")} tone="muted" />
+          <WireframeLine className={cn(metricValuePlaceholder, "mt-3 h-5 w-[76%] max-w-full")} tone="primary" />
+        </div>
+        <WireframeBlock className="h-9 w-9 shrink-0" tone={tone} />
+      </div>
+      <WireframeLine className={cn(captionText, "mt-3 h-1.5 w-[46%]")} tone="muted" />
       <WireframeSparkline className="mt-auto" tone={tone} />
     </WireframeCard>
   );
@@ -157,7 +184,7 @@ function WireframeKpi({ label, tone }: { label: string; tone: AccentTone }) {
 function WireframeCategory() {
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[14rem] p-4")}>
-      <ZoneLabel>8. EXPENSE BY CATEGORY</ZoneLabel>
+      <ZoneLabel className={rightRailTitle}>8. EXPENSE BY CATEGORY</ZoneLabel>
       <div className="mt-4 grid min-w-0 grid-cols-[6.75rem_minmax(0,1fr)] items-center gap-4">
         <WireframeDonut />
         <div className="min-w-0 space-y-3">
@@ -168,10 +195,10 @@ function WireframeCategory() {
                 tone={item === 0 ? "cyan" : item === 1 ? "violet" : item === 2 ? "magenta" : "default"}
               />
               <WireframeLine
-                className="w-full"
+                className={cn(metricLabel, "h-2 w-full")}
                 tone={item === 0 ? "cyan" : item === 1 ? "violet" : item === 2 ? "magenta" : "default"}
               />
-              <WireframeLine className="w-full" tone="muted" />
+              <WireframeLine className={cn(captionText, "h-1.5 w-full")} tone="muted" />
             </div>
           ))}
         </div>
@@ -184,13 +211,13 @@ function WireframeCategory() {
 function WireframeMoneySignals() {
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[10rem] p-4")}>
-      <ZoneLabel>9. MONEY SIGNALS</ZoneLabel>
+      <ZoneLabel className={rightRailTitle}>9. MONEY SIGNALS</ZoneLabel>
       <div className="mt-3 divide-y divide-cyan-100/10">
         {[0, 1, 2].map((item) => (
           <div key={item} className="grid min-h-[1.75rem] min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_3.25rem_0.5rem] items-center gap-2.5 py-1">
             <WireframeBlock className="h-5 w-5" tone={item === 2 ? "violet" : item === 1 ? "magenta" : "cyan"} />
-            <WireframeLine className="w-[58%]" tone="primary" />
-            <WireframeLine className="w-full" tone={item === 1 ? "magenta" : "cyan"} />
+            <WireframeLine className={cn(metricLabel, "h-2 w-[58%]")} tone="primary" />
+            <WireframeLine className={cn(captionText, "h-1.5 w-full")} tone={item === 1 ? "magenta" : "cyan"} />
             <span
               className={cn(
                 "h-2 w-2 rounded-full",
@@ -209,11 +236,13 @@ function WireframeMoneySignals() {
 function WireframeMiniInsight() {
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[6.75rem] p-4")}>
-      <ZoneLabel>10. MINI INSIGHT</ZoneLabel>
+      <ZoneLabel className={rightRailTitle}>10. MINI INSIGHT</ZoneLabel>
       <div className="mt-3 grid min-w-0 grid-cols-[4.75rem_minmax(0,1fr)] gap-3">
         <WireframeImageBox className="h-12" />
         <div className="min-w-0 pt-1">
-          <WireframeLines widths={["84%", "66%", "28%"]} tone="primary" />
+          <WireframeLine className={cn(metricLabel, "h-2 w-[84%]")} tone="primary" />
+          <WireframeLine className={cn(captionText, "mt-3 h-1.5 w-[66%]")} tone="muted" />
+          <WireframeLine className={cn(captionText, "mt-3 h-1.5 w-[28%]")} tone="muted" />
         </div>
       </div>
     </WireframeCard>
@@ -224,16 +253,16 @@ function WireframeRecentTransactions() {
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "min-h-[10rem] p-4")}>
       <div className="flex min-w-0 items-start justify-between gap-3">
-        <ZoneLabel>11. RECENT TRANSACTIONS</ZoneLabel>
+        <ZoneLabel className={rightRailTitle}>11. RECENT TRANSACTIONS</ZoneLabel>
         <WireframeBlock className="h-6 w-16 shrink-0" tone="primary" />
       </div>
       <div className="mt-4 space-y-3">
         {[0, 1, 2, 3, 4].map((item) => (
           <div key={item} className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_3.75rem_3.25rem] items-center gap-3">
             <WireframeBlock className="h-5 w-5" tone={item % 3 === 0 ? "cyan" : item % 3 === 1 ? "magenta" : "violet"} />
-            <WireframeLine className="w-[62%]" tone="primary" />
-            <WireframeLine className="w-full" />
-            <WireframeLine className="w-full" tone="muted" />
+            <WireframeLine className={cn(metricLabel, "h-2 w-[62%]")} tone="primary" />
+            <WireframeLine className={cn(captionText, "h-1.5 w-full")} />
+            <WireframeLine className={cn(captionText, "h-1.5 w-full")} tone="muted" />
           </div>
         ))}
       </div>
@@ -246,12 +275,12 @@ function WireframeCashflowTrend() {
     <WireframeCard className={cn(cashflowSurfaceClass, "h-[19rem] p-5 xl:[grid-area:cashflow]")}>
       <div className="flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <ZoneLabel>12. CASHFLOW TREND</ZoneLabel>
-          <WireframeLine className="mt-4 w-[34%]" />
+          <ZoneLabel className={rightRailTitle}>12. CASHFLOW TREND</ZoneLabel>
+          <WireframeLine className={cn(cardSubtitle, "mt-4 h-2.5 w-[34%]")} tone="muted" />
         </div>
         <div className="hidden shrink-0 items-center gap-8 md:flex">
-          <WireframeLine className="w-16" />
-          <WireframeLine className="w-16" />
+          <WireframeLine className={cn(chartLabel, "h-1.5 w-16")} tone="muted" />
+          <WireframeLine className={cn(chartLabel, "h-1.5 w-16")} tone="muted" />
           <WireframeBlock className="h-9 w-24" />
         </div>
       </div>
@@ -260,7 +289,7 @@ function WireframeCashflowTrend() {
         <div className="grid h-full min-w-0 grid-cols-[3rem_minmax(0,1fr)] gap-3">
           <div className="flex h-full flex-col justify-between pb-9 pt-4">
             {[0, 1, 2, 3, 4].map((item) => (
-              <WireframeLine key={item} className="w-7" tone="muted" />
+              <WireframeLine key={item} className={cn(chartLabel, "h-1.5 w-7")} tone="muted" />
             ))}
           </div>
           <div className="flex h-full min-w-0 items-end gap-5 rounded-sm border-b border-l border-cyan-100/24 bg-[linear-gradient(rgba(125,163,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(125,163,255,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(15,23,42,0.24),rgba(3,7,18,0.06))] bg-[size:100%_25%,64px_64px,auto] pb-6 pl-4">
@@ -275,7 +304,11 @@ function WireframeCashflowTrend() {
                   )}
                   style={{ height: `${height}%` }}
                 />
-                {index % 2 === 0 ? <WireframeLine className="mx-auto mt-3 w-10" tone="muted" /> : <span className="mt-3 h-2" />}
+                {index % 2 === 0 ? (
+                  <WireframeLine className={cn(chartLabel, "mx-auto mt-3 h-1.5 w-10")} tone="muted" />
+                ) : (
+                  <span className="mt-3 h-1.5" />
+                )}
               </div>
             ))}
           </div>
