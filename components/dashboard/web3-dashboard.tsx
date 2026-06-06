@@ -93,7 +93,7 @@ export function Web3Dashboard() {
           <WireframeCategory summary={summary} />
           <WireframeMoneySignals summary={summary} />
           <WireframeMiniInsight summary={summary} />
-          <WireframeRecentTransactions />
+          <WireframeRecentTransactions summary={summary} />
         </aside>
 
         <WireframeCashflowTrend />
@@ -364,7 +364,22 @@ function WireframeMiniInsight({ summary }: { summary: DashboardSummary }) {
   );
 }
 
-function WireframeRecentTransactions() {
+function WireframeRecentTransactions({ summary }: { summary: DashboardSummary }) {
+  const transactions = summary.recentTransactions.slice(0, 5);
+
+  function formatTransactionAmount(transaction: DashboardSummary["recentTransactions"][number]) {
+    const prefix = transaction.type === "income" ? "+" : "-";
+
+    return `${prefix}${formatCurrencyIDR(transaction.amount)}`;
+  }
+
+  function formatTransactionDate(date: string) {
+    return new Intl.DateTimeFormat("id-ID", {
+      day: "2-digit",
+      month: "short"
+    }).format(new Date(`${date}T00:00:00`));
+  }
+
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "min-h-[10rem] p-4")}>
       <div className="flex min-w-0 items-start justify-between gap-3">
@@ -374,16 +389,49 @@ function WireframeRecentTransactions() {
         </div>
         <span className={cn(captionText, "shrink-0 truncate text-cyan-200/72")}>Lihat semua</span>
       </div>
-      <div className="mt-4 space-y-3">
-        {[0, 1, 2, 3, 4].map((item) => (
-          <div key={item} className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_3.75rem_3.25rem] items-center gap-3">
-            <WireframeBlock className="h-5 w-5" tone={item % 3 === 0 ? "cyan" : item % 3 === 1 ? "magenta" : "violet"} />
-            <WireframeLine className={cn(metricLabel, "h-2 w-[62%]")} tone="primary" />
-            <WireframeLine className={cn(captionText, "h-1.5 w-full")} />
-            <WireframeLine className={cn(captionText, "h-1.5 w-full")} tone="muted" />
-          </div>
-        ))}
-      </div>
+      {transactions.length > 0 ? (
+        <div className="mt-4 space-y-3">
+          {transactions.map((transaction) => {
+            const isIncome = transaction.type === "income";
+
+            return (
+              <div key={transaction.id} className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_4.5rem] items-center gap-3">
+                <span
+                  className={cn(
+                    "h-5 w-5 rounded-md border shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
+                    isIncome
+                      ? "border-emerald-200/34 bg-emerald-300/12 shadow-[0_0_14px_rgba(16,185,129,0.12)]"
+                      : "border-fuchsia-200/34 bg-fuchsia-300/12 shadow-[0_0_14px_rgba(217,70,239,0.12)]"
+                  )}
+                  aria-hidden="true"
+                />
+                <div className="min-w-0">
+                  <p className={cn(metricLabel, "truncate text-slate-300/88")}>{transaction.name}</p>
+                  <p className={cn(captionText, "mt-0.5 truncate")}>
+                    {transaction.category} · {formatTransactionDate(transaction.transaction_date)}
+                  </p>
+                </div>
+                <span
+                  className={cn(
+                    captionText,
+                    "truncate whitespace-nowrap text-right font-semibold tabular-nums",
+                    isIncome ? "text-emerald-200/86" : "text-fuchsia-200/86"
+                  )}
+                >
+                  {formatTransactionAmount(transaction)}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="mt-4 rounded-md border border-[rgba(148,163,184,0.18)] bg-[rgba(15,23,42,0.34)] p-3">
+          <p className={cn(metricLabel, "truncate text-slate-300/86")}>Belum ada transaksi</p>
+          <p className={cn(captionText, "mt-1 line-clamp-2")}>
+            Catat transaksi pertamamu untuk mulai melihat aktivitas.
+          </p>
+        </div>
+      )}
     </WireframeCard>
   );
 }
