@@ -7,6 +7,12 @@ export type TopExpenseCategory = {
   percentage: number;
 };
 
+export type ExpenseCategoryBreakdownItem = {
+  category: string;
+  amount: number;
+  percentage: number;
+};
+
 export type DashboardAggregates = {
   monthIncome: number;
   monthExpense: number;
@@ -14,6 +20,7 @@ export type DashboardAggregates = {
   todayExpense: number;
   weekExpense: number;
   topExpenseCategory: TopExpenseCategory | null;
+  expenseCategoryBreakdown: ExpenseCategoryBreakdownItem[];
   recentTransactions: Transaction[];
 };
 
@@ -72,6 +79,27 @@ export function calculateTopExpenseCategory(transactions: Transaction[]): TopExp
   };
 }
 
+export function calculateExpenseCategoryBreakdown(transactions: Transaction[]): ExpenseCategoryBreakdownItem[] {
+  const categoryTotals = getExpenses(transactions).reduce<Record<string, number>>((result, transaction) => {
+    result[transaction.category] = (result[transaction.category] ?? 0) + toAmount(transaction);
+    return result;
+  }, {});
+  const totalExpense = Object.values(categoryTotals).reduce((total, amount) => total + amount, 0);
+
+  if (totalExpense === 0) {
+    return [];
+  }
+
+  return Object.entries(categoryTotals)
+    .filter(([, amount]) => amount > 0)
+    .sort((current, next) => next[1] - current[1])
+    .map(([category, amount]) => ({
+      category,
+      amount,
+      percentage: Math.round((amount / totalExpense) * 100)
+    }));
+}
+
 export function getRecentDashboardTransactions(transactions: Transaction[], limit = 5) {
   return transactions.slice(0, limit);
 }
@@ -98,6 +126,7 @@ export function calculateDashboardAggregates({
     todayExpense: calculateRangeExpense(transactions, todayRange),
     weekExpense: calculateRangeExpense(transactions, weekRange),
     topExpenseCategory: calculateTopExpenseCategory(monthTransactions),
+    expenseCategoryBreakdown: calculateExpenseCategoryBreakdown(monthTransactions),
     recentTransactions: getRecentDashboardTransactions(transactions)
   };
 }

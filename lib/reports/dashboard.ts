@@ -1,4 +1,8 @@
-import { calculateDashboardAggregates, type TopExpenseCategory } from "@/lib/reports/aggregations";
+import {
+  calculateDashboardAggregates,
+  type ExpenseCategoryBreakdownItem,
+  type TopExpenseCategory
+} from "@/lib/reports/aggregations";
 import {
   getCurrentMonthRange,
   getCurrentWeekRange,
@@ -16,6 +20,7 @@ export type DashboardSummary = {
   todayExpense: number;
   weekExpense: number;
   topExpenseCategory: TopExpenseCategory | null;
+  expenseCategoryBreakdown: ExpenseCategoryBreakdownItem[];
   recentTransactions: Transaction[];
   insights: string[];
   monthSeries: Array<{
@@ -38,6 +43,7 @@ export function getEmptyDashboardSummary(): DashboardSummary {
     todayExpense: 0,
     weekExpense: 0,
     topExpenseCategory: null,
+    expenseCategoryBreakdown: [],
     recentTransactions: [],
     insights: ["Mulai catat transaksi pertama kamu agar SakuLog bisa membaca pola uangmu."],
     monthSeries: getDashboardMonthSeries([])

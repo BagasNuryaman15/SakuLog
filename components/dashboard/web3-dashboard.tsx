@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils";
 import {
   WireframeBlock,
   WireframeCard,
-  WireframeDonut,
   WireframeImageBox,
   WireframeSparkline
 } from "./dashboard-primitives";
@@ -43,6 +42,15 @@ import {
 
 const cashflowRangeOptions = [3, 6, 12] as const;
 type CashflowRange = (typeof cashflowRangeOptions)[number];
+type ExpenseCategoryRow = {
+  category: string;
+  amount: number;
+  percentage: number;
+  color: string;
+};
+
+const expenseCategoryColors = ["#B040FF", "#7B00D4", "#BA319F", "#B36BFF"] as const;
+const otherCategoryColor = "#5B4381";
 
 export function Web3Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary>(getEmptyDashboardSummary);
@@ -155,6 +163,8 @@ function WireframeTopBar() {
 }
 
 function WireframeHero({ summary }: { summary: DashboardSummary }) {
+  const isCashflowNegative = summary.monthBalance < 0;
+
   return (
     <WireframeCard className={cn(heroSurfaceClass, "h-[26rem] overflow-hidden p-5 xl:[grid-area:hero]")}>
       <p className={cn(brandTitle, "truncate")}>SakuLog Console</p>
@@ -172,7 +182,15 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
                 <p className={cn(metricValuePlaceholder, "mt-4 max-w-full truncate whitespace-nowrap")}>
                   {formatCurrencyIDR(summary.monthBalance)}
                 </p>
-                <p className={cn(captionText, "mt-4 truncate text-emerald-200/78")}>Cashflow positif</p>
+                <p
+                  className={cn(
+                    captionText,
+                    "mt-4 truncate",
+                    isCashflowNegative ? "text-[#F472B6]/82" : "text-emerald-200/78"
+                  )}
+                >
+                  {isCashflowNegative ? "Cashflow negatif" : "Cashflow positif"}
+                </p>
               </div>
               <WireframeBlock className="h-12 w-12 shrink-0" tone="violet" />
             </div>
@@ -250,12 +268,8 @@ function WireframeKpi({
 }
 
 function WireframeCategory({ summary }: { summary: DashboardSummary }) {
-  const topCategory = summary.topExpenseCategory;
-  const categoryName = topCategory?.category ?? "Belum ada kategori";
-  const categoryAmount = topCategory?.amount ?? 0;
-  const categoryPercentage = topCategory?.percentage ?? 0;
-  const otherAmount = Math.max(summary.monthExpense - categoryAmount, 0);
-  const otherPercentage = topCategory ? Math.max(100 - categoryPercentage, 0) : 0;
+  const categoryRows = getExpenseCategoryRows(summary);
+  const hasExpenses = summary.monthExpense > 0 && categoryRows.length > 0;
 
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[14rem] p-4")}>
@@ -263,35 +277,134 @@ function WireframeCategory({ summary }: { summary: DashboardSummary }) {
         <h3 className={cn(rightRailTitle, "truncate")}>Expense by Category</h3>
         <p className={cn(captionText, "mt-1 truncate")}>Kategori pengeluaran bulan ini</p>
       </div>
-      <div className="mt-4 grid min-w-0 grid-cols-[6.75rem_minmax(0,1fr)] items-center gap-4">
-        <WireframeDonut />
-        <div className="min-w-0 space-y-3">
-          <div className="grid min-w-0 grid-cols-[0.6rem_minmax(0,1fr)_4.25rem_2rem] items-center gap-2">
-            <WireframeBlock className="h-2.5 w-2.5" tone={topCategory ? "cyan" : "default"} />
-            <span className={cn(metricLabel, "truncate text-[#F8F4FF]/88")}>{categoryName}</span>
-            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-[#C7B8E8]/86")}>
-              {formatCurrencyIDR(categoryAmount)}
-            </span>
-            <span className={cn(captionText, "whitespace-nowrap text-right tabular-nums text-cyan-200/72")}>
-              {categoryPercentage}%
-            </span>
-          </div>
-          <div className="grid min-w-0 grid-cols-[0.6rem_minmax(0,1fr)_4.25rem_2rem] items-center gap-2">
-            <WireframeBlock className="h-2.5 w-2.5" tone="default" />
-            <span className={cn(metricLabel, "truncate text-[#9B89B8]/78")}>Kategori lain</span>
-            <span className={cn(captionText, "truncate whitespace-nowrap text-right tabular-nums text-[#9B89B8]/78")}>
-              {formatCurrencyIDR(otherAmount)}
-            </span>
-            <span className={cn(captionText, "whitespace-nowrap text-right tabular-nums text-[#6F5F86]/82")}>
-              {otherPercentage}%
-            </span>
-          </div>
+      <div className="mt-3 grid min-w-0 grid-cols-[5.85rem_minmax(0,1fr)] items-center gap-3">
+        <ExpenseCategoryDonut rows={categoryRows} totalExpense={summary.monthExpense} />
+        <div className="min-w-0 space-y-1">
+          {hasExpenses ? (
+            categoryRows.map((item) => (
+              <div
+                key={item.category}
+                className="grid min-h-4 min-w-0 grid-cols-[0.45rem_minmax(0,1fr)_minmax(3.25rem,4.2rem)_2rem] items-center gap-1.5"
+              >
+                <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: item.color }} />
+                <span className="truncate text-[0.625rem] font-semibold leading-none tracking-[-0.005em] text-[#F8F4FF]/88">
+                  {item.category}
+                </span>
+                <span
+                  className="truncate whitespace-nowrap text-right text-[0.625rem] font-medium leading-none tracking-normal text-[#C7B8E8]/84 tabular-nums"
+                >
+                  {formatCurrencyIDR(item.amount)}
+                </span>
+                <span className="whitespace-nowrap text-right text-[0.625rem] font-medium leading-none tracking-normal text-[#D8B4FE]/74 tabular-nums">
+                  {item.percentage}%
+                </span>
+              </div>
+            ))
+          ) : (
+            <div className="min-w-0 space-y-1">
+              <div className="grid min-h-4 min-w-0 grid-cols-[0.45rem_minmax(0,1fr)_minmax(3.25rem,4.2rem)_2rem] items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#5B4381]/70" />
+                <span className="truncate text-[0.625rem] font-semibold leading-none tracking-[-0.005em] text-[#F8F4FF]/84">
+                  Belum ada pengeluaran
+                </span>
+                <span
+                  className="truncate whitespace-nowrap text-right text-[0.625rem] font-medium leading-none tracking-normal text-[#9B89B8]/82 tabular-nums"
+                >
+                  Rp0
+                </span>
+                <span className="whitespace-nowrap text-right text-[0.625rem] font-medium leading-none tracking-normal text-[#6F5F86]/82 tabular-nums">
+                  0%
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      <div className="mt-5 flex h-9 items-center justify-center rounded-md border border-[rgba(179,107,255,0.28)] bg-[rgba(44,31,64,0.64)]">
+      <div className="mt-2.5 flex h-7 items-center justify-center rounded-md border border-[rgba(179,107,255,0.28)] bg-[rgba(44,31,64,0.64)]">
         <span className={cn(navLabel, "text-[#D8B4FE]/82")}>Lihat semua kategori</span>
       </div>
     </WireframeCard>
+  );
+}
+
+function getExpenseCategoryRows(summary: DashboardSummary): ExpenseCategoryRow[] {
+  const categories = summary.expenseCategoryBreakdown.filter((item) => item.amount > 0);
+  const totalExpense = summary.monthExpense;
+
+  if (totalExpense <= 0 || categories.length === 0) {
+    return [];
+  }
+
+  const topCategories = categories.slice(0, 4);
+  const otherAmount = categories.slice(4).reduce((total, item) => total + item.amount, 0);
+  const rows = topCategories.map((item, index) => ({
+    category: item.category,
+    amount: item.amount,
+    percentage: formatCategoryPercent(item.amount, totalExpense),
+    color: expenseCategoryColors[index]
+  }));
+
+  if (otherAmount > 0) {
+    rows.push({
+      category: "Lainnya",
+      amount: otherAmount,
+      percentage: formatCategoryPercent(otherAmount, totalExpense),
+      color: otherCategoryColor
+    });
+  }
+
+  return rows;
+}
+
+function formatCategoryPercent(amount: number, totalExpense: number) {
+  if (totalExpense <= 0 || amount <= 0) {
+    return 0;
+  }
+
+  return Math.round((amount / totalExpense) * 100);
+}
+
+function ExpenseCategoryDonut({ rows, totalExpense }: { rows: ExpenseCategoryRow[]; totalExpense: number }) {
+  const radius = 31;
+  const circumference = 2 * Math.PI * radius;
+  let segmentOffset = 0;
+  const hasExpenses = totalExpense > 0 && rows.length > 0;
+
+  return (
+    <svg className="h-[5.85rem] w-[5.85rem] shrink-0" viewBox="0 0 88 88" aria-hidden="true">
+      <circle
+        cx="44"
+        cy="44"
+        fill="none"
+        r={radius}
+        stroke="rgba(91,67,129,0.28)"
+        strokeWidth="10"
+      />
+      {hasExpenses
+        ? rows.map((item) => {
+            const segmentLength = (item.amount / totalExpense) * circumference;
+            const dashOffset = -segmentOffset;
+            segmentOffset += segmentLength;
+
+            return (
+              <circle
+                key={item.category}
+                cx="44"
+                cy="44"
+                fill="none"
+                r={radius}
+                stroke={item.color}
+                strokeDasharray={`${segmentLength} ${circumference - segmentLength}`}
+                strokeDashoffset={dashOffset}
+                strokeLinecap="butt"
+                strokeWidth="10"
+                transform="rotate(-90 44 44)"
+              />
+            );
+          })
+        : null}
+      <circle cx="44" cy="44" fill="rgba(16,7,37,0.74)" r="20" />
+    </svg>
   );
 }
 
@@ -376,7 +489,7 @@ function WireframeMiniInsight({ summary }: { summary: DashboardSummary }) {
 }
 
 function WireframeRecentTransactions({ summary }: { summary: DashboardSummary }) {
-  const transactions = summary.recentTransactions.slice(0, 5);
+  const transactions = summary.recentTransactions.slice(0, 4);
 
   function formatTransactionAmount(transaction: DashboardSummary["recentTransactions"][number]) {
     const prefix = transaction.type === "income" ? "+" : "-";
@@ -392,7 +505,7 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
   }
 
   return (
-    <WireframeCard className={cn(rightRailSurfaceClass, "min-h-[10rem] p-4")}>
+    <WireframeCard className={cn(rightRailSurfaceClass, "h-[12.5rem] overflow-hidden p-4")}>
       <div className="flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className={cn(rightRailTitle, "truncate")}>Recent Transactions</h3>
@@ -401,15 +514,15 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
         <span className={cn(captionText, "shrink-0 truncate text-[#D8B4FE]/78")}>Lihat semua</span>
       </div>
       {transactions.length > 0 ? (
-        <div className="mt-4 space-y-3">
+        <div className="mt-3 space-y-2">
           {transactions.map((transaction) => {
             const isIncome = transaction.type === "income";
 
             return (
-              <div key={transaction.id} className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_4.5rem] items-center gap-3">
+              <div key={transaction.id} className="grid min-w-0 grid-cols-[1rem_minmax(0,1fr)_4.35rem] items-center gap-2.5">
                 <span
                   className={cn(
-                    "h-5 w-5 rounded-md border shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
+                    "h-4 w-4 rounded border shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
                     isIncome
                       ? "border-cyan-200/38 bg-cyan-300/14 shadow-[0_0_14px_rgba(34,211,238,0.14)]"
                       : "border-[#F472B6]/38 bg-[#BA319F]/18 shadow-[0_0_14px_rgba(236,72,153,0.14)]"
@@ -417,15 +530,17 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
                   aria-hidden="true"
                 />
                 <div className="min-w-0">
-                  <p className={cn(metricLabel, "truncate text-[#F8F4FF]/88")}>{transaction.name}</p>
-                  <p className={cn(captionText, "mt-0.5 truncate")}>
+                  <p className="truncate text-[0.6875rem] font-semibold leading-none tracking-[-0.005em] text-[#F8F4FF]/88">
+                    {transaction.name}
+                  </p>
+                  <p className={cn(captionText, "mt-1 truncate text-[0.625rem] leading-none")}>
                     {transaction.category} · {formatTransactionDate(transaction.transaction_date)}
                   </p>
                 </div>
                 <span
                   className={cn(
                     captionText,
-                    "truncate whitespace-nowrap text-right font-semibold tabular-nums",
+                    "truncate whitespace-nowrap text-right text-[0.625rem] font-semibold leading-none tabular-nums",
                     isIncome ? "text-cyan-200/90" : "text-[#F472B6]/90"
                   )}
                 >
@@ -543,7 +658,7 @@ function WireframeCashflowTrend({
       <div className="flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <h3 className={cn(rightRailTitle, "truncate")}>Cashflow Trend</h3>
-          <p className={cn(cardSubtitle, "mt-2 truncate")}>Income vs expense {cashflowRange} bulan terakhir</p>
+          <p className={cn(cardSubtitle, "mt-2 truncate")}>Pemasukan vs pengeluaran {cashflowRange} bulan terakhir</p>
         </div>
         <div className="hidden shrink-0 items-center gap-6 md:flex">
           <span className={cn(chartLabel, "text-xs font-bold text-[#9DECF6]/92")}>Pemasukan</span>
