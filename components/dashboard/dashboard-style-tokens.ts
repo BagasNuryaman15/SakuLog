@@ -19,20 +19,31 @@ export const cashflowSurfaceClass =
 export const lineClass =
   "h-2 rounded-sm bg-[linear-gradient(90deg,rgba(203,213,225,0.46),rgba(148,163,184,0.3))] shadow-[0_0_18px_rgba(34,211,238,0.045)]";
 
-export const dashboardPageTitle = "text-xl font-semibold leading-tight tracking-normal text-slate-100";
-export const dashboardPageSubtitle = "text-sm font-medium leading-5 tracking-normal text-slate-400/82";
-export const cardEyebrow =
-  "text-[0.625rem] font-semibold uppercase leading-none tracking-[0.08em] text-slate-400/72";
-export const cardTitle = "text-sm font-semibold leading-5 tracking-normal text-slate-100/94";
-export const cardSubtitle = "text-xs font-medium leading-5 tracking-normal text-slate-400/78";
-export const metricValuePlaceholder = "text-2xl font-semibold leading-none tracking-normal text-slate-100/96";
-export const metricLabel = "text-xs font-medium leading-4 tracking-normal text-slate-400/82";
+export const brandTitle = "text-xl font-extrabold leading-none tracking-[-0.03em] text-slate-50/96";
+export const heroHeadline = "text-2xl font-extrabold leading-[1.05] tracking-[-0.035em] text-slate-50 sm:text-3xl";
+export const heroBody = "text-sm font-medium leading-6 tracking-[-0.005em] text-slate-400/86";
+export const metricValue = "font-bold leading-none tracking-[-0.02em] text-slate-100/96 tabular-nums";
+export const metricValueLarge = "text-2xl font-extrabold leading-none tracking-[-0.025em] text-slate-50 tabular-nums";
+export const moneyValue = "whitespace-nowrap font-bold leading-none tracking-[-0.02em] text-slate-100/96 tabular-nums";
+export const moneyValueSmall =
+  "whitespace-nowrap text-sm font-semibold leading-none tracking-[-0.01em] text-slate-200/90 tabular-nums";
+export const labelText = "text-xs font-semibold leading-4 tracking-[-0.005em] text-slate-400/84";
 export const captionText = "text-[0.6875rem] font-medium leading-4 tracking-normal text-slate-500/82";
-export const sectionLabel =
-  "text-[0.625rem] font-semibold uppercase leading-none tracking-[0.08em] text-slate-400/64";
+export const eyebrowText =
+  "text-[0.625rem] font-bold uppercase leading-none tracking-[0.1em] text-slate-400/68";
+export const navLabel = "text-xs font-semibold leading-none tracking-[-0.005em] text-slate-300/86";
+
+export const dashboardPageTitle = "text-xl font-bold leading-tight tracking-[-0.025em] text-slate-100";
+export const dashboardPageSubtitle = "text-sm font-medium leading-5 tracking-[-0.005em] text-slate-400/82";
+export const cardEyebrow = eyebrowText;
+export const cardTitle = "text-sm font-bold leading-5 tracking-[-0.01em] text-slate-100/94";
+export const cardSubtitle = "text-xs font-medium leading-5 tracking-[-0.005em] text-slate-400/78";
+export const metricValuePlaceholder = metricValueLarge;
+export const metricLabel = labelText;
+export const sectionLabel = "text-[0.625rem] font-bold uppercase leading-none tracking-[0.1em] text-slate-400/64";
 export const rightRailTitle =
-  "text-[0.6875rem] font-semibold uppercase leading-none tracking-[0.07em] text-slate-300/86";
-export const chartLabel = "text-[0.625rem] font-medium leading-none tracking-normal text-slate-500/72";
+  "text-[0.6875rem] font-bold uppercase leading-none tracking-[0.085em] text-slate-300/88";
+export const chartLabel = "text-[0.625rem] font-semibold leading-none tracking-[-0.005em] text-slate-500/72 tabular-nums";
 
 export const blockToneClass: Record<BlockTone, string> = {
   default: "border-[rgba(148,163,184,0.24)] bg-[rgba(22,36,62,0.56)]",

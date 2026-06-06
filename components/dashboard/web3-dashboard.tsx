@@ -7,6 +7,7 @@ import {
   getEmptyDashboardSummary,
   type DashboardSummary
 } from "@/lib/reports/dashboard";
+import { formatCurrencyIDR } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import {
   WireframeBlock,
@@ -14,23 +15,25 @@ import {
   WireframeDonut,
   WireframeImageBox,
   WireframeLine,
-  WireframeSparkline,
-  ZoneLabel
+  WireframeSparkline
 } from "./dashboard-primitives";
 import {
+  brandTitle,
   captionText,
   cardClass,
-  cardEyebrow,
   cardSubtitle,
   cardTitle,
   cashflowSurfaceClass,
   chartLabel,
   dashboardPageSubtitle,
   dashboardPageTitle,
+  heroBody,
+  heroHeadline,
   heroSurfaceClass,
   kpiSurfaceToneClass,
   metricLabel,
   metricValuePlaceholder,
+  navLabel,
   nestedSurfaceClass,
   rightRailSurfaceClass,
   rightRailTitle,
@@ -83,8 +86,8 @@ export function Web3Dashboard() {
       <WireframeTopBar />
 
       <section className="mt-4 grid w-full min-w-0 gap-4 xl:grid-cols-[minmax(25.5rem,1.35fr)_minmax(22rem,0.95fr)_minmax(20rem,21.25rem)] xl:grid-rows-[auto_auto] xl:[grid-template-areas:'hero_kpis_right'_'cashflow_cashflow_right']">
-        <WireframeHero />
-        <WireframeKpis />
+        <WireframeHero summary={summary} />
+        <WireframeKpis summary={summary} />
 
         <aside className="grid min-w-0 gap-4 xl:[grid-area:right] xl:grid-rows-[auto_auto_auto_minmax(0,1fr)]">
           <WireframeCategory />
@@ -102,45 +105,63 @@ export function Web3Dashboard() {
 function WireframeTopBar() {
   return (
     <header className={cn(cardClass, topbarClass, "flex min-h-[4.75rem] flex-col justify-center px-5 py-3")}>
-      <ZoneLabel>2. TOP BAR</ZoneLabel>
-      <div className="mt-3 flex min-w-0 flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-        <div className="min-w-0 flex-1 space-y-2">
-          <WireframeLine className={cn(dashboardPageTitle, "h-3.5 w-44 max-w-full")} tone="primary" />
-          <WireframeLine className={cn(dashboardPageSubtitle, "h-2 w-64 max-w-full")} tone="muted" />
+      <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div className="min-w-0 flex-1">
+          <h1 className={cn(dashboardPageTitle, "truncate")}>Dashboard</h1>
+          <p className={cn(dashboardPageSubtitle, "mt-1 truncate")}>Ringkasan keuanganmu secara real-time</p>
         </div>
         <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-end">
-          <WireframeBlock className="h-10 min-w-0 flex-1 lg:w-72 lg:flex-none" tone="primary" />
-          <WireframeBlock className="h-10 w-full shrink-0 lg:w-40" tone="default" />
+          <div
+            className={cn(
+              navLabel,
+              "flex h-10 min-w-0 flex-1 items-center rounded-md border border-[rgba(203,213,225,0.28)] bg-[rgba(24,39,68,0.66)] px-3 text-slate-400/72 lg:w-72 lg:flex-none"
+            )}
+          >
+            <span className="truncate">Cari transaksi, kategori, atau insight...</span>
+          </div>
+          <div
+            className={cn(
+              navLabel,
+              "flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-[rgba(148,163,184,0.24)] bg-[rgba(22,36,62,0.56)] px-3 text-slate-300/84 lg:w-40"
+            )}
+          >
+            <span className="truncate">Juni 2026</span>
+          </div>
           <WireframeBlock className="h-10 w-11 shrink-0" tone="violet" />
-          <WireframeBlock className="h-10 w-full shrink-0 lg:w-44" tone="cta" />
+          <button
+            type="button"
+            className={cn(
+              navLabel,
+              "h-10 w-full shrink-0 rounded-md border border-violet-200/20 bg-[linear-gradient(135deg,#6366f1_0%,#7c5df2_52%,#b45cf0_100%)] px-4 text-white shadow-[0_14px_30px_rgba(124,92,242,0.2),inset_0_1px_0_rgba(255,255,255,0.14),inset_0_0_0_1px_rgba(255,255,255,0.035)] lg:w-44"
+            )}
+          >
+            Tambah Transaksi
+          </button>
         </div>
       </div>
     </header>
   );
 }
 
-function WireframeHero() {
+function WireframeHero({ summary }: { summary: DashboardSummary }) {
   return (
     <WireframeCard className={cn(heroSurfaceClass, "h-[26rem] overflow-hidden p-5 xl:[grid-area:hero]")}>
-      <ZoneLabel>3. HERO</ZoneLabel>
+      <p className={cn(brandTitle, "truncate")}>SakuLog Console</p>
       <div className="mt-6 grid h-[calc(100%-1.875rem)] min-w-0 grid-cols-[minmax(0,1fr)_7.75rem] gap-5">
         <div className="flex min-w-0 flex-col">
-          <WireframeLine className={cn(cardEyebrow, "h-2.5 w-36")} tone="cyan" />
-          <div className="mt-7 space-y-3">
-            <WireframeLine className={cn(cardTitle, "h-5 w-[72%] max-w-full")} tone="primary" />
-            <WireframeLine className={cn(cardTitle, "h-5 w-[60%] max-w-full")} tone="primary" />
-          </div>
-          <div className="mt-7 space-y-3">
-            <WireframeLine className={cn(cardSubtitle, "h-2.5 w-[62%] max-w-full")} tone="muted" />
-            <WireframeLine className={cn(cardSubtitle, "h-2.5 w-[48%] max-w-full")} tone="muted" />
-          </div>
+          <h2 className={cn(heroHeadline, "mt-7 max-w-md")}>Know where your money moves.</h2>
+          <p className={cn(heroBody, "mt-5 max-w-lg")}>
+            Ringkasan Juni 2026 untuk memahami sisa uang, cashflow, dan kategori yang paling banyak menguras saldo.
+          </p>
 
           <div className={cn(cardClass, nestedSurfaceClass, "mt-auto p-5")}>
             <div className="flex min-w-0 items-start justify-between gap-4">
               <div className="min-w-0 flex-1">
-                <WireframeLine className={cn(metricLabel, "h-2.5 w-36")} tone="cyan" />
-                <WireframeLine className={cn(metricValuePlaceholder, "mt-4 h-6 w-[70%] max-w-full")} tone="primary" />
-                <WireframeLine className={cn(captionText, "mt-4 h-2 w-[84%] max-w-full")} tone="muted" />
+                <p className={cn(metricLabel, "truncate text-cyan-200/84")}>Sisa uang bulan ini</p>
+                <p className={cn(metricValuePlaceholder, "mt-4 max-w-full truncate whitespace-nowrap")}>
+                  {formatCurrencyIDR(summary.monthBalance)}
+                </p>
+                <p className={cn(captionText, "mt-4 truncate text-slate-400/78")}>Cashflow positif</p>
               </div>
               <WireframeBlock className="h-12 w-12 shrink-0" tone="violet" />
             </div>
@@ -153,29 +174,65 @@ function WireframeHero() {
   );
 }
 
-function WireframeKpis() {
+function WireframeKpis({ summary }: { summary: DashboardSummary }) {
+  const kpis: Array<{
+    label: string;
+    value: number;
+    tone: AccentTone;
+  }> = [
+    {
+      label: "Income this month",
+      value: summary.monthIncome,
+      tone: "cyan"
+    },
+    {
+      label: "Expenses this month",
+      value: summary.monthExpense,
+      tone: "magenta"
+    },
+    {
+      label: "Expenses today",
+      value: summary.todayExpense,
+      tone: "violet"
+    },
+    {
+      label: "Expenses this week",
+      value: summary.weekExpense,
+      tone: "cyan"
+    }
+  ];
+
   return (
     <div className="grid min-w-0 gap-4 sm:grid-cols-2 xl:h-[26rem] xl:grid-rows-2 xl:[grid-area:kpis]">
-      <WireframeKpi label="4. KPI 1" tone="cyan" />
-      <WireframeKpi label="5. KPI 2" tone="magenta" />
-      <WireframeKpi label="6. KPI 3" tone="violet" />
-      <WireframeKpi label="7. KPI 4" tone="cyan" />
+      {kpis.map((kpi) => (
+        <WireframeKpi key={kpi.label} {...kpi} />
+      ))}
     </div>
   );
 }
 
-function WireframeKpi({ label, tone }: { label: string; tone: AccentTone }) {
+function WireframeKpi({
+  label,
+  value,
+  tone
+}: {
+  label: string;
+  value: number;
+  tone: AccentTone;
+}) {
   return (
     <WireframeCard className={cn(kpiSurfaceToneClass[tone], "flex h-[13rem] flex-col p-4 xl:h-full")}>
-      <ZoneLabel className={cardEyebrow}>{label}</ZoneLabel>
+      <h3 className={cn(cardTitle, "line-clamp-2 text-sm")}>{label}</h3>
       <div className="mt-4 flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <WireframeLine className={cn(metricLabel, "h-2 w-20 max-w-full")} tone="muted" />
-          <WireframeLine className={cn(metricValuePlaceholder, "mt-3 h-5 w-[76%] max-w-full")} tone="primary" />
+          <p className={cn(metricLabel, "truncate")}>Juni 2026</p>
+          <p className={cn(metricValuePlaceholder, "mt-3 max-w-full truncate whitespace-nowrap text-xl")}>
+            {formatCurrencyIDR(value)}
+          </p>
         </div>
         <WireframeBlock className="h-9 w-9 shrink-0" tone={tone} />
       </div>
-      <WireframeLine className={cn(captionText, "mt-3 h-1.5 w-[46%]")} tone="muted" />
+      <div className="mt-3 h-4" aria-hidden="true" />
       <WireframeSparkline className="mt-auto" tone={tone} />
     </WireframeCard>
   );
@@ -184,7 +241,13 @@ function WireframeKpi({ label, tone }: { label: string; tone: AccentTone }) {
 function WireframeCategory() {
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[14rem] p-4")}>
-      <ZoneLabel className={rightRailTitle}>8. EXPENSE BY CATEGORY</ZoneLabel>
+      <div className="flex min-w-0 items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h3 className={cn(rightRailTitle, "truncate")}>Expense by Category</h3>
+          <p className={cn(captionText, "mt-1 truncate")}>Kategori pengeluaran bulan ini</p>
+        </div>
+        <span className={cn(captionText, "shrink-0 truncate text-cyan-200/72")}>Lihat semua kategori</span>
+      </div>
       <div className="mt-4 grid min-w-0 grid-cols-[6.75rem_minmax(0,1fr)] items-center gap-4">
         <WireframeDonut />
         <div className="min-w-0 space-y-3">
@@ -211,12 +274,13 @@ function WireframeCategory() {
 function WireframeMoneySignals() {
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[10rem] p-4")}>
-      <ZoneLabel className={rightRailTitle}>9. MONEY SIGNALS</ZoneLabel>
+      <h3 className={cn(rightRailTitle, "truncate")}>Money Signals</h3>
+      <p className={cn(captionText, "mt-1 truncate")}>Yang perlu kamu lihat cepat</p>
       <div className="mt-3 divide-y divide-cyan-100/10">
-        {[0, 1, 2].map((item) => (
-          <div key={item} className="grid min-h-[1.75rem] min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_3.25rem_0.5rem] items-center gap-2.5 py-1">
+        {["Pengeluaran hari ini", "Pengeluaran minggu ini", "Kategori terboros"].map((label, item) => (
+          <div key={label} className="grid min-h-[1.75rem] min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_3.25rem_0.5rem] items-center gap-2.5 py-1">
             <WireframeBlock className="h-5 w-5" tone={item === 2 ? "violet" : item === 1 ? "magenta" : "cyan"} />
-            <WireframeLine className={cn(metricLabel, "h-2 w-[58%]")} tone="primary" />
+            <span className={cn(metricLabel, "truncate")}>{label}</span>
             <WireframeLine className={cn(captionText, "h-1.5 w-full")} tone={item === 1 ? "magenta" : "cyan"} />
             <span
               className={cn(
@@ -236,13 +300,14 @@ function WireframeMoneySignals() {
 function WireframeMiniInsight() {
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[6.75rem] p-4")}>
-      <ZoneLabel className={rightRailTitle}>10. MINI INSIGHT</ZoneLabel>
+      <h3 className={cn(rightRailTitle, "truncate")}>Mini Insight</h3>
       <div className="mt-3 grid min-w-0 grid-cols-[4.75rem_minmax(0,1fr)] gap-3">
         <WireframeImageBox className="h-12" />
-        <div className="min-w-0 pt-1">
-          <WireframeLine className={cn(metricLabel, "h-2 w-[84%]")} tone="primary" />
-          <WireframeLine className={cn(captionText, "mt-3 h-1.5 w-[66%]")} tone="muted" />
-          <WireframeLine className={cn(captionText, "mt-3 h-1.5 w-[28%]")} tone="muted" />
+        <div className="min-w-0">
+          <p className={cn(metricLabel, "truncate text-slate-300/84")}>Pembacaan sederhana</p>
+          <p className={cn(captionText, "mt-1 line-clamp-2 text-slate-400/76")}>
+            Tip: Bulan ini pengeluaran terbesar kamu akan terlihat di sini setelah data diaktifkan.
+          </p>
         </div>
       </div>
     </WireframeCard>
@@ -253,8 +318,11 @@ function WireframeRecentTransactions() {
   return (
     <WireframeCard className={cn(rightRailSurfaceClass, "min-h-[10rem] p-4")}>
       <div className="flex min-w-0 items-start justify-between gap-3">
-        <ZoneLabel className={rightRailTitle}>11. RECENT TRANSACTIONS</ZoneLabel>
-        <WireframeBlock className="h-6 w-16 shrink-0" tone="primary" />
+        <div className="min-w-0">
+          <h3 className={cn(rightRailTitle, "truncate")}>Recent Transactions</h3>
+          <p className={cn(captionText, "mt-1 truncate")}>Aktivitas terakhir yang tercatat</p>
+        </div>
+        <span className={cn(captionText, "shrink-0 truncate text-cyan-200/72")}>Lihat semua</span>
       </div>
       <div className="mt-4 space-y-3">
         {[0, 1, 2, 3, 4].map((item) => (
@@ -275,13 +343,20 @@ function WireframeCashflowTrend() {
     <WireframeCard className={cn(cashflowSurfaceClass, "h-[19rem] p-5 xl:[grid-area:cashflow]")}>
       <div className="flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <ZoneLabel className={rightRailTitle}>12. CASHFLOW TREND</ZoneLabel>
-          <WireframeLine className={cn(cardSubtitle, "mt-4 h-2.5 w-[34%]")} tone="muted" />
+          <h3 className={cn(rightRailTitle, "truncate")}>Cashflow Trend</h3>
+          <p className={cn(cardSubtitle, "mt-2 truncate")}>Income vs expense 6 bulan terakhir</p>
         </div>
         <div className="hidden shrink-0 items-center gap-8 md:flex">
-          <WireframeLine className={cn(chartLabel, "h-1.5 w-16")} tone="muted" />
-          <WireframeLine className={cn(chartLabel, "h-1.5 w-16")} tone="muted" />
-          <WireframeBlock className="h-9 w-24" />
+          <span className={cn(chartLabel, "text-cyan-200/70")}>Pemasukan</span>
+          <span className={cn(chartLabel, "text-fuchsia-200/70")}>Pengeluaran</span>
+          <span
+            className={cn(
+              navLabel,
+              "flex h-9 w-24 items-center justify-center rounded-md border border-[rgba(148,163,184,0.24)] bg-[rgba(22,36,62,0.56)] text-slate-300/78"
+            )}
+          >
+            6 Bulan
+          </span>
         </div>
       </div>
 
