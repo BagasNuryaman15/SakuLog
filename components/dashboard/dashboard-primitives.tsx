@@ -104,32 +104,38 @@ export function WireframeSparkline({
 }) {
   const toneClass: Record<AccentTone, { area: string; glow: string; line: string; surface: string }> = {
     cyan: {
-      area: "rgba(34,211,238,0.13)",
-      glow: "rgba(34,211,238,0.28)",
-      line: "#67E8F9",
-      surface: "border-cyan-100/22 bg-cyan-950/[0.08]"
+      area: "rgba(45,212,191,0.1)",
+      glow: "rgba(45,212,191,0.22)",
+      line: "#5EEAD4",
+      surface: "border-[#B36BFF]/10 bg-transparent"
     },
     violet: {
-      area: "rgba(176,64,255,0.14)",
-      glow: "rgba(176,64,255,0.3)",
+      area: "rgba(176,64,255,0.1)",
+      glow: "rgba(176,64,255,0.22)",
       line: "#B36BFF",
-      surface: "border-[#B36BFF]/26 bg-[#2B0F6B]/[0.13]"
+      surface: "border-[#B36BFF]/10 bg-transparent"
     },
     magenta: {
-      area: "rgba(236,72,153,0.13)",
-      glow: "rgba(236,72,153,0.28)",
-      line: "#F472B6",
-      surface: "border-fuchsia-100/22 bg-[#BA319F]/[0.1]"
+      area: "rgba(244,114,182,0.085)",
+      glow: "rgba(244,114,182,0.2)",
+      line: "#F9A8D4",
+      surface: "border-[#B36BFF]/10 bg-transparent"
+    },
+    blueViolet: {
+      area: "rgba(129,140,248,0.09)",
+      glow: "rgba(129,140,248,0.2)",
+      line: "#A5B4FC",
+      surface: "border-[#B36BFF]/10 bg-transparent"
     }
   };
   const colors = toneClass[tone];
   const hasRealSeries = Boolean(values?.length);
   const linePath = hasRealSeries
     ? buildSparklinePath(values)
-    : "M0 30 C26 29 30 31 48 29 C72 27 84 31 108 29 C132 27 146 30 180 28";
-  const areaOpacity = hasRealSeries ? 1 : 0.38;
-  const glowOpacity = hasRealSeries ? 1 : 0.34;
-  const lineOpacity = hasRealSeries ? 1 : 0.46;
+    : "M0 30 C32 29.5 45 30.5 62 30 C86 29.5 102 30.4 126 30 C148 29.6 164 30.3 180 30";
+  const areaOpacity = hasRealSeries ? 1 : 0.14;
+  const glowOpacity = hasRealSeries ? 1 : 0.16;
+  const lineOpacity = hasRealSeries ? 1 : 0.28;
 
   return (
     <div className={cn("h-11 overflow-hidden rounded-sm border-b", colors.surface, className)} aria-hidden="true">

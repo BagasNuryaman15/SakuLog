@@ -185,15 +185,24 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
           <div className={cn(cardClass, nestedSurfaceClass, "mt-auto p-5")}>
             <div className="flex min-w-0 items-start justify-between gap-4">
               <div className="min-w-0 flex-1">
-                <p className={cn(metricLabel, "truncate text-[#9DECF6]/86")}>Sisa uang bulan ini</p>
+                <p
+                  className={cn(
+                    metricLabel,
+                    "truncate text-xs font-bold text-[#67E8F9] drop-shadow-[0_0_16px_rgba(34,211,238,0.38)]"
+                  )}
+                >
+                  Sisa uang bulan ini
+                </p>
                 <p className={cn(metricValuePlaceholder, "mt-4 max-w-full truncate whitespace-nowrap")}>
                   {formatCurrencyIDR(summary.monthBalance)}
                 </p>
                 <p
                   className={cn(
                     captionText,
-                    "mt-4 truncate",
-                    isCashflowNegative ? "text-[#F472B6]/82" : "text-emerald-200/78"
+                    "mt-4 truncate text-xs font-bold",
+                    isCashflowNegative
+                      ? "text-[#FF4FD8] drop-shadow-[0_0_16px_rgba(255,79,216,0.34)]"
+                      : "text-[#6EE7B7] drop-shadow-[0_0_16px_rgba(110,231,183,0.3)]"
                   )}
                 >
                   {isCashflowNegative ? "Cashflow negatif" : "Cashflow positif"}
@@ -251,7 +260,7 @@ function WireframeKpis({ summary }: { summary: DashboardSummary }) {
       icon: CircleDollarSign,
       label: "Expenses this week",
       value: summary.weekExpense,
-      tone: "cyan",
+      tone: "blueViolet",
       caption: "Minggu berjalan"
     }
   ];
@@ -283,9 +292,10 @@ function WireframeKpi({
   tone: AccentTone;
 }) {
   const badgeClass: Record<AccentTone, string> = {
-    cyan: "border-cyan-200/30 bg-cyan-300/14 text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.16)]",
-    violet: "border-[#B36BFF]/34 bg-[#7B00D4]/18 text-[#D8B4FE] shadow-[0_0_18px_rgba(176,64,255,0.18)]",
-    magenta: "border-[#F472B6]/34 bg-[#BA319F]/18 text-[#F9A8D4] shadow-[0_0_18px_rgba(236,72,153,0.16)]"
+    cyan: "border-teal-200/30 bg-teal-300/12 text-teal-100 shadow-[0_0_16px_rgba(45,212,191,0.13)]",
+    violet: "border-[#B36BFF]/34 bg-[#7B00D4]/16 text-[#E0B3FF] shadow-[0_0_17px_rgba(176,64,255,0.16)]",
+    magenta: "border-[#F9A8D4]/30 bg-[#BA319F]/14 text-[#FBCFE8] shadow-[0_0_16px_rgba(244,114,182,0.13)]",
+    blueViolet: "border-indigo-200/30 bg-indigo-400/12 text-indigo-100 shadow-[0_0_16px_rgba(129,140,248,0.13)]"
   };
 
   return (
@@ -295,7 +305,7 @@ function WireframeKpi({
           <Icon className="h-4 w-4" strokeWidth={2.35} />
         </div>
       </div>
-      <h3 className={cn(cardTitle, "mt-3 line-clamp-1 text-xs font-semibold text-[#C7B8E8]/86")}>{label}</h3>
+      <h3 className={cn(cardTitle, "mt-3 line-clamp-1 text-sm font-bold text-[#F8F4FF]/92")}>{label}</h3>
       <p className={cn(metricValuePlaceholder, "mt-2 max-w-full truncate whitespace-nowrap text-xl")}>
         {formatCurrencyIDR(value)}
       </p>
@@ -304,10 +314,10 @@ function WireframeKpi({
           captionText,
           "mt-2 h-4 truncate",
           captionTone === "negative"
-            ? "text-[#F472B6]/78"
+            ? "text-[#F9A8D4]/86"
             : captionTone === "positive"
-              ? "text-emerald-200/74"
-              : "text-[#9B89B8]/86"
+              ? "text-emerald-200/82"
+              : "text-[#B9A9D8]/86"
         )}
       >
         {caption}
@@ -387,11 +397,11 @@ function getExpenseCategoryRows(summary: DashboardSummary): ExpenseCategoryRow[]
 
   const topCategories = categories.slice(0, 4);
   const otherAmount = categories.slice(4).reduce((total, item) => total + item.amount, 0);
-  const rows = topCategories.map((item, index) => ({
+  const rows: ExpenseCategoryRow[] = topCategories.map((item, index) => ({
     category: item.category,
     amount: item.amount,
     percentage: formatCategoryPercent(item.amount, totalExpense),
-    color: expenseCategoryColors[index]
+    color: expenseCategoryColors[index] ?? otherCategoryColor
   }));
 
   if (otherAmount > 0) {
