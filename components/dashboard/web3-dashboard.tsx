@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   ArrowDownRight,
@@ -173,13 +174,27 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
   const isCashflowNegative = summary.monthBalance < 0;
 
   return (
-    <WireframeCard className={cn(heroSurfaceClass, "h-[26rem] overflow-hidden p-5 xl:[grid-area:hero]")}>
-      <p className={cn(brandTitle, "truncate")}>SakuLog Console</p>
-      <div className="mt-6 grid h-[calc(100%-1.875rem)] min-w-0 grid-cols-[minmax(0,1fr)_7.75rem] gap-5">
-        <div className="flex min-w-0 flex-col">
+    <WireframeCard className={cn(heroSurfaceClass, "relative h-[26rem] overflow-hidden p-5 xl:[grid-area:hero]")}>
+      <div className="pointer-events-none absolute -right-16 -top-8 h-[23rem] w-[25.5rem] opacity-74 [mask-image:radial-gradient(ellipse_at_center,black_28%,rgba(0,0,0,0.72)_50%,transparent_74%)]">
+        <div className="absolute inset-8 rounded-full bg-[radial-gradient(circle,rgba(176,64,255,0.24),rgba(34,211,238,0.08)_42%,transparent_70%)] blur-2xl" />
+        <Image
+          src="/assets/illustrations/sakulog-hero-core.png"
+          alt=""
+          fill
+          sizes="24rem"
+          className="object-contain opacity-85 mix-blend-screen"
+          priority
+        />
+      </div>
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,4,8,0.94)_0%,rgba(5,4,8,0.82)_48%,rgba(5,4,8,0.28)_74%,rgba(5,4,8,0.08)_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,rgba(5,4,8,0.86))]" />
+
+      <div className="relative z-10 flex h-full min-w-0 flex-col">
+        <p className={cn(brandTitle, "truncate")}>SakuLog Console</p>
+        <div className="mt-6 flex min-h-0 flex-1 min-w-0 flex-col">
           <h2 className={cn(heroHeadline, "mt-7 max-w-md")}>Know where your money moves.</h2>
-          <p className={cn(heroBody, "mt-5 max-w-lg")}>
-            Ringkasan Juni 2026 untuk memahami sisa uang, cashflow, dan kategori yang paling banyak menguras saldo.
+          <p className={cn(heroBody, "mt-5 max-w-md pr-16")}>
+            Pantau saldo bulan ini, baca arah cashflow, dan lihat kondisi uangmu tanpa noise.
           </p>
 
           <div className={cn(cardClass, nestedSurfaceClass, "mt-auto p-5")}>
@@ -212,8 +227,6 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
             </div>
           </div>
         </div>
-
-        <WireframeImageBox className="mt-14 hidden h-44 lg:block" />
       </div>
     </WireframeCard>
   );
