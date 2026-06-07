@@ -7,6 +7,9 @@ import {
   ArrowUpRight,
   CalendarDays,
   CircleDollarSign,
+  ChevronDown,
+  Search,
+  Sparkles,
   type LucideIcon
 } from "lucide-react";
 
@@ -131,34 +134,56 @@ export function Web3Dashboard() {
 function WireframeTopBar() {
   return (
     <header className={cn(cardClass, topbarClass, "flex min-h-[4.75rem] flex-col justify-center px-5 py-3")}>
-      <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+      <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
+          <p className="mb-1 text-[0.62rem] font-bold uppercase leading-none tracking-[0.18em] text-[#67E8F9]/62">
+            Finance command center
+          </p>
           <h1 className={cn(dashboardPageTitle, "truncate")}>Dashboard</h1>
-          <p className={cn(dashboardPageSubtitle, "mt-1 truncate")}>Ringkasan keuanganmu secara real-time</p>
+          <p className={cn(dashboardPageSubtitle, "mt-1 truncate text-[#B9A9D8]/84")}>
+            Ringkasan keuanganmu secara real-time
+          </p>
         </div>
         <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-end">
-          <div
-            className={cn(
-              navLabel,
-              "flex h-10 min-w-0 flex-1 items-center rounded-md border border-[rgba(199,166,255,0.16)] bg-[rgba(18,15,28,0.62)] px-3 text-[#9B89B8] lg:w-72 lg:flex-none"
-            )}
-          >
-            <span className="truncate">Cari transaksi, kategori, atau insight...</span>
-          </div>
-          <div
-            className={cn(
-              navLabel,
-              "flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-[rgba(91,67,129,0.4)] bg-[rgba(14,12,22,0.62)] px-3 text-[#C7B8E8] lg:w-40"
-            )}
-          >
-            <span className="truncate">Juni 2026</span>
-          </div>
-          <WireframeBlock className="h-10 w-11 shrink-0" tone="primary" />
           <button
             type="button"
             className={cn(
               navLabel,
-              "h-10 w-full shrink-0 rounded-md border border-[#E0B3FF]/24 bg-[linear-gradient(135deg,#6A2CFF_0%,#9A35FF_56%,#D946EF_100%)] px-4 text-[#F8F4FF] shadow-[0_14px_34px_rgba(106,44,255,0.26),0_0_22px_rgba(176,64,255,0.16),inset_0_1px_0_rgba(255,255,255,0.16)] lg:w-44"
+              "group flex h-10 min-w-0 flex-1 items-center gap-2 rounded-md border border-[rgba(199,166,255,0.16)] bg-[linear-gradient(180deg,rgba(18,15,28,0.72),rgba(8,7,13,0.66))] px-3 text-left text-[#9B89B8] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] outline-none transition duration-150 hover:-translate-y-px hover:border-[#B36BFF]/30 hover:bg-[linear-gradient(180deg,rgba(22,18,34,0.8),rgba(8,7,13,0.7))] hover:text-[#C7B8E8] hover:shadow-[0_12px_28px_rgba(0,0,0,0.24),0_0_16px_rgba(154,53,255,0.07),inset_0_1px_0_rgba(255,255,255,0.045)] focus-visible:border-[#67E8F9]/42 focus-visible:shadow-[0_0_0_2px_rgba(34,211,238,0.12),0_12px_28px_rgba(0,0,0,0.24)] lg:w-72 lg:flex-none"
+            )}
+            aria-label="Cari transaksi, kategori, atau insight"
+          >
+            <Search className="h-4 w-4 shrink-0 text-[#67E8F9]/68 transition group-hover:text-[#67E8F9]/88" />
+            <span className="truncate">Cari transaksi, kategori, atau insight...</span>
+            <span className="ml-auto hidden shrink-0 rounded-sm border border-[#B36BFF]/14 bg-[#100B25]/80 px-1.5 py-1 text-[0.56rem] font-bold uppercase tracking-[0.12em] text-[#6F5F86] xl:inline">
+              Cmd K
+            </span>
+          </button>
+          <button
+            type="button"
+            className={cn(
+              navLabel,
+              "group flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-md border border-[rgba(91,67,129,0.42)] bg-[linear-gradient(180deg,rgba(14,12,22,0.74),rgba(7,6,12,0.68))] px-3 text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] outline-none transition duration-150 hover:-translate-y-px hover:border-[#B36BFF]/28 hover:text-[#F8F4FF] focus-visible:border-[#D8B4FE]/42 focus-visible:shadow-[0_0_0_2px_rgba(179,107,255,0.16)] lg:w-40"
+            )}
+            aria-label="Periode aktif Juni 2026"
+          >
+            <CalendarDays className="h-3.5 w-3.5 shrink-0 text-[#B36BFF]/70" />
+            <span className="truncate">Juni 2026</span>
+            <ChevronDown className="h-3.5 w-3.5 shrink-0 text-[#9B89B8]/72 transition group-hover:text-[#D8B4FE]" />
+          </button>
+          <button
+            type="button"
+            className="group relative flex h-10 w-11 shrink-0 items-center justify-center rounded-md border border-[rgba(199,166,255,0.16)] bg-[linear-gradient(180deg,rgba(18,15,28,0.76),rgba(7,6,12,0.72))] text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] outline-none transition duration-150 hover:-translate-y-px hover:border-[#B36BFF]/32 hover:text-[#F8F4FF] hover:shadow-[0_0_18px_rgba(154,53,255,0.1),inset_0_1px_0_rgba(255,255,255,0.045)] focus-visible:border-[#67E8F9]/42 focus-visible:shadow-[0_0_0_2px_rgba(34,211,238,0.12)]"
+            aria-label="Status insight dashboard"
+          >
+            <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-[#67E8F9] shadow-[0_0_10px_rgba(103,232,249,0.55)]" />
+            <Sparkles className="h-4 w-4 text-[#D8B4FE]/76 transition group-hover:text-[#E0B3FF]" />
+          </button>
+          <button
+            type="button"
+            className={cn(
+              navLabel,
+              "h-10 w-full shrink-0 rounded-md border border-[#E0B3FF]/24 bg-[linear-gradient(135deg,#6A2CFF_0%,#9A35FF_56%,#D946EF_100%)] px-4 text-[#F8F4FF] shadow-[0_14px_34px_rgba(106,44,255,0.26),0_0_22px_rgba(176,64,255,0.16),inset_0_1px_0_rgba(255,255,255,0.16)] outline-none transition duration-150 hover:-translate-y-px hover:shadow-[0_18px_38px_rgba(106,44,255,0.32),0_0_28px_rgba(176,64,255,0.2),inset_0_1px_0_rgba(255,255,255,0.18)] focus-visible:shadow-[0_0_0_2px_rgba(224,179,255,0.22),0_14px_34px_rgba(106,44,255,0.26),0_0_22px_rgba(176,64,255,0.16)] lg:w-44"
             )}
           >
             Tambah Transaksi

@@ -7,7 +7,7 @@ export const shellClass =
 export const cardClass =
   "min-w-0 rounded-[1.5rem] border border-[rgba(199,166,255,0.105)] bg-[linear-gradient(145deg,rgba(10,9,16,0.94),rgba(6,6,10,0.92)_60%,rgba(3,3,6,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.038),inset_0_0_0_1px_rgba(224,179,255,0.012),0_22px_60px_rgba(0,0,0,0.45)] backdrop-blur-[18px]";
 export const topbarClass =
-  "border-[rgba(199,166,255,0.09)] bg-[linear-gradient(135deg,rgba(9,8,15,0.96),rgba(5,5,9,0.93))] shadow-[inset_0_1px_0_rgba(255,255,255,0.036),0_16px_42px_rgba(0,0,0,0.42)]";
+  "border-[rgba(199,166,255,0.11)] bg-[radial-gradient(circle_at_84%_0%,rgba(154,53,255,0.07),transparent_32%),linear-gradient(135deg,rgba(9,8,15,0.97),rgba(5,5,9,0.94))] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_16px_42px_rgba(0,0,0,0.44),0_0_24px_rgba(123,0,212,0.025)]";
 export const heroSurfaceClass =
   "border-[rgba(199,166,255,0.15)] bg-[radial-gradient(circle_at_82%_10%,rgba(154,53,255,0.15),transparent_30%),radial-gradient(circle_at_18%_8%,rgba(34,211,238,0.04),transparent_30%),linear-gradient(145deg,rgba(12,10,20,0.96),rgba(6,6,12,0.97)_64%,rgba(3,3,6,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),inset_0_0_0_1px_rgba(224,179,255,0.02),0_34px_82px_rgba(0,0,0,0.5),0_0_46px_rgba(123,0,212,0.075),0_0_18px_rgba(34,211,238,0.02)]";
 export const nestedSurfaceClass =
