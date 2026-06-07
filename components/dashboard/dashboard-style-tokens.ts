@@ -3,19 +3,19 @@ export type BlockTone = "default" | "primary" | "cta" | AccentTone;
 export type LineTone = "default" | "primary" | "muted" | AccentTone;
 
 export const shellClass =
-  "w-full min-w-0 rounded-[1.5rem] border border-[rgba(199,166,255,0.12)] bg-[linear-gradient(rgba(224,179,255,0.014)_1px,transparent_1px),linear-gradient(90deg,rgba(224,179,255,0.01)_1px,transparent_1px),radial-gradient(circle_at_87%_5%,rgba(154,53,255,0.09),transparent_30%),radial-gradient(circle_at_10%_92%,rgba(123,0,212,0.045),transparent_34%),radial-gradient(circle_at_72%_112%,rgba(34,211,238,0.022),transparent_36%),linear-gradient(135deg,rgba(5,5,10,0.99),rgba(7,6,17,0.97)_48%,rgba(4,4,7,0.99))] bg-[size:72px_72px,72px_72px,auto,auto,auto,auto] p-0 text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_28px_76px_rgba(0,0,0,0.5),0_0_34px_rgba(123,0,212,0.035)]";
+  "w-full min-w-0 rounded-[1.5rem] bg-[linear-gradient(rgba(224,179,255,0.014)_1px,transparent_1px),linear-gradient(90deg,rgba(224,179,255,0.01)_1px,transparent_1px),radial-gradient(circle_at_87%_5%,rgba(154,53,255,0.09),transparent_30%),radial-gradient(circle_at_10%_92%,rgba(123,0,212,0.045),transparent_34%),radial-gradient(circle_at_72%_112%,rgba(34,211,238,0.022),transparent_36%),linear-gradient(135deg,rgba(5,5,10,0.99),rgba(7,6,17,0.97)_48%,rgba(4,4,7,0.99))] bg-[size:72px_72px,72px_72px,auto,auto,auto,auto] p-0 text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.024),0_28px_76px_rgba(0,0,0,0.5),0_0_34px_rgba(123,0,212,0.035)]";
 export const cardClass =
-  "min-w-0 rounded-[1.5rem] border border-[rgba(199,166,255,0.14)] bg-[linear-gradient(145deg,rgba(10,9,16,0.94),rgba(6,6,10,0.92)_60%,rgba(3,3,6,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),inset_0_0_0_1px_rgba(224,179,255,0.016),0_22px_60px_rgba(0,0,0,0.45)] backdrop-blur-[18px]";
+  "min-w-0 rounded-[1.5rem] border border-[rgba(199,166,255,0.105)] bg-[linear-gradient(145deg,rgba(10,9,16,0.94),rgba(6,6,10,0.92)_60%,rgba(3,3,6,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.038),inset_0_0_0_1px_rgba(224,179,255,0.012),0_22px_60px_rgba(0,0,0,0.45)] backdrop-blur-[18px]";
 export const topbarClass =
-  "border-[rgba(199,166,255,0.14)] bg-[linear-gradient(135deg,rgba(9,8,15,0.96),rgba(5,5,9,0.93))] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_16px_42px_rgba(0,0,0,0.42)]";
+  "border-[rgba(199,166,255,0.09)] bg-[linear-gradient(135deg,rgba(9,8,15,0.96),rgba(5,5,9,0.93))] shadow-[inset_0_1px_0_rgba(255,255,255,0.036),0_16px_42px_rgba(0,0,0,0.42)]";
 export const heroSurfaceClass =
-  "border-[rgba(199,166,255,0.2)] bg-[radial-gradient(circle_at_82%_10%,rgba(154,53,255,0.15),transparent_30%),radial-gradient(circle_at_18%_8%,rgba(34,211,238,0.04),transparent_30%),linear-gradient(145deg,rgba(12,10,20,0.96),rgba(6,6,12,0.97)_64%,rgba(3,3,6,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),inset_0_0_0_1px_rgba(224,179,255,0.028),0_34px_82px_rgba(0,0,0,0.5),0_0_46px_rgba(123,0,212,0.075),0_0_18px_rgba(34,211,238,0.02)]";
+  "border-[rgba(199,166,255,0.15)] bg-[radial-gradient(circle_at_82%_10%,rgba(154,53,255,0.15),transparent_30%),radial-gradient(circle_at_18%_8%,rgba(34,211,238,0.04),transparent_30%),linear-gradient(145deg,rgba(12,10,20,0.96),rgba(6,6,12,0.97)_64%,rgba(3,3,6,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),inset_0_0_0_1px_rgba(224,179,255,0.02),0_34px_82px_rgba(0,0,0,0.5),0_0_46px_rgba(123,0,212,0.075),0_0_18px_rgba(34,211,238,0.02)]";
 export const nestedSurfaceClass =
-  "border-[rgba(199,166,255,0.14)] bg-[linear-gradient(135deg,rgba(9,8,15,0.9),rgba(4,4,8,0.84))] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_16px_38px_rgba(0,0,0,0.42)]";
+  "border-[rgba(199,166,255,0.1)] bg-[linear-gradient(135deg,rgba(9,8,15,0.9),rgba(4,4,8,0.84))] shadow-[inset_0_1px_0_rgba(255,255,255,0.036),0_16px_38px_rgba(0,0,0,0.42)]";
 export const rightRailSurfaceClass =
-  "border-[rgba(199,166,255,0.13)] bg-[linear-gradient(145deg,rgba(9,8,15,0.93),rgba(5,5,9,0.92))] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_18px_48px_rgba(0,0,0,0.43)]";
+  "border-[rgba(199,166,255,0.085)] bg-[linear-gradient(145deg,rgba(9,8,15,0.93),rgba(5,5,9,0.92))] shadow-[inset_0_1px_0_rgba(255,255,255,0.032),0_18px_48px_rgba(0,0,0,0.43)]";
 export const cashflowSurfaceClass =
-  "border-[rgba(199,166,255,0.16)] bg-[radial-gradient(circle_at_86%_4%,rgba(123,0,212,0.055),transparent_32%),linear-gradient(145deg,rgba(10,9,16,0.95),rgba(4,4,8,0.94))] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_24px_60px_rgba(0,0,0,0.48),0_0_24px_rgba(123,0,212,0.035)]";
+  "border-[rgba(199,166,255,0.11)] bg-[radial-gradient(circle_at_86%_4%,rgba(123,0,212,0.055),transparent_32%),linear-gradient(145deg,rgba(10,9,16,0.95),rgba(4,4,8,0.94))] shadow-[inset_0_1px_0_rgba(255,255,255,0.036),0_24px_60px_rgba(0,0,0,0.48),0_0_24px_rgba(123,0,212,0.035)]";
 export const lineClass =
   "h-2 rounded-sm bg-[linear-gradient(90deg,rgba(248,244,255,0.42),rgba(199,184,232,0.24))]";
 

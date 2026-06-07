@@ -52,7 +52,7 @@ export function AppSidebar() {
     >
       <div
         className={cn(
-          "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-[rgba(199,166,255,0.16)] bg-[linear-gradient(180deg,rgba(13,9,25,0.94),rgba(5,5,10,0.97))] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_22px_56px_rgba(0,0,0,0.48),0_0_22px_rgba(123,0,212,0.045)] backdrop-blur-[18px]",
+          "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-[rgba(199,166,255,0.095)] bg-[linear-gradient(180deg,rgba(13,9,25,0.94),rgba(5,5,10,0.97))] shadow-[inset_0_1px_0_rgba(255,255,255,0.032),0_22px_56px_rgba(0,0,0,0.48),0_0_22px_rgba(123,0,212,0.04)] backdrop-blur-[18px]",
           isCollapsed ? "rounded-[2rem] px-2 py-4" : "rounded-[1.5rem] px-4 py-4"
         )}
       >
@@ -93,7 +93,7 @@ export function AppSidebar() {
 
         <div
           className={cn(
-            "relative mt-4 h-px bg-[#B36BFF]/16",
+            "relative mt-4 h-px bg-[#B36BFF]/10",
             isCollapsed ? "mx-auto w-10" : "mx-1"
           )}
         />
@@ -152,7 +152,7 @@ export function AppSidebar() {
 
         <div
           className={cn(
-            "relative mt-4 h-px bg-[#B36BFF]/14",
+            "relative mt-4 h-px bg-[#B36BFF]/10",
             isCollapsed ? "mx-auto w-9" : "mx-1"
           )}
         />
