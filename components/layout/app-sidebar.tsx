@@ -52,18 +52,18 @@ export function AppSidebar() {
     >
       <div
         className={cn(
-          "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-[rgba(179,107,255,0.24)] bg-[linear-gradient(180deg,rgba(16,7,37,0.94),rgba(10,10,10,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_20px_52px_rgba(0,0,0,0.42),0_0_30px_rgba(176,64,255,0.07)] backdrop-blur-[18px]",
+          "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-[rgba(199,166,255,0.16)] bg-[linear-gradient(180deg,rgba(13,9,25,0.94),rgba(5,5,10,0.97))] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_22px_56px_rgba(0,0,0,0.48),0_0_22px_rgba(123,0,212,0.045)] backdrop-blur-[18px]",
           isCollapsed ? "rounded-[2rem] px-2 py-4" : "rounded-[1.5rem] px-4 py-4"
         )}
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(176,64,255,0.18),transparent_38%),radial-gradient(circle_at_60%_42%,rgba(34,211,238,0.055),transparent_32%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(154,53,255,0.12),transparent_40%),radial-gradient(circle_at_60%_42%,rgba(34,211,238,0.035),transparent_34%)]" />
 
         <div className="relative flex h-12 items-center justify-between gap-3 px-1">
           {isCollapsed ? (
             <button
               type="button"
               onClick={() => setIsCollapsed(false)}
-              className="mx-auto flex h-10 w-10 items-center justify-center rounded-md border border-[rgba(179,107,255,0.24)] bg-[rgba(44,31,64,0.46)] text-[#C7B8E8] transition hover:border-[rgba(224,179,255,0.34)] hover:bg-[rgba(123,0,212,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B36BFF]/35"
+              className="mx-auto flex h-10 w-10 items-center justify-center rounded-md border border-[rgba(199,166,255,0.18)] bg-[rgba(18,15,28,0.56)] text-[#C7B8E8] transition hover:border-[rgba(224,179,255,0.3)] hover:bg-[rgba(123,0,212,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B36BFF]/30"
               aria-label="Expand sidebar"
               title="Expand sidebar"
             >
@@ -73,7 +73,7 @@ export function AppSidebar() {
             <>
               <Link
                 href="/dashboard"
-                className="flex h-11 items-center gap-3 rounded-md border border-[rgba(179,107,255,0.24)] bg-[rgba(44,31,64,0.46)] px-3 text-sm font-semibold text-[#F8F4FF]"
+                className="flex h-11 items-center gap-3 rounded-md border border-[rgba(199,166,255,0.18)] bg-[rgba(18,15,28,0.56)] px-3 text-sm font-semibold text-[#F8F4FF]"
                 aria-label="SakuLog dashboard"
               >
                 <WireframeCube />
@@ -82,7 +82,7 @@ export function AppSidebar() {
               <button
                 type="button"
                 onClick={() => setIsCollapsed(true)}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[rgba(179,107,255,0.22)] bg-[rgba(44,31,64,0.36)] text-[#C7B8E8] transition hover:border-[rgba(224,179,255,0.34)] hover:bg-[rgba(123,0,212,0.12)] hover:text-[#F8F4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B36BFF]/35"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[rgba(199,166,255,0.16)] bg-[rgba(18,15,28,0.46)] text-[#C7B8E8] transition hover:border-[rgba(224,179,255,0.3)] hover:bg-[rgba(123,0,212,0.1)] hover:text-[#F8F4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B36BFF]/30"
                 aria-label="Collapse sidebar"
               >
                 <PanelLeftClose className="h-4 w-4" />
@@ -120,9 +120,9 @@ export function AppSidebar() {
                     className={cn(
                       "group relative flex h-12 items-center rounded-md text-sm font-medium text-[#9B89B8]/72 transition",
                       isCollapsed ? "h-10 justify-center px-0" : "gap-3 px-3",
-                      "hover:bg-[rgba(123,0,212,0.1)] hover:text-[#F8F4FF]",
+                      "hover:bg-[rgba(123,0,212,0.075)] hover:text-[#F8F4FF]",
                       isActive &&
-                        "border border-[rgba(179,107,255,0.42)] bg-[linear-gradient(135deg,rgba(43,15,107,0.62),rgba(176,64,255,0.3),rgba(217,70,239,0.24))] text-[#F8F4FF] shadow-[0_0_28px_rgba(176,64,255,0.2),0_0_18px_rgba(34,211,238,0.08)]"
+                        "border border-[rgba(199,166,255,0.34)] bg-[linear-gradient(135deg,rgba(36,14,84,0.56),rgba(154,53,255,0.26),rgba(217,70,239,0.18))] text-[#F8F4FF] shadow-[0_0_22px_rgba(154,53,255,0.16),0_0_14px_rgba(34,211,238,0.05)]"
                     )}
                     title={isCollapsed ? item.title : undefined}
                   >
@@ -135,7 +135,7 @@ export function AppSidebar() {
                         isCollapsed ? "h-8 w-8" : "h-8 w-8",
                         isActive
                           ? "border-[#E0B3FF]/28 bg-[#B36BFF]/14 text-[#E0B3FF]"
-                          : "border-[rgba(91,67,129,0.42)] bg-[rgba(29,21,41,0.42)] text-[#9B89B8]/78 group-hover:border-[#B36BFF]/34 group-hover:text-[#F8F4FF]"
+                          : "border-[rgba(91,67,129,0.34)] bg-[rgba(18,15,28,0.48)] text-[#9B89B8]/78 group-hover:border-[#B36BFF]/28 group-hover:text-[#F8F4FF]"
                       )}
                     >
                       <Icon className="h-4 w-4" />
@@ -163,7 +163,7 @@ export function AppSidebar() {
             isCollapsed ? "flex flex-col items-center gap-2.5 pb-2.5 pt-4" : "rounded-md border p-3"
           )}
         >
-          <div className={cn("flex h-10 w-10 items-center justify-center rounded-full border border-[#B36BFF]/28 bg-[#7B00D4]/[0.08] text-xs font-medium text-[#C7B8E8]", !isCollapsed && "mb-3")}>
+          <div className={cn("flex h-10 w-10 items-center justify-center rounded-full border border-[#B36BFF]/22 bg-[#100B25]/70 text-xs font-medium text-[#C7B8E8]", !isCollapsed && "mb-3")}>
             AN
           </div>
           <p className={cn("text-sm font-semibold text-[#F8F4FF]", isCollapsed && "sr-only")}>

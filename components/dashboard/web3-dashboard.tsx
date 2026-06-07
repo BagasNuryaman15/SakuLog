@@ -56,8 +56,8 @@ type ExpenseCategoryRow = {
   color: string;
 };
 
-const expenseCategoryColors = ["#B040FF", "#7B00D4", "#BA319F", "#B36BFF"] as const;
-const otherCategoryColor = "#5B4381";
+const expenseCategoryColors = ["#9A35FF", "#22D3EE", "#E14DAA", "#C7A6FF"] as const;
+const otherCategoryColor = "#6F5F86";
 
 export function Web3Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary>(getEmptyDashboardSummary);
@@ -140,7 +140,7 @@ function WireframeTopBar() {
           <div
             className={cn(
               navLabel,
-              "flex h-10 min-w-0 flex-1 items-center rounded-md border border-[rgba(179,107,255,0.24)] bg-[rgba(44,31,64,0.52)] px-3 text-[#9B89B8] lg:w-72 lg:flex-none"
+              "flex h-10 min-w-0 flex-1 items-center rounded-md border border-[rgba(199,166,255,0.16)] bg-[rgba(18,15,28,0.62)] px-3 text-[#9B89B8] lg:w-72 lg:flex-none"
             )}
           >
             <span className="truncate">Cari transaksi, kategori, atau insight...</span>
@@ -148,17 +148,17 @@ function WireframeTopBar() {
           <div
             className={cn(
               navLabel,
-              "flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-[rgba(91,67,129,0.55)] bg-[rgba(29,21,41,0.56)] px-3 text-[#C7B8E8] lg:w-40"
+              "flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-[rgba(91,67,129,0.4)] bg-[rgba(14,12,22,0.62)] px-3 text-[#C7B8E8] lg:w-40"
             )}
           >
             <span className="truncate">Juni 2026</span>
           </div>
-          <WireframeBlock className="h-10 w-11 shrink-0" tone="violet" />
+          <WireframeBlock className="h-10 w-11 shrink-0" tone="primary" />
           <button
             type="button"
             className={cn(
               navLabel,
-              "h-10 w-full shrink-0 rounded-md border border-[#E0B3FF]/22 bg-[linear-gradient(135deg,#6A2CFF_0%,#B040FF_56%,#D946EF_100%)] px-4 text-[#F8F4FF] shadow-[0_14px_34px_rgba(106,44,255,0.28),0_0_22px_rgba(176,64,255,0.18),inset_0_1px_0_rgba(255,255,255,0.16)] lg:w-44"
+              "h-10 w-full shrink-0 rounded-md border border-[#E0B3FF]/24 bg-[linear-gradient(135deg,#6A2CFF_0%,#9A35FF_56%,#D946EF_100%)] px-4 text-[#F8F4FF] shadow-[0_14px_34px_rgba(106,44,255,0.26),0_0_22px_rgba(176,64,255,0.16),inset_0_1px_0_rgba(255,255,255,0.16)] lg:w-44"
             )}
           >
             Tambah Transaksi
@@ -174,19 +174,24 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
 
   return (
     <WireframeCard className={cn(heroSurfaceClass, "relative h-[26rem] overflow-hidden p-5 xl:[grid-area:hero]")}>
-      <div className="pointer-events-none absolute -right-20 -top-12 h-[24rem] w-[26.75rem] opacity-76 [mask-image:radial-gradient(ellipse_at_center,black_28%,rgba(0,0,0,0.7)_50%,transparent_74%)]">
-        <div className="absolute inset-5 rounded-full bg-[radial-gradient(circle,rgba(176,64,255,0.28),rgba(34,211,238,0.1)_44%,transparent_72%)] blur-2xl" />
+      <div className="pointer-events-none absolute -right-20 -top-12 h-[24rem] w-[26.75rem] opacity-90 [mask-image:linear-gradient(90deg,transparent_0%,rgba(0,0,0,0.28)_10%,black_24%,black_100%)]">
+        <div className="absolute -inset-4 rounded-full bg-[radial-gradient(circle,rgba(154,53,255,0.18),rgba(34,211,238,0.075)_39%,transparent_70%)] blur-3xl" />
+        <div className="absolute left-20 top-[13.4rem] h-px w-72 rotate-[-11deg] bg-[linear-gradient(90deg,transparent,rgba(103,232,249,0.18),rgba(179,107,255,0.14),transparent)] blur-[1px]" />
+        <div className="absolute left-24 top-[15.4rem] h-px w-64 rotate-[8deg] bg-[linear-gradient(90deg,transparent,rgba(179,107,255,0.16),rgba(34,211,238,0.12),transparent)] blur-[1px]" />
+        <span className="absolute right-[5.5rem] top-[5.75rem] h-1.5 w-1.5 rounded-full bg-[#E0B3FF]/80 shadow-[0_0_18px_rgba(224,179,255,0.8)]" />
+        <span className="absolute right-[8.5rem] top-[18.5rem] h-1 w-1 rounded-full bg-[#67E8F9]/70 shadow-[0_0_16px_rgba(103,232,249,0.7)]" />
+        <span className="absolute right-[19rem] top-[15.5rem] h-1 w-1 rounded-full bg-[#B36BFF]/65 shadow-[0_0_14px_rgba(179,107,255,0.65)]" />
         <Image
           src="/assets/illustrations/sakulog-hero-core.png"
           alt=""
           fill
           sizes="24rem"
-          className="object-contain opacity-85 mix-blend-screen"
+          className="object-contain opacity-95 mix-blend-screen drop-shadow-[0_0_28px_rgba(154,53,255,0.28)]"
           priority
         />
       </div>
-      <div className="pointer-events-none absolute right-8 top-40 h-px w-48 rotate-[-18deg] bg-[linear-gradient(90deg,transparent,rgba(103,232,249,0.28),rgba(176,64,255,0.22),transparent)] blur-[1px]" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,4,8,0.94)_0%,rgba(5,4,8,0.82)_48%,rgba(5,4,8,0.28)_74%,rgba(5,4,8,0.08)_100%)]" />
+      <div className="pointer-events-none absolute right-8 top-40 h-px w-56 rotate-[-18deg] bg-[linear-gradient(90deg,transparent,rgba(103,232,249,0.34),rgba(176,64,255,0.24),transparent)] blur-[1px]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,10,0.94)_0%,rgba(5,5,10,0.78)_43%,rgba(5,5,10,0.18)_72%,rgba(5,5,10,0.04)_100%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,rgba(5,4,8,0.86))]" />
 
       <div className="relative z-10 flex h-full min-w-0 flex-col">
@@ -223,7 +228,7 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
                   {isCashflowNegative ? "Cashflow negatif" : "Cashflow positif"}
                 </p>
               </div>
-              <WireframeBlock className="h-12 w-12 shrink-0" tone="violet" />
+              <WireframeBlock className="h-12 w-12 shrink-0" tone="primary" />
             </div>
           </div>
         </div>
@@ -305,10 +310,10 @@ function WireframeKpi({
   tone: AccentTone;
 }) {
   const badgeClass: Record<AccentTone, string> = {
-    cyan: "border-teal-200/30 bg-teal-300/12 text-teal-100 shadow-[0_0_16px_rgba(45,212,191,0.13)]",
-    violet: "border-[#B36BFF]/34 bg-[#7B00D4]/16 text-[#E0B3FF] shadow-[0_0_17px_rgba(176,64,255,0.16)]",
-    magenta: "border-[#F9A8D4]/30 bg-[#BA319F]/14 text-[#FBCFE8] shadow-[0_0_16px_rgba(244,114,182,0.13)]",
-    blueViolet: "border-indigo-200/30 bg-indigo-400/12 text-indigo-100 shadow-[0_0_16px_rgba(129,140,248,0.13)]"
+    cyan: "border-teal-200/24 bg-teal-300/10 text-teal-100 shadow-[0_0_12px_rgba(45,212,191,0.08)]",
+    violet: "border-[#B36BFF]/26 bg-[#7B00D4]/10 text-[#E0B3FF] shadow-[0_0_12px_rgba(176,64,255,0.09)]",
+    magenta: "border-[#F9A8D4]/24 bg-[#BA319F]/10 text-[#FBCFE8] shadow-[0_0_12px_rgba(244,114,182,0.08)]",
+    blueViolet: "border-indigo-200/24 bg-indigo-400/10 text-indigo-100 shadow-[0_0_12px_rgba(129,140,248,0.08)]"
   };
 
   return (
@@ -359,7 +364,10 @@ function WireframeCategory({ summary }: { summary: DashboardSummary }) {
                 key={item.category}
                 className="grid min-h-4 min-w-0 grid-cols-[0.45rem_minmax(0,1fr)_minmax(3.25rem,4.2rem)_2rem] items-center gap-1.5"
               >
-                <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: item.color }} />
+                <span
+                  className="h-1.5 w-1.5 rounded-full"
+                  style={{ backgroundColor: item.color, boxShadow: `0 0 12px ${item.color}66` }}
+                />
                 <span className="truncate text-[0.625rem] font-semibold leading-none tracking-[-0.005em] text-[#F8F4FF]/88">
                   {item.category}
                 </span>
@@ -368,7 +376,10 @@ function WireframeCategory({ summary }: { summary: DashboardSummary }) {
                 >
                   {formatCurrencyIDR(item.amount)}
                 </span>
-                <span className="whitespace-nowrap text-right text-[0.625rem] font-medium leading-none tracking-normal text-[#D8B4FE]/74 tabular-nums">
+                <span
+                  className="whitespace-nowrap text-right text-[0.625rem] font-semibold leading-none tracking-normal tabular-nums"
+                  style={{ color: item.color }}
+                >
                   {item.percentage}%
                 </span>
               </div>
@@ -393,8 +404,8 @@ function WireframeCategory({ summary }: { summary: DashboardSummary }) {
           )}
         </div>
       </div>
-      <div className="mt-2.5 flex h-7 items-center justify-center rounded-md border border-[rgba(179,107,255,0.28)] bg-[rgba(44,31,64,0.64)]">
-        <span className={cn(navLabel, "text-[#D8B4FE]/82")}>Lihat semua kategori</span>
+      <div className="mt-2.5 flex h-7 items-center justify-center rounded-md border border-[rgba(199,166,255,0.16)] bg-[rgba(18,15,28,0.64)]">
+        <span className={cn(navLabel, "text-[#C7B8E8]/82")}>Lihat semua kategori</span>
       </div>
     </WireframeCard>
   );
@@ -440,23 +451,29 @@ function formatCategoryPercent(amount: number, totalExpense: number) {
 function ExpenseCategoryDonut({ rows, totalExpense }: { rows: ExpenseCategoryRow[]; totalExpense: number }) {
   const radius = 31;
   const circumference = 2 * Math.PI * radius;
+  const segmentGap = rows.length > 1 ? 2.8 : 0;
   let segmentOffset = 0;
   const hasExpenses = totalExpense > 0 && rows.length > 0;
 
   return (
-    <svg className="h-[5.85rem] w-[5.85rem] shrink-0" viewBox="0 0 88 88" aria-hidden="true">
+    <svg
+      className="h-[5.85rem] w-[5.85rem] shrink-0 drop-shadow-[0_0_18px_rgba(154,53,255,0.16)]"
+      viewBox="0 0 88 88"
+      aria-hidden="true"
+    >
       <circle
         cx="44"
         cy="44"
         fill="none"
         r={radius}
-        stroke="rgba(91,67,129,0.28)"
-        strokeWidth="10"
+        stroke="rgba(199,166,255,0.12)"
+        strokeWidth="9"
       />
       {hasExpenses
         ? rows.map((item) => {
             const segmentLength = (item.amount / totalExpense) * circumference;
-            const dashOffset = -segmentOffset;
+            const visibleSegmentLength = Math.max(segmentLength - segmentGap, 0);
+            const dashOffset = -(segmentOffset + segmentGap / 2);
             segmentOffset += segmentLength;
 
             return (
@@ -467,16 +484,17 @@ function ExpenseCategoryDonut({ rows, totalExpense }: { rows: ExpenseCategoryRow
                 fill="none"
                 r={radius}
                 stroke={item.color}
-                strokeDasharray={`${segmentLength} ${circumference - segmentLength}`}
+                strokeDasharray={`${visibleSegmentLength} ${circumference - visibleSegmentLength}`}
                 strokeDashoffset={dashOffset}
                 strokeLinecap="butt"
-                strokeWidth="10"
+                strokeWidth="9"
                 transform="rotate(-90 44 44)"
               />
             );
           })
         : null}
-      <circle cx="44" cy="44" fill="rgba(16,7,37,0.74)" r="20" />
+      <circle cx="44" cy="44" fill="rgba(5,5,10,0.88)" r="20" />
+      <circle cx="44" cy="44" fill="none" r="19.5" stroke="rgba(199,166,255,0.1)" strokeWidth="1" />
     </svg>
   );
 }
@@ -511,7 +529,7 @@ function WireframeMoneySignals({ summary }: { summary: DashboardSummary }) {
           <h3 className={cn(rightRailTitle, "truncate")}>Money Signals</h3>
           <p className={cn(captionText, "mt-1 truncate")}>Yang perlu kamu lihat cepat</p>
         </div>
-        <span className={cn(captionText, "shrink-0 truncate text-[#D8B4FE]/78")}>Lihat semua</span>
+        <span className={cn(captionText, "shrink-0 truncate text-[#C7B8E8]/76")}>Lihat semua</span>
       </div>
       <div className="mt-3 divide-y divide-[#B36BFF]/12">
         {signals.map((signal, item) => (
@@ -564,7 +582,7 @@ function WireframeMiniInsight({ summary }: { summary: DashboardSummary }) {
 function MiniInsightBlackhole() {
   return (
     <div
-      className="relative h-12 overflow-hidden rounded-md border border-[#B36BFF]/22 bg-[radial-gradient(circle_at_50%_50%,rgba(103,232,249,0.07),rgba(13,10,20,0.9)_56%,rgba(5,4,8,0.95))] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_0_18px_rgba(176,64,255,0.07)]"
+      className="relative h-12 overflow-hidden rounded-md border border-[#B36BFF]/16 bg-[radial-gradient(circle_at_50%_50%,rgba(103,232,249,0.055),rgba(10,9,16,0.92)_56%,rgba(5,5,10,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_0_14px_rgba(123,0,212,0.045)]"
       aria-hidden="true"
     >
       <span className="absolute left-3 top-2 h-1 w-1 rounded-full bg-[#D8B4FE]/50 shadow-[0_0_9px_rgba(216,180,254,0.32)]" />
@@ -650,7 +668,7 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
           <h3 className={cn(rightRailTitle, "truncate")}>Recent Transactions</h3>
           <p className={cn(captionText, "mt-1 truncate")}>Aktivitas terakhir yang tercatat</p>
         </div>
-        <span className={cn(captionText, "shrink-0 truncate text-[#D8B4FE]/78")}>Lihat semua</span>
+        <span className={cn(captionText, "shrink-0 truncate text-[#C7B8E8]/76")}>Lihat semua</span>
       </div>
       {transactions.length > 0 ? (
         <div className="mt-3 space-y-2">
@@ -690,7 +708,7 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
           })}
         </div>
       ) : (
-        <div className="mt-4 rounded-md border border-[rgba(91,67,129,0.45)] bg-[rgba(29,21,41,0.42)] p-3">
+        <div className="mt-4 rounded-md border border-[rgba(91,67,129,0.34)] bg-[rgba(14,12,22,0.56)] p-3">
           <p className={cn(metricLabel, "truncate text-[#F8F4FF]/86")}>Belum ada transaksi</p>
           <p className={cn(captionText, "mt-1 line-clamp-2")}>
             Catat transaksi pertamamu untuk mulai melihat aktivitas.
@@ -765,12 +783,12 @@ function WireframeCashflowTrend({
     const heightPercent = getBarHeightPercent(value);
     const barClass =
       tone === "income"
-        ? "border-cyan-200/42 bg-[linear-gradient(180deg,rgba(34,211,238,0.82),rgba(56,189,248,0.28))] shadow-[0_0_12px_rgba(34,211,238,0.11)]"
-        : "border-[#F472B6]/44 bg-[linear-gradient(180deg,rgba(236,72,153,0.82),rgba(217,70,239,0.28))] shadow-[0_0_12px_rgba(236,72,153,0.1)]";
+        ? "border-cyan-100/50 bg-[linear-gradient(180deg,rgba(103,232,249,0.94),rgba(34,211,238,0.58)_52%,rgba(56,189,248,0.24))] shadow-[0_0_18px_rgba(34,211,238,0.2),inset_0_1px_0_rgba(255,255,255,0.18)]"
+        : "border-[#FBCFE8]/40 bg-[linear-gradient(180deg,rgba(249,168,212,0.9),rgba(225,77,170,0.58)_52%,rgba(217,70,239,0.24))] shadow-[0_0_18px_rgba(236,72,153,0.18),inset_0_1px_0_rgba(255,255,255,0.16)]";
     const labelClass = tone === "income" ? "text-cyan-100/78" : "text-[#FBCFE8]/78";
 
     return (
-      <div className="group relative flex h-full w-full max-w-4 items-end justify-center">
+      <div className="group relative flex h-full w-full max-w-5 items-end justify-center">
         {value > 0 ? (
           <span
             className={cn(
@@ -784,10 +802,12 @@ function WireframeCashflowTrend({
           </span>
         ) : null}
         <div
-          className={cn("w-full rounded-sm border", barClass)}
+          className={cn("relative w-full overflow-hidden rounded-sm border", barClass)}
           style={{ height: `${heightPercent}%` }}
           title={value > 0 ? formatCurrencyIDR(value) : "Rp0"}
-        />
+        >
+          <span className="absolute inset-x-[2px] top-1 h-1/3 rounded-full bg-white/18 blur-[2px]" />
+        </div>
       </div>
     );
   }
@@ -807,7 +827,7 @@ function WireframeCashflowTrend({
               type="button"
               className={cn(
                 navLabel,
-                "grid h-10 w-32 grid-cols-[1rem_minmax(0,1fr)_1rem] items-center rounded-[0.9rem] border border-[rgba(91,67,129,0.58)] bg-[linear-gradient(180deg,rgba(44,31,64,0.88),rgba(29,21,41,0.8))] px-3.5 text-[#F8F4FF] shadow-[0_12px_28px_rgba(10,10,10,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] outline-none transition duration-150 hover:-translate-y-px hover:border-[#B36BFF]/46 hover:bg-[linear-gradient(180deg,rgba(50,36,74,0.96),rgba(29,21,41,0.88))] hover:shadow-[0_15px_30px_rgba(10,10,10,0.28),0_0_18px_rgba(106,44,255,0.12),inset_0_1px_0_rgba(255,255,255,0.1)] focus-visible:border-[#D8B4FE]/58 focus-visible:shadow-[0_0_0_2px_rgba(179,107,255,0.24),0_12px_28px_rgba(10,10,10,0.22)]"
+                "grid h-10 w-32 grid-cols-[1rem_minmax(0,1fr)_1rem] items-center rounded-[0.9rem] border border-[rgba(91,67,129,0.42)] bg-[linear-gradient(180deg,rgba(22,18,34,0.9),rgba(11,10,18,0.86))] px-3.5 text-[#F8F4FF] shadow-[0_12px_28px_rgba(10,10,10,0.24),inset_0_1px_0_rgba(255,255,255,0.06)] outline-none transition duration-150 hover:-translate-y-px hover:border-[#B36BFF]/34 hover:bg-[linear-gradient(180deg,rgba(28,22,43,0.94),rgba(12,10,20,0.9))] hover:shadow-[0_15px_30px_rgba(10,10,10,0.3),0_0_14px_rgba(106,44,255,0.08),inset_0_1px_0_rgba(255,255,255,0.08)] focus-visible:border-[#D8B4FE]/48 focus-visible:shadow-[0_0_0_2px_rgba(179,107,255,0.2),0_12px_28px_rgba(10,10,10,0.22)]"
               )}
               aria-expanded={isCashflowRangeOpen}
               aria-haspopup="listbox"
@@ -828,7 +848,7 @@ function WireframeCashflowTrend({
             </button>
             <div
               className={cn(
-                "absolute right-0 top-12 z-20 w-32 overflow-hidden rounded-[0.95rem] border border-[#B36BFF]/22 bg-[rgba(5,5,10,0.96)] p-1.5 shadow-[0_20px_40px_rgba(0,0,0,0.42),0_0_22px_rgba(106,44,255,0.16)] backdrop-blur transition duration-150",
+                "absolute right-0 top-12 z-20 w-32 overflow-hidden rounded-[0.95rem] border border-[#B36BFF]/16 bg-[rgba(5,5,10,0.97)] p-1.5 shadow-[0_20px_40px_rgba(0,0,0,0.46),0_0_16px_rgba(106,44,255,0.09)] backdrop-blur transition duration-150",
                 isCashflowRangeOpen
                   ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
                   : "pointer-events-none -translate-y-1 scale-[0.98] opacity-0"
@@ -846,8 +866,8 @@ function WireframeCashflowTrend({
                       navLabel,
                       "flex h-10 w-full items-center justify-between rounded-[0.78rem] px-3.5 text-left text-[0.78rem] transition-colors focus-visible:bg-[rgba(179,107,255,0.16)] focus-visible:outline-none focus-visible:shadow-[0_0_0_1px_rgba(216,180,254,0.28)]",
                       isActive
-                        ? "bg-[linear-gradient(180deg,rgba(44,31,64,0.72),rgba(29,21,41,0.68))] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] hover:bg-[linear-gradient(180deg,rgba(50,36,74,0.76),rgba(29,21,41,0.72))]"
-                        : "text-[#9B89B8] hover:bg-[linear-gradient(180deg,rgba(44,31,64,0.5),rgba(29,21,41,0.36))] hover:text-[#E0B3FF]"
+                        ? "bg-[linear-gradient(180deg,rgba(28,22,43,0.72),rgba(12,10,20,0.7))] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] hover:bg-[linear-gradient(180deg,rgba(34,26,52,0.74),rgba(14,12,22,0.72))]"
+                        : "text-[#9B89B8] hover:bg-[linear-gradient(180deg,rgba(24,19,36,0.5),rgba(12,10,20,0.38))] hover:text-[#E0B3FF]"
                     )}
                     aria-selected={isActive}
                     role="option"
@@ -877,19 +897,31 @@ function WireframeCashflowTrend({
               </span>
             ))}
           </div>
-          <div className="relative flex h-full min-w-0 items-end gap-4 rounded-sm border-b border-l border-[#B36BFF]/18 bg-[linear-gradient(rgba(224,179,255,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(44,31,64,0.18),rgba(10,10,10,0.04))] bg-[size:100%_25%,auto] pb-6 pl-4 pt-4">
+          <div className="relative flex h-full min-w-0 items-end gap-4 overflow-hidden rounded-sm border border-[#B36BFF]/12 bg-[linear-gradient(rgba(199,166,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(199,166,255,0.018)_1px,transparent_1px),linear-gradient(180deg,rgba(18,15,28,0.22),rgba(5,5,10,0.08))] bg-[size:100%_25%,16.666%_100%,auto] pb-6 pl-4 pt-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.035),inset_0_-28px_60px_rgba(123,0,212,0.026)]">
+            <span className="pointer-events-none absolute inset-x-4 bottom-9 h-px bg-[linear-gradient(90deg,transparent,rgba(103,232,249,0.24),rgba(199,166,255,0.18),transparent)]" />
+            <span className="pointer-events-none absolute inset-x-8 top-1/2 h-px bg-[linear-gradient(90deg,transparent,rgba(199,166,255,0.08),transparent)]" />
             {series.length > 0 ? (
-              series.map((item) => (
-                <div key={item.key} className="flex h-full min-w-0 flex-1 flex-col justify-end">
-                  <div className="flex h-full min-w-0 items-end justify-center gap-1.5">
-                    {renderCashflowBar(item.income, "income")}
-                    {renderCashflowBar(item.expense, "expense")}
+              series.map((item) => {
+                const hasMonthData = item.income > 0 || item.expense > 0;
+
+                return (
+                  <div key={item.key} className="relative flex h-full min-w-0 flex-1 flex-col justify-end">
+                    <span
+                      className={cn(
+                        "pointer-events-none absolute inset-y-5 left-1/2 w-px -translate-x-1/2 bg-[linear-gradient(180deg,transparent,rgba(199,166,255,0.16),transparent)]",
+                        hasMonthData ? "opacity-45" : "opacity-20"
+                      )}
+                    />
+                    <div className="relative flex h-full min-w-0 items-end justify-center gap-1.5">
+                      {renderCashflowBar(item.income, "income")}
+                      {renderCashflowBar(item.expense, "expense")}
+                    </div>
+                    <span className={cn(chartLabel, "relative mx-auto mt-3 max-w-10 truncate text-center text-[#9B89B8]/78")}>
+                      {item.label}
+                    </span>
                   </div>
-                  <span className={cn(chartLabel, "mx-auto mt-3 max-w-10 truncate text-center text-[#9B89B8]/78")}>
-                    {item.label}
-                  </span>
-                </div>
-              ))
+                );
+              })
             ) : (
               <div className="flex h-full min-w-0 flex-1 items-center justify-center px-4 text-center">
                 <div className="min-w-0">
@@ -901,7 +933,7 @@ function WireframeCashflowTrend({
               </div>
             )}
             {!hasCashflowData && series.length > 0 ? (
-              <div className="pointer-events-none absolute inset-x-4 top-1/2 -translate-y-1/2 rounded-md border border-[rgba(91,67,129,0.4)] bg-[rgba(16,7,37,0.72)] px-3 py-2 text-center">
+              <div className="pointer-events-none absolute inset-x-4 top-1/2 -translate-y-1/2 rounded-md border border-[rgba(91,67,129,0.32)] bg-[rgba(8,7,13,0.76)] px-3 py-2 text-center">
                 <p className={cn(captionText, "text-[#C7B8E8]/82")}>Belum ada arus kas pada 6 bulan terakhir.</p>
               </div>
             ) : null}
