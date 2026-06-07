@@ -175,8 +175,8 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
 
   return (
     <WireframeCard className={cn(heroSurfaceClass, "relative h-[26rem] overflow-hidden p-5 xl:[grid-area:hero]")}>
-      <div className="pointer-events-none absolute -right-16 -top-8 h-[23rem] w-[25.5rem] opacity-74 [mask-image:radial-gradient(ellipse_at_center,black_28%,rgba(0,0,0,0.72)_50%,transparent_74%)]">
-        <div className="absolute inset-8 rounded-full bg-[radial-gradient(circle,rgba(176,64,255,0.24),rgba(34,211,238,0.08)_42%,transparent_70%)] blur-2xl" />
+      <div className="pointer-events-none absolute -right-20 -top-12 h-[24rem] w-[26.75rem] opacity-76 [mask-image:radial-gradient(ellipse_at_center,black_28%,rgba(0,0,0,0.7)_50%,transparent_74%)]">
+        <div className="absolute inset-5 rounded-full bg-[radial-gradient(circle,rgba(176,64,255,0.28),rgba(34,211,238,0.1)_44%,transparent_72%)] blur-2xl" />
         <Image
           src="/assets/illustrations/sakulog-hero-core.png"
           alt=""
@@ -186,6 +186,7 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
           priority
         />
       </div>
+      <div className="pointer-events-none absolute right-8 top-40 h-px w-48 rotate-[-18deg] bg-[linear-gradient(90deg,transparent,rgba(103,232,249,0.28),rgba(176,64,255,0.22),transparent)] blur-[1px]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,4,8,0.94)_0%,rgba(5,4,8,0.82)_48%,rgba(5,4,8,0.28)_74%,rgba(5,4,8,0.08)_100%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,rgba(5,4,8,0.86))]" />
 
@@ -194,7 +195,7 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
         <div className="mt-6 flex min-h-0 flex-1 min-w-0 flex-col">
           <h2 className={cn(heroHeadline, "mt-7 max-w-md")}>Know where your money moves.</h2>
           <p className={cn(heroBody, "mt-5 max-w-md pr-16")}>
-            Pantau saldo bulan ini, baca arah cashflow, dan lihat kondisi uangmu tanpa noise.
+            Pantau saldo bulan ini, baca arah cashflow, dan lihat uangmu bergerak tanpa noise.
           </p>
 
           <div className={cn(cardClass, nestedSurfaceClass, "mt-auto p-5")}>
