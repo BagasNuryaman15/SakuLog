@@ -3,19 +3,19 @@ export type BlockTone = "default" | "primary" | "cta" | AccentTone;
 export type LineTone = "default" | "primary" | "muted" | AccentTone;
 
 export const shellClass =
-  "w-full min-w-0 rounded-[1.5rem] border border-[rgba(179,107,255,0.22)] bg-[linear-gradient(rgba(224,179,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(224,179,255,0.035)_1px,transparent_1px),radial-gradient(circle_at_82%_10%,rgba(176,64,255,0.14),transparent_30%),radial-gradient(circle_at_10%_10%,rgba(106,44,255,0.16),transparent_32%),linear-gradient(135deg,rgba(16,7,37,0.96),rgba(18,11,34,0.88)_48%,rgba(10,10,10,0.92))] bg-[size:64px_64px,64px_64px,auto,auto,auto] p-0 text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_24px_70px_rgba(0,0,0,0.34),0_0_38px_rgba(176,64,255,0.08)]";
+  "w-full min-w-0 rounded-[1.5rem] border border-[rgba(179,107,255,0.18)] bg-[linear-gradient(rgba(224,179,255,0.022)_1px,transparent_1px),linear-gradient(90deg,rgba(224,179,255,0.016)_1px,transparent_1px),radial-gradient(circle_at_88%_6%,rgba(176,64,255,0.13),transparent_28%),radial-gradient(circle_at_4%_94%,rgba(217,70,239,0.075),transparent_30%),radial-gradient(circle_at_68%_112%,rgba(34,211,238,0.032),transparent_34%),linear-gradient(135deg,rgba(5,4,8,0.98),rgba(9,6,18,0.94)_48%,rgba(4,4,6,0.98))] bg-[size:72px_72px,72px_72px,auto,auto,auto,auto] p-0 text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_24px_70px_rgba(0,0,0,0.42),0_0_42px_rgba(176,64,255,0.06)]";
 export const cardClass =
-  "min-w-0 rounded-[1.5rem] border border-[rgba(179,107,255,0.28)] bg-[linear-gradient(145deg,rgba(44,31,64,0.88),rgba(26,16,48,0.82)_52%,rgba(14,9,21,0.88))] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_20px_56px_rgba(0,0,0,0.34),0_0_34px_rgba(176,64,255,0.08)] backdrop-blur-[18px]";
+  "min-w-0 rounded-[1.5rem] border border-[rgba(179,107,255,0.2)] bg-[linear-gradient(145deg,rgba(13,10,20,0.92),rgba(7,6,11,0.9)_58%,rgba(4,4,6,0.94))] shadow-[inset_0_1px_0_rgba(255,255,255,0.055),inset_0_0_0_1px_rgba(224,179,255,0.025),0_22px_60px_rgba(0,0,0,0.42),0_0_28px_rgba(176,64,255,0.045)] backdrop-blur-[18px]";
 export const topbarClass =
-  "border-[rgba(179,107,255,0.3)] bg-[linear-gradient(135deg,rgba(29,21,41,0.94),rgba(16,7,37,0.88))] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_14px_38px_rgba(0,0,0,0.3),0_0_34px_rgba(176,64,255,0.08)]";
+  "border-[rgba(179,107,255,0.22)] bg-[linear-gradient(135deg,rgba(13,10,20,0.94),rgba(6,5,10,0.9))] shadow-[inset_0_1px_0_rgba(255,255,255,0.055),0_16px_42px_rgba(0,0,0,0.38),0_0_30px_rgba(176,64,255,0.055)]";
 export const heroSurfaceClass =
-  "border-[rgba(179,107,255,0.34)] bg-[radial-gradient(circle_at_78%_14%,rgba(176,64,255,0.24),transparent_28%),radial-gradient(circle_at_62%_34%,rgba(106,44,255,0.22),transparent_34%),radial-gradient(circle_at_16%_10%,rgba(34,211,238,0.09),transparent_30%),linear-gradient(145deg,rgba(29,21,41,0.94),rgba(22,13,42,0.96)_62%,rgba(10,10,10,0.92))] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_0_0_1px_rgba(224,179,255,0.055),0_30px_72px_rgba(0,0,0,0.38),0_0_58px_rgba(176,64,255,0.16),0_0_28px_rgba(34,211,238,0.04)]";
+  "border-[rgba(179,107,255,0.26)] bg-[radial-gradient(circle_at_82%_10%,rgba(176,64,255,0.18),transparent_28%),radial-gradient(circle_at_18%_8%,rgba(34,211,238,0.055),transparent_28%),linear-gradient(145deg,rgba(15,11,24,0.94),rgba(8,6,13,0.96)_62%,rgba(4,4,6,0.94))] shadow-[inset_0_1px_0_rgba(255,255,255,0.07),inset_0_0_0_1px_rgba(224,179,255,0.04),0_32px_78px_rgba(0,0,0,0.46),0_0_54px_rgba(176,64,255,0.11),0_0_22px_rgba(34,211,238,0.028)]";
 export const nestedSurfaceClass =
-  "border-[rgba(179,107,255,0.26)] bg-[linear-gradient(135deg,rgba(34,22,51,0.82),rgba(18,11,34,0.74))] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_15px_36px_rgba(0,0,0,0.3),0_0_26px_rgba(176,64,255,0.08)]";
+  "border-[rgba(179,107,255,0.2)] bg-[linear-gradient(135deg,rgba(14,10,22,0.84),rgba(6,5,10,0.78))] shadow-[inset_0_1px_0_rgba(255,255,255,0.055),0_16px_38px_rgba(0,0,0,0.36),0_0_22px_rgba(176,64,255,0.055)]";
 export const rightRailSurfaceClass =
-  "border-[rgba(179,107,255,0.26)] bg-[linear-gradient(145deg,rgba(34,22,51,0.88),rgba(18,11,34,0.82))] shadow-[inset_0_1px_0_rgba(255,255,255,0.055),0_17px_44px_rgba(0,0,0,0.32),0_0_26px_rgba(176,64,255,0.065)]";
+  "border-[rgba(179,107,255,0.2)] bg-[linear-gradient(145deg,rgba(13,10,20,0.9),rgba(6,5,10,0.88))] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_18px_48px_rgba(0,0,0,0.4),0_0_22px_rgba(176,64,255,0.045)]";
 export const cashflowSurfaceClass =
-  "border-[rgba(179,107,255,0.26)] bg-[linear-gradient(145deg,rgba(34,22,51,0.88),rgba(16,10,30,0.84))] shadow-[inset_0_1px_0_rgba(255,255,255,0.055),0_20px_52px_rgba(0,0,0,0.32),0_0_34px_rgba(176,64,255,0.07)]";
+  "border-[rgba(179,107,255,0.2)] bg-[linear-gradient(145deg,rgba(13,10,20,0.9),rgba(5,5,9,0.88))] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_22px_56px_rgba(0,0,0,0.42),0_0_28px_rgba(176,64,255,0.045)]";
 export const lineClass =
   "h-2 rounded-sm bg-[linear-gradient(90deg,rgba(248,244,255,0.5),rgba(199,184,232,0.32))] shadow-[0_0_18px_rgba(176,64,255,0.06)]";
 
@@ -66,8 +66,8 @@ export const lineToneClass: Record<LineTone, string> = {
 };
 
 export const kpiSurfaceToneClass: Record<AccentTone, string> = {
-  cyan: "border-[rgba(103,232,249,0.3)] bg-[radial-gradient(circle_at_84%_10%,rgba(34,211,238,0.12),transparent_34%),linear-gradient(145deg,rgba(44,31,64,0.86),rgba(26,16,48,0.82))]",
-  violet: "border-[rgba(179,107,255,0.32)] bg-[radial-gradient(circle_at_84%_10%,rgba(176,64,255,0.14),transparent_34%),linear-gradient(145deg,rgba(44,31,64,0.88),rgba(26,16,48,0.82))]",
-  magenta: "border-[rgba(244,114,182,0.3)] bg-[radial-gradient(circle_at_84%_10%,rgba(236,72,153,0.12),transparent_34%),linear-gradient(145deg,rgba(44,31,64,0.86),rgba(26,16,48,0.82))]",
-  blueViolet: "border-[rgba(129,140,248,0.3)] bg-[radial-gradient(circle_at_84%_10%,rgba(129,140,248,0.11),transparent_34%),linear-gradient(145deg,rgba(44,31,64,0.86),rgba(26,16,48,0.82))]"
+  cyan: "border-[rgba(103,232,249,0.24)] bg-[radial-gradient(circle_at_84%_10%,rgba(34,211,238,0.085),transparent_34%),linear-gradient(145deg,rgba(13,10,20,0.9),rgba(7,6,12,0.86))]",
+  violet: "border-[rgba(179,107,255,0.26)] bg-[radial-gradient(circle_at_84%_10%,rgba(176,64,255,0.1),transparent_34%),linear-gradient(145deg,rgba(13,10,20,0.9),rgba(7,6,12,0.86))]",
+  magenta: "border-[rgba(244,114,182,0.23)] bg-[radial-gradient(circle_at_84%_10%,rgba(236,72,153,0.085),transparent_34%),linear-gradient(145deg,rgba(13,10,20,0.9),rgba(7,6,12,0.86))]",
+  blueViolet: "border-[rgba(129,140,248,0.24)] bg-[radial-gradient(circle_at_84%_10%,rgba(129,140,248,0.08),transparent_34%),linear-gradient(145deg,rgba(13,10,20,0.9),rgba(7,6,12,0.86))]"
 };
