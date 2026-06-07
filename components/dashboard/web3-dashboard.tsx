@@ -20,7 +20,6 @@ import { cn } from "@/lib/utils";
 import {
   WireframeBlock,
   WireframeCard,
-  WireframeImageBox,
   WireframeSparkline
 } from "./dashboard-primitives";
 import {
@@ -550,7 +549,7 @@ function WireframeMiniInsight({ summary }: { summary: DashboardSummary }) {
     <WireframeCard className={cn(rightRailSurfaceClass, "h-[6.75rem] p-4")}>
       <h3 className={cn(rightRailTitle, "truncate")}>Mini Insight</h3>
       <div className="mt-3 grid min-w-0 grid-cols-[4.75rem_minmax(0,1fr)] gap-3">
-        <WireframeImageBox className="h-12" />
+        <MiniInsightBlackhole />
         <div className="min-w-0">
           <p className={cn(metricLabel, "line-clamp-2 text-[#C7B8E8]/90")}>
             {insight}
@@ -559,6 +558,72 @@ function WireframeMiniInsight({ summary }: { summary: DashboardSummary }) {
         </div>
       </div>
     </WireframeCard>
+  );
+}
+
+function MiniInsightBlackhole() {
+  return (
+    <div
+      className="relative h-12 overflow-hidden rounded-md border border-[#B36BFF]/22 bg-[radial-gradient(circle_at_50%_50%,rgba(103,232,249,0.07),rgba(13,10,20,0.9)_56%,rgba(5,4,8,0.95))] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_0_18px_rgba(176,64,255,0.07)]"
+      aria-hidden="true"
+    >
+      <span className="absolute left-3 top-2 h-1 w-1 rounded-full bg-[#D8B4FE]/50 shadow-[0_0_9px_rgba(216,180,254,0.32)]" />
+      <span className="absolute right-4 top-3 h-0.5 w-0.5 rounded-full bg-cyan-200/55 shadow-[0_0_8px_rgba(103,232,249,0.32)]" />
+      <span className="absolute bottom-2 left-5 h-0.5 w-0.5 rounded-full bg-[#B36BFF]/45 shadow-[0_0_8px_rgba(179,107,255,0.28)]" />
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 76 48" fill="none">
+        <path
+          d="M9 28C20 18 34 16 47 19C58 21 66 25 70 27C60 25 52 26 43 29C31 33 19 34 9 28Z"
+          fill="url(#mini-insight-disk)"
+          opacity="0.62"
+        />
+        <path
+          d="M8 28C18 33 31 33 43 29C52 26 61 25 70 27"
+          stroke="url(#mini-insight-cyan)"
+          strokeLinecap="round"
+          strokeWidth="1.25"
+          opacity="0.46"
+        />
+        <path
+          d="M14 23C26 12 46 12 57 22"
+          stroke="url(#mini-insight-violet)"
+          strokeLinecap="round"
+          strokeWidth="1.4"
+          opacity="0.58"
+        />
+        <path
+          d="M20 18C30 9 47 12 55 23"
+          stroke="#B36BFF"
+          strokeLinecap="round"
+          strokeWidth="0.9"
+          opacity="0.42"
+        />
+        <circle cx="38" cy="25" r="10" fill="url(#mini-insight-core)" />
+        <circle cx="38" cy="25" r="10.5" stroke="#D8B4FE" strokeOpacity="0.18" />
+        <defs>
+          <linearGradient id="mini-insight-disk" x1="9" y1="24" x2="70" y2="30" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#67E8F9" stopOpacity="0" />
+            <stop offset="0.36" stopColor="#B36BFF" stopOpacity="0.62" />
+            <stop offset="0.68" stopColor="#7C3AED" stopOpacity="0.44" />
+            <stop offset="1" stopColor="#F472B6" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="mini-insight-cyan" x1="8" y1="30" x2="70" y2="27" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#67E8F9" stopOpacity="0" />
+            <stop offset="0.5" stopColor="#67E8F9" />
+            <stop offset="1" stopColor="#B36BFF" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="mini-insight-violet" x1="14" y1="19" x2="57" y2="20" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#B36BFF" stopOpacity="0" />
+            <stop offset="0.52" stopColor="#D8B4FE" />
+            <stop offset="1" stopColor="#B36BFF" stopOpacity="0" />
+          </linearGradient>
+          <radialGradient id="mini-insight-core" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(38 25) rotate(90) scale(10)">
+            <stop offset="0.46" stopColor="#050408" />
+            <stop offset="0.78" stopColor="#0B0618" />
+            <stop offset="1" stopColor="#2A104A" />
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
   );
 }
 
