@@ -41,6 +41,12 @@ Gunakan referensi visual utama:
 docs/design/dashboard-blueprint-collapsed.png
 ```
 
+Gunakan juga memory referensi Web3 berikut sebagai kontrak rasa visual:
+
+```text
+docs/design/sakulog-web3-reference-memory.md
+```
+
 Jika nama file berbeda, gunakan gambar collapsed blueprint terbaru yang menunjukkan dashboard final direction dengan warna:
 
 * dark navy background
