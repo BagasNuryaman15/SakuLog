@@ -64,7 +64,7 @@ export function AppSidebar() {
             <button
               type="button"
               onClick={() => setIsCollapsed(false)}
-              className="group/brand mx-auto flex h-10 w-10 items-center justify-center rounded-[0.8rem] border border-white/[0.08] bg-[rgba(11,12,18,0.78)] text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition hover:-translate-y-px hover:border-[#BFA7FF]/22 hover:bg-white/[0.045] hover:text-[#F8F4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              className="group group/brand mx-auto flex h-10 w-10 items-center justify-center rounded-[0.8rem] border border-white/[0.08] bg-[rgba(11,12,18,0.78)] text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition hover:-translate-y-px hover:border-[#BFA7FF]/22 hover:bg-white/[0.045] hover:text-[#F8F4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               aria-label="Expand sidebar"
               title="Expand sidebar"
             >
@@ -75,7 +75,7 @@ export function AppSidebar() {
             <>
               <Link
                 href="/dashboard"
-                className="group/brand flex h-12 min-w-0 items-center gap-3 rounded-[0.9rem] border border-white/[0.08] bg-[rgba(11,12,18,0.78)] px-2.5 text-sm font-semibold text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition hover:-translate-y-px hover:border-[#BFA7FF]/22 hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="group group/brand flex h-12 min-w-0 items-center gap-3 rounded-[0.9rem] border border-white/[0.08] bg-[rgba(11,12,18,0.78)] px-2.5 text-sm font-semibold text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition hover:-translate-y-px hover:border-[#BFA7FF]/22 hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 aria-label="SakuLog dashboard"
               >
                 <SidebarBrandSlot />
@@ -190,7 +190,7 @@ export function AppSidebar() {
           />
           <div
             className={cn(
-              "relative flex h-10 w-10 items-center justify-center rounded-[0.75rem] border border-white/[0.08] bg-white/[0.045] text-xs font-bold text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
+              "group relative flex h-10 w-10 items-center justify-center rounded-[0.75rem] border border-white/[0.08] bg-white/[0.045] text-xs font-bold text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
               !isCollapsed && "mb-3"
             )}
             title="Session secured"
