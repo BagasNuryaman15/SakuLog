@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import {
+  getDashboardMonthLabel,
   getDashboardSummary,
   getEmptyDashboardSummary,
   type DashboardSummary
@@ -71,6 +72,7 @@ export function Web3Dashboard() {
   const [isCashflowRangeOpen, setIsCashflowRangeOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const dashboardMonthLabel = getDashboardMonthLabel();
 
   useEffect(() => {
     let isActive = true;
@@ -108,7 +110,7 @@ export function Web3Dashboard() {
 
   return (
     <div className={shellClass} data-dashboard-data-hook={dataHookIsPreserved ? "preserved" : "idle"}>
-      <WireframeTopBar />
+      <WireframeTopBar monthLabel={dashboardMonthLabel} />
 
       <section className="mt-4 grid w-full min-w-0 gap-4 xl:grid-cols-[minmax(25.5rem,1.35fr)_minmax(22rem,0.95fr)_minmax(20rem,21.25rem)] xl:grid-rows-[auto_auto] xl:[grid-template-areas:'hero_kpis_right'_'cashflow_cashflow_right']">
         <WireframeHero summary={summary} />
@@ -134,7 +136,7 @@ export function Web3Dashboard() {
   );
 }
 
-function WireframeTopBar() {
+function WireframeTopBar({ monthLabel }: { monthLabel: string }) {
   return (
     <header className={cn(cardClass, topbarClass, "flex min-h-[4.75rem] flex-col justify-center px-5 py-3")}>
       <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
@@ -175,10 +177,10 @@ function WireframeTopBar() {
               topbarControlClass,
               "group flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-md px-3 text-[#C7B8E8] lg:w-40"
             )}
-            aria-label="Periode aktif Juni 2026"
+            aria-label={`Periode aktif ${monthLabel}`}
           >
             <SakuCalendarGlyph className="h-4 w-4 shrink-0 text-[#BFA7FF]/82" />
-            <span className="truncate">Juni 2026</span>
+            <span className="truncate">{monthLabel}</span>
             <ChevronDown className="h-3.5 w-3.5 shrink-0 text-[#9B89B8]/72 transition group-hover:text-[#D8B4FE]" />
           </button>
           <button
@@ -272,7 +274,7 @@ function TransactionNodeGlyph({ className }: { className?: string }) {
 }
 
 function WireframeHero({ summary }: { summary: DashboardSummary }) {
-  const isCashflowNegative = summary.monthBalance < 0;
+  const cashflowStatus = getCashflowStatus(summary.monthBalance);
 
   return (
     <WireframeCard className={cn(heroSurfaceClass, "relative h-[26rem] overflow-hidden p-5 xl:[grid-area:hero]")}>
@@ -322,12 +324,10 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
                   className={cn(
                     captionText,
                     "mt-4 truncate text-xs font-bold",
-                    isCashflowNegative
-                      ? "text-[#FF4FD8] drop-shadow-[0_0_16px_rgba(255,79,216,0.34)]"
-                      : "text-[#6EE7B7] drop-shadow-[0_0_16px_rgba(110,231,183,0.3)]"
+                    cashflowStatus.className
                   )}
                 >
-                  {isCashflowNegative ? "Cashflow negatif" : "Cashflow positif"}
+                  {cashflowStatus.label}
                 </p>
               </div>
               <WireframeBlock className="h-12 w-12 shrink-0" tone="primary" />
@@ -337,6 +337,27 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
       </div>
     </WireframeCard>
   );
+}
+
+function getCashflowStatus(balance: number) {
+  if (balance > 0) {
+    return {
+      label: "Cashflow positif",
+      className: "text-[#6EE7B7] drop-shadow-[0_0_16px_rgba(110,231,183,0.3)]"
+    };
+  }
+
+  if (balance < 0) {
+    return {
+      label: "Cashflow negatif",
+      className: "text-[#FF4FD8] drop-shadow-[0_0_16px_rgba(255,79,216,0.34)]"
+    };
+  }
+
+  return {
+    label: "Cashflow seimbang",
+    className: "text-[#C7B8E8]/86 drop-shadow-[0_0_14px_rgba(199,184,232,0.16)]"
+  };
 }
 
 function WireframeKpis({ summary }: { summary: DashboardSummary }) {
@@ -797,7 +818,7 @@ function WireframeRecentTransactions({ summary }: { summary: DashboardSummary })
             const isIncome = transaction.type === "income";
 
             return (
-              <div key={transaction.id} className="grid min-w-0 grid-cols-[1rem_minmax(0,1fr)_4.35rem] items-center gap-2.5">
+              <div key={transaction.id} className="grid min-w-0 grid-cols-[1rem_minmax(0,1fr)_5.2rem] items-center gap-2.5">
                 <span
                   className={cn(
                     "h-4 w-4 rounded border shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
@@ -958,6 +979,7 @@ function WireframeCashflowTrend({
               )}
               aria-expanded={isCashflowRangeOpen}
               aria-haspopup="listbox"
+              aria-label="Pilih rentang cashflow"
               onClick={onCashflowRangeMenuToggle}
             >
               <span />
@@ -1061,7 +1083,9 @@ function WireframeCashflowTrend({
             )}
             {!hasCashflowData && series.length > 0 ? (
               <div className="pointer-events-none absolute inset-x-4 top-1/2 -translate-y-1/2 rounded-md border border-[rgba(91,67,129,0.32)] bg-[rgba(8,7,13,0.76)] px-3 py-2 text-center">
-                <p className={cn(captionText, "text-[#C7B8E8]/82")}>Belum ada arus kas pada 6 bulan terakhir.</p>
+                <p className={cn(captionText, "text-[#C7B8E8]/82")}>
+                  Belum ada arus kas pada {cashflowRange} bulan terakhir.
+                </p>
               </div>
             ) : null}
           </div>
