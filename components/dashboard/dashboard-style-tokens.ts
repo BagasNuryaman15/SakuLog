@@ -3,19 +3,27 @@ export type BlockTone = "default" | "primary" | "cta" | AccentTone;
 export type LineTone = "default" | "primary" | "muted" | AccentTone;
 
 export const shellClass =
-  "w-full min-w-0 rounded-[1.5rem] bg-[linear-gradient(rgba(224,179,255,0.014)_1px,transparent_1px),linear-gradient(90deg,rgba(224,179,255,0.01)_1px,transparent_1px),radial-gradient(circle_at_87%_5%,rgba(154,53,255,0.09),transparent_30%),radial-gradient(circle_at_10%_92%,rgba(123,0,212,0.045),transparent_34%),radial-gradient(circle_at_72%_112%,rgba(34,211,238,0.022),transparent_36%),linear-gradient(135deg,rgba(5,5,10,0.99),rgba(7,6,17,0.97)_48%,rgba(4,4,7,0.99))] bg-[size:72px_72px,72px_72px,auto,auto,auto,auto] p-0 text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.024),0_28px_76px_rgba(0,0,0,0.5),0_0_34px_rgba(123,0,212,0.035)]";
+  "w-full min-w-0 rounded-[1.5rem] bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px),radial-gradient(circle_at_88%_4%,rgba(146,82,255,0.052),transparent_30%),radial-gradient(circle_at_11%_88%,rgba(33,50,74,0.18),transparent_34%),radial-gradient(circle_at_74%_112%,rgba(34,211,238,0.018),transparent_36%),linear-gradient(135deg,rgba(3,3,5,0.995),rgba(6,7,10,0.985)_48%,rgba(2,2,4,0.995))] bg-[size:72px_72px,72px_72px,auto,auto,auto,auto] p-0 text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.026),0_30px_80px_rgba(0,0,0,0.58)]";
 export const cardClass =
-  "min-w-0 rounded-[1.5rem] border border-[rgba(199,166,255,0.105)] bg-[linear-gradient(145deg,rgba(10,9,16,0.94),rgba(6,6,10,0.92)_60%,rgba(3,3,6,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.038),inset_0_0_0_1px_rgba(224,179,255,0.012),0_22px_60px_rgba(0,0,0,0.45)] backdrop-blur-[18px]";
+  "min-w-0 rounded-[1.5rem] border border-[rgba(214,226,255,0.078)] bg-[linear-gradient(145deg,rgba(10,10,13,0.965),rgba(5,6,8,0.94)_62%,rgba(2,2,4,0.975))] shadow-[inset_0_1px_0_rgba(255,255,255,0.034),inset_0_0_0_1px_rgba(255,255,255,0.006),0_24px_64px_rgba(0,0,0,0.52)] backdrop-blur-[18px]";
 export const topbarClass =
-  "border-[rgba(199,166,255,0.11)] bg-[radial-gradient(circle_at_84%_0%,rgba(154,53,255,0.07),transparent_32%),linear-gradient(135deg,rgba(9,8,15,0.97),rgba(5,5,9,0.94))] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_16px_42px_rgba(0,0,0,0.44),0_0_24px_rgba(123,0,212,0.025)]";
+  "border-[rgba(214,226,255,0.07)] bg-[linear-gradient(135deg,rgba(5,5,7,0.99),rgba(2,2,4,0.97))] shadow-[inset_0_1px_0_rgba(255,255,255,0.035),0_18px_46px_rgba(0,0,0,0.54)]";
+export const topbarControlClass =
+  "border-[rgba(214,226,255,0.125)] bg-[linear-gradient(180deg,rgba(12,13,17,0.88),rgba(5,5,8,0.82))] shadow-[inset_0_1px_0_rgba(255,255,255,0.036),0_10px_24px_rgba(0,0,0,0.2)] outline-none transition duration-150 hover:-translate-y-px hover:border-[rgba(214,226,255,0.2)] hover:bg-[linear-gradient(180deg,rgba(16,17,22,0.92),rgba(6,6,9,0.86))] hover:text-[#F8F4FF] hover:shadow-[0_12px_28px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.045)] focus-visible:border-[#67E8F9]/36 focus-visible:shadow-[0_0_0_2px_rgba(34,211,238,0.1),0_12px_28px_rgba(0,0,0,0.26)]";
+export const topbarCommandKeyClass =
+  "border-[rgba(214,226,255,0.1)] bg-[rgba(12,13,18,0.82)] text-[#6F5F86]";
+export const topbarIconButtonClass =
+  "border-[rgba(214,226,255,0.125)] bg-[linear-gradient(180deg,rgba(12,13,17,0.9),rgba(5,5,8,0.84))] text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.036),0_10px_24px_rgba(0,0,0,0.2)] outline-none transition duration-150 hover:-translate-y-px hover:border-[rgba(214,226,255,0.2)] hover:text-[#F8F4FF] hover:shadow-[0_12px_26px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.045)] focus-visible:border-[#67E8F9]/36 focus-visible:shadow-[0_0_0_2px_rgba(34,211,238,0.1)]";
+export const topbarCtaClass =
+  "border-[#E0B3FF]/22 bg-[linear-gradient(135deg,#5C24F1_0%,#8235FF_58%,#B337F0_100%)] text-[#F8F4FF] shadow-[0_14px_34px_rgba(106,44,255,0.24),0_0_18px_rgba(176,64,255,0.13),inset_0_1px_0_rgba(255,255,255,0.16)] outline-none transition duration-150 hover:-translate-y-px hover:shadow-[0_18px_38px_rgba(106,44,255,0.3),0_0_24px_rgba(176,64,255,0.18),inset_0_1px_0_rgba(255,255,255,0.18)] focus-visible:shadow-[0_0_0_2px_rgba(224,179,255,0.18),0_14px_34px_rgba(106,44,255,0.24),0_0_18px_rgba(176,64,255,0.13)]";
 export const heroSurfaceClass =
-  "border-[rgba(199,166,255,0.15)] bg-[radial-gradient(circle_at_82%_10%,rgba(154,53,255,0.15),transparent_30%),radial-gradient(circle_at_18%_8%,rgba(34,211,238,0.04),transparent_30%),linear-gradient(145deg,rgba(12,10,20,0.96),rgba(6,6,12,0.97)_64%,rgba(3,3,6,0.96))] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),inset_0_0_0_1px_rgba(224,179,255,0.02),0_34px_82px_rgba(0,0,0,0.5),0_0_46px_rgba(123,0,212,0.075),0_0_18px_rgba(34,211,238,0.02)]";
+  "border-[rgba(214,226,255,0.105)] bg-[radial-gradient(circle_at_80%_12%,rgba(146,82,255,0.105),transparent_31%),radial-gradient(circle_at_18%_8%,rgba(34,211,238,0.032),transparent_30%),linear-gradient(145deg,rgba(11,11,15,0.98),rgba(5,6,9,0.98)_64%,rgba(2,2,4,0.97))] shadow-[inset_0_1px_0_rgba(255,255,255,0.046),inset_0_0_0_1px_rgba(255,255,255,0.008),0_36px_88px_rgba(0,0,0,0.58),0_0_34px_rgba(123,0,212,0.045)]";
 export const nestedSurfaceClass =
-  "border-[rgba(199,166,255,0.1)] bg-[linear-gradient(135deg,rgba(9,8,15,0.9),rgba(4,4,8,0.84))] shadow-[inset_0_1px_0_rgba(255,255,255,0.036),0_16px_38px_rgba(0,0,0,0.42)]";
+  "border-[rgba(214,226,255,0.072)] bg-[linear-gradient(135deg,rgba(9,9,12,0.92),rgba(3,4,6,0.86))] shadow-[inset_0_1px_0_rgba(255,255,255,0.034),0_18px_42px_rgba(0,0,0,0.48)]";
 export const rightRailSurfaceClass =
-  "border-[rgba(199,166,255,0.085)] bg-[linear-gradient(145deg,rgba(9,8,15,0.93),rgba(5,5,9,0.92))] shadow-[inset_0_1px_0_rgba(255,255,255,0.032),0_18px_48px_rgba(0,0,0,0.43)]";
+  "border-[rgba(214,226,255,0.068)] bg-[linear-gradient(145deg,rgba(9,9,12,0.94),rgba(4,4,7,0.93))] shadow-[inset_0_1px_0_rgba(255,255,255,0.03),0_20px_52px_rgba(0,0,0,0.48)]";
 export const cashflowSurfaceClass =
-  "border-[rgba(199,166,255,0.11)] bg-[radial-gradient(circle_at_86%_4%,rgba(123,0,212,0.055),transparent_32%),linear-gradient(145deg,rgba(10,9,16,0.95),rgba(4,4,8,0.94))] shadow-[inset_0_1px_0_rgba(255,255,255,0.036),0_24px_60px_rgba(0,0,0,0.48),0_0_24px_rgba(123,0,212,0.035)]";
+  "border-[rgba(214,226,255,0.078)] bg-[radial-gradient(circle_at_86%_4%,rgba(146,82,255,0.034),transparent_32%),linear-gradient(145deg,rgba(9,9,12,0.965),rgba(3,4,6,0.95))] shadow-[inset_0_1px_0_rgba(255,255,255,0.034),0_26px_66px_rgba(0,0,0,0.54)]";
 export const lineClass =
   "h-2 rounded-sm bg-[linear-gradient(90deg,rgba(248,244,255,0.42),rgba(199,184,232,0.24))]";
 
@@ -46,9 +54,9 @@ export const rightRailTitle =
 export const chartLabel = "text-[0.625rem] font-semibold leading-none tracking-[-0.005em] text-[#9B89B8]/78 tabular-nums";
 
 export const blockToneClass: Record<BlockTone, string> = {
-  default: "border-[rgba(91,67,129,0.34)] bg-[rgba(18,15,28,0.58)]",
-  primary: "border-[rgba(199,166,255,0.2)] bg-[rgba(28,22,43,0.62)]",
-  cta: "border-[rgba(224,179,255,0.24)] bg-[linear-gradient(135deg,#6A2CFF_0%,#9A35FF_54%,#D946EF_100%)] shadow-[0_14px_34px_rgba(106,44,255,0.25),0_0_20px_rgba(176,64,255,0.16),inset_0_1px_0_rgba(255,255,255,0.16)]",
+  default: "border-[rgba(214,226,255,0.11)] bg-[rgba(14,15,19,0.62)]",
+  primary: "border-[rgba(214,226,255,0.14)] bg-[rgba(18,18,24,0.66)]",
+  cta: "border-[rgba(224,179,255,0.22)] bg-[linear-gradient(135deg,#5C24F1_0%,#8235FF_55%,#B337F0_100%)] shadow-[0_14px_34px_rgba(106,44,255,0.23),0_0_18px_rgba(176,64,255,0.13),inset_0_1px_0_rgba(255,255,255,0.16)]",
   cyan: "border-[rgba(103,232,249,0.38)] bg-[rgba(34,211,238,0.1)] shadow-[0_0_14px_rgba(34,211,238,0.1)]",
   violet: "border-[rgba(179,107,255,0.34)] bg-[rgba(123,0,212,0.12)] shadow-[0_0_14px_rgba(176,64,255,0.1)]",
   magenta: "border-[rgba(244,114,182,0.34)] bg-[rgba(186,49,159,0.12)] shadow-[0_0_14px_rgba(236,72,153,0.1)]",
@@ -66,8 +74,8 @@ export const lineToneClass: Record<LineTone, string> = {
 };
 
 export const kpiSurfaceToneClass: Record<AccentTone, string> = {
-  cyan: "border-[rgba(103,232,249,0.18)] bg-[radial-gradient(circle_at_84%_10%,rgba(34,211,238,0.055),transparent_36%),linear-gradient(145deg,rgba(9,8,15,0.94),rgba(5,5,10,0.91))]",
-  violet: "border-[rgba(179,107,255,0.18)] bg-[radial-gradient(circle_at_84%_10%,rgba(154,53,255,0.06),transparent_36%),linear-gradient(145deg,rgba(9,8,15,0.94),rgba(5,5,10,0.91))]",
-  magenta: "border-[rgba(244,114,182,0.17)] bg-[radial-gradient(circle_at_84%_10%,rgba(236,72,153,0.052),transparent_36%),linear-gradient(145deg,rgba(9,8,15,0.94),rgba(5,5,10,0.91))]",
-  blueViolet: "border-[rgba(129,140,248,0.17)] bg-[radial-gradient(circle_at_84%_10%,rgba(129,140,248,0.052),transparent_36%),linear-gradient(145deg,rgba(9,8,15,0.94),rgba(5,5,10,0.91))]"
+  cyan: "border-[rgba(103,232,249,0.16)] bg-[radial-gradient(circle_at_84%_10%,rgba(34,211,238,0.04),transparent_36%),linear-gradient(145deg,rgba(9,9,12,0.955),rgba(4,5,7,0.93))]",
+  violet: "border-[rgba(179,107,255,0.15)] bg-[radial-gradient(circle_at_84%_10%,rgba(154,53,255,0.042),transparent_36%),linear-gradient(145deg,rgba(9,9,12,0.955),rgba(4,5,7,0.93))]",
+  magenta: "border-[rgba(244,114,182,0.15)] bg-[radial-gradient(circle_at_84%_10%,rgba(236,72,153,0.038),transparent_36%),linear-gradient(145deg,rgba(9,9,12,0.955),rgba(4,5,7,0.93))]",
+  blueViolet: "border-[rgba(129,140,248,0.145)] bg-[radial-gradient(circle_at_84%_10%,rgba(129,140,248,0.038),transparent_36%),linear-gradient(145deg,rgba(9,9,12,0.955),rgba(4,5,7,0.93))]"
 };

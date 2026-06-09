@@ -9,7 +9,6 @@ import {
   CircleDollarSign,
   ChevronDown,
   Search,
-  Sparkles,
   type LucideIcon
 } from "lucide-react";
 
@@ -46,6 +45,10 @@ import {
   rightRailSurfaceClass,
   rightRailTitle,
   shellClass,
+  topbarCommandKeyClass,
+  topbarControlClass,
+  topbarCtaClass,
+  topbarIconButtonClass,
   topbarClass,
   type AccentTone
 } from "./dashboard-style-tokens";
@@ -149,13 +152,19 @@ function WireframeTopBar() {
             type="button"
             className={cn(
               navLabel,
-              "group flex h-10 min-w-0 flex-1 items-center gap-2 rounded-md border border-[rgba(199,166,255,0.16)] bg-[linear-gradient(180deg,rgba(18,15,28,0.72),rgba(8,7,13,0.66))] px-3 text-left text-[#9B89B8] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] outline-none transition duration-150 hover:-translate-y-px hover:border-[#B36BFF]/30 hover:bg-[linear-gradient(180deg,rgba(22,18,34,0.8),rgba(8,7,13,0.7))] hover:text-[#C7B8E8] hover:shadow-[0_12px_28px_rgba(0,0,0,0.24),0_0_16px_rgba(154,53,255,0.07),inset_0_1px_0_rgba(255,255,255,0.045)] focus-visible:border-[#67E8F9]/42 focus-visible:shadow-[0_0_0_2px_rgba(34,211,238,0.12),0_12px_28px_rgba(0,0,0,0.24)] lg:w-72 lg:flex-none"
+              topbarControlClass,
+              "group flex h-10 min-w-0 flex-1 items-center gap-2 rounded-md px-3 text-left text-[#9B89B8] hover:text-[#C7B8E8] lg:w-72 lg:flex-none"
             )}
             aria-label="Cari transaksi, kategori, atau insight"
           >
             <Search className="h-4 w-4 shrink-0 text-[#67E8F9]/68 transition group-hover:text-[#67E8F9]/88" />
             <span className="truncate">Cari transaksi, kategori, atau insight...</span>
-            <span className="ml-auto hidden shrink-0 rounded-sm border border-[#B36BFF]/14 bg-[#100B25]/80 px-1.5 py-1 text-[0.56rem] font-bold uppercase tracking-[0.12em] text-[#6F5F86] xl:inline">
+            <span
+              className={cn(
+                topbarCommandKeyClass,
+                "ml-auto hidden shrink-0 rounded-sm border px-1.5 py-1 text-[0.56rem] font-bold uppercase tracking-[0.12em] xl:inline"
+              )}
+            >
               Cmd K
             </span>
           </button>
@@ -163,34 +172,102 @@ function WireframeTopBar() {
             type="button"
             className={cn(
               navLabel,
-              "group flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-md border border-[rgba(91,67,129,0.42)] bg-[linear-gradient(180deg,rgba(14,12,22,0.74),rgba(7,6,12,0.68))] px-3 text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] outline-none transition duration-150 hover:-translate-y-px hover:border-[#B36BFF]/28 hover:text-[#F8F4FF] focus-visible:border-[#D8B4FE]/42 focus-visible:shadow-[0_0_0_2px_rgba(179,107,255,0.16)] lg:w-40"
+              topbarControlClass,
+              "group flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-md px-3 text-[#C7B8E8] lg:w-40"
             )}
             aria-label="Periode aktif Juni 2026"
           >
-            <CalendarDays className="h-3.5 w-3.5 shrink-0 text-[#B36BFF]/70" />
+            <SakuCalendarGlyph className="h-4 w-4 shrink-0 text-[#BFA7FF]/82" />
             <span className="truncate">Juni 2026</span>
             <ChevronDown className="h-3.5 w-3.5 shrink-0 text-[#9B89B8]/72 transition group-hover:text-[#D8B4FE]" />
           </button>
           <button
             type="button"
-            className="group relative flex h-10 w-11 shrink-0 items-center justify-center rounded-md border border-[rgba(199,166,255,0.16)] bg-[linear-gradient(180deg,rgba(18,15,28,0.76),rgba(7,6,12,0.72))] text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] outline-none transition duration-150 hover:-translate-y-px hover:border-[#B36BFF]/32 hover:text-[#F8F4FF] hover:shadow-[0_0_18px_rgba(154,53,255,0.1),inset_0_1px_0_rgba(255,255,255,0.045)] focus-visible:border-[#67E8F9]/42 focus-visible:shadow-[0_0_0_2px_rgba(34,211,238,0.12)]"
+            className={cn(
+              topbarIconButtonClass,
+              "group relative flex h-10 w-11 shrink-0 items-center justify-center rounded-md border"
+            )}
             aria-label="Status insight dashboard"
           >
             <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-[#67E8F9] shadow-[0_0_10px_rgba(103,232,249,0.55)]" />
-            <Sparkles className="h-4 w-4 text-[#D8B4FE]/76 transition group-hover:text-[#E0B3FF]" />
+            <SignalCoreGlyph className="h-[1.125rem] w-[1.125rem] text-[#D8B4FE]/78 transition group-hover:text-[#F8F4FF]" />
           </button>
           <button
             type="button"
             className={cn(
               navLabel,
-              "h-10 w-full shrink-0 rounded-md border border-[#E0B3FF]/24 bg-[linear-gradient(135deg,#6A2CFF_0%,#9A35FF_56%,#D946EF_100%)] px-4 text-[#F8F4FF] shadow-[0_14px_34px_rgba(106,44,255,0.26),0_0_22px_rgba(176,64,255,0.16),inset_0_1px_0_rgba(255,255,255,0.16)] outline-none transition duration-150 hover:-translate-y-px hover:shadow-[0_18px_38px_rgba(106,44,255,0.32),0_0_28px_rgba(176,64,255,0.2),inset_0_1px_0_rgba(255,255,255,0.18)] focus-visible:shadow-[0_0_0_2px_rgba(224,179,255,0.22),0_14px_34px_rgba(106,44,255,0.26),0_0_22px_rgba(176,64,255,0.16)] lg:w-44"
+              topbarCtaClass,
+              "group h-10 w-full shrink-0 rounded-md border px-4 lg:w-44"
             )}
           >
-            Tambah Transaksi
+            <span className="flex items-center justify-center gap-2">
+              <TransactionNodeGlyph className="h-4 w-4 text-[#F8F4FF]/90 transition group-hover:text-white" />
+              Tambah Transaksi
+            </span>
           </button>
         </div>
       </div>
     </header>
+  );
+}
+
+function SakuCalendarGlyph({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7 4.5v3M17 4.5v3M5.5 9h13M7.25 5.75h9.5c1.25 0 2 .75 2 2v9.5c0 1.25-.75 2-2 2h-9.5c-1.25 0-2-.75-2-2v-9.5c0-1.25.75-2 2-2Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2.15"
+      />
+      <path
+        d="M8.5 12.25h1.25M11.35 12.25h1.3M14.25 12.25h1.25M8.5 15.25h1.25M11.35 15.25h1.3M14.25 15.25h1.25"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2.15"
+      />
+    </svg>
+  );
+}
+
+function SignalCoreGlyph({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7 14.75 12 9l5 3.5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2.15"
+      />
+      <path
+        d="M7 14.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM17 10.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="2.15"
+      />
+    </svg>
+  );
+}
+
+function TransactionNodeGlyph({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M5.75 7.75h11.5c1.25 0 2 .75 2 2v6.5c0 1.25-.75 2-2 2H5.75c-1.25 0-2-.75-2-2v-6.5c0-1.25.75-2 2-2Z"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="2.15"
+      />
+      <path
+        d="M7.5 7.75V6.5c0-1.05.7-1.75 1.75-1.75h5.5c1.05 0 1.75.7 1.75 1.75v1.25M12 10.75v4.5M9.75 13h4.5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2.15"
+      />
+    </svg>
   );
 }
 
@@ -200,7 +277,7 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
   return (
     <WireframeCard className={cn(heroSurfaceClass, "relative h-[26rem] overflow-hidden p-5 xl:[grid-area:hero]")}>
       <div className="pointer-events-none absolute -right-20 -top-12 h-[24rem] w-[26.75rem] opacity-90 [mask-image:linear-gradient(90deg,transparent_0%,rgba(0,0,0,0.28)_10%,black_24%,black_100%)]">
-        <div className="absolute -inset-4 rounded-full bg-[radial-gradient(circle,rgba(154,53,255,0.18),rgba(34,211,238,0.075)_39%,transparent_70%)] blur-3xl" />
+        <div className="absolute -inset-4 rounded-full bg-[radial-gradient(circle,rgba(146,82,255,0.13),rgba(34,211,238,0.055)_39%,transparent_70%)] blur-3xl" />
         <div className="absolute left-20 top-[13.4rem] h-px w-72 rotate-[-11deg] bg-[linear-gradient(90deg,transparent,rgba(103,232,249,0.18),rgba(179,107,255,0.14),transparent)] blur-[1px]" />
         <div className="absolute left-24 top-[15.4rem] h-px w-64 rotate-[8deg] bg-[linear-gradient(90deg,transparent,rgba(179,107,255,0.16),rgba(34,211,238,0.12),transparent)] blur-[1px]" />
         <span className="absolute right-[5.5rem] top-[5.75rem] h-1.5 w-1.5 rounded-full bg-[#E0B3FF]/80 shadow-[0_0_18px_rgba(224,179,255,0.8)]" />
@@ -211,12 +288,12 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
           alt=""
           fill
           sizes="24rem"
-          className="object-contain opacity-95 mix-blend-screen drop-shadow-[0_0_28px_rgba(154,53,255,0.28)]"
+          className="object-contain opacity-92 mix-blend-screen drop-shadow-[0_0_22px_rgba(154,53,255,0.22)]"
           priority
         />
       </div>
       <div className="pointer-events-none absolute right-8 top-40 h-px w-56 rotate-[-18deg] bg-[linear-gradient(90deg,transparent,rgba(103,232,249,0.34),rgba(176,64,255,0.24),transparent)] blur-[1px]" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,10,0.94)_0%,rgba(5,5,10,0.78)_43%,rgba(5,5,10,0.18)_72%,rgba(5,5,10,0.04)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(3,3,5,0.96)_0%,rgba(3,3,5,0.82)_43%,rgba(3,3,5,0.24)_72%,rgba(3,3,5,0.08)_100%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,rgba(5,4,8,0.86))]" />
 
       <div className="relative z-10 flex h-full min-w-0 flex-col">
@@ -294,17 +371,17 @@ function WireframeKpis({ summary }: { summary: DashboardSummary }) {
     },
     {
       icon: CalendarDays,
-      label: "Expenses today",
-      value: summary.todayExpense,
+      label: "Daily average",
+      value: summary.dailyAverageExpense,
       tone: "violet",
-      caption: "Tercatat hari ini"
+      caption: "Rata-rata per hari"
     },
     {
       icon: CircleDollarSign,
-      label: "Expenses this week",
-      value: summary.weekExpense,
+      label: "Weekly average",
+      value: summary.weeklyAverageExpense,
       tone: "blueViolet",
-      caption: "Minggu berjalan"
+      caption: "Rata-rata per minggu"
     }
   ];
 
@@ -808,8 +885,8 @@ function WireframeCashflowTrend({
     const heightPercent = getBarHeightPercent(value);
     const barClass =
       tone === "income"
-        ? "border-cyan-100/50 bg-[linear-gradient(180deg,rgba(103,232,249,0.94),rgba(34,211,238,0.58)_52%,rgba(56,189,248,0.24))] shadow-[0_0_18px_rgba(34,211,238,0.2),inset_0_1px_0_rgba(255,255,255,0.18)]"
-        : "border-[#FBCFE8]/40 bg-[linear-gradient(180deg,rgba(249,168,212,0.9),rgba(225,77,170,0.58)_52%,rgba(217,70,239,0.24))] shadow-[0_0_18px_rgba(236,72,153,0.18),inset_0_1px_0_rgba(255,255,255,0.16)]";
+        ? "border-cyan-100/55 bg-[linear-gradient(180deg,rgba(151,245,255,0.98),rgba(34,211,238,0.72)_48%,rgba(8,145,178,0.38))] shadow-[0_0_24px_rgba(34,211,238,0.28),0_0_46px_rgba(34,211,238,0.11),inset_0_1px_0_rgba(255,255,255,0.26)]"
+        : "border-[#FBCFE8]/48 bg-[linear-gradient(180deg,rgba(253,186,233,0.98),rgba(225,77,170,0.72)_48%,rgba(190,24,93,0.38))] shadow-[0_0_24px_rgba(236,72,153,0.26),0_0_46px_rgba(217,70,239,0.1),inset_0_1px_0_rgba(255,255,255,0.22)]";
     const labelClass = tone === "income" ? "text-cyan-100/78" : "text-[#FBCFE8]/78";
 
     return (
@@ -831,7 +908,7 @@ function WireframeCashflowTrend({
           style={{ height: `${heightPercent}%` }}
           title={value > 0 ? formatCurrencyIDR(value) : "Rp0"}
         >
-          <span className="absolute inset-x-[2px] top-1 h-1/3 rounded-full bg-white/18 blur-[2px]" />
+          <span className="absolute inset-x-[2px] top-1 h-1/3 rounded-full bg-white/24 blur-[2px]" />
         </div>
       </div>
     );
@@ -845,8 +922,14 @@ function WireframeCashflowTrend({
           <p className={cn(cardSubtitle, "mt-2 truncate")}>Pemasukan vs pengeluaran {cashflowRange} bulan terakhir</p>
         </div>
         <div className="hidden shrink-0 items-center gap-6 md:flex">
-          <span className={cn(chartLabel, "text-xs font-bold text-[#9DECF6]/92")}>Pemasukan</span>
-          <span className={cn(chartLabel, "text-xs font-bold text-[#F9A8D4]/92")}>Pengeluaran</span>
+          <span className={cn(chartLabel, "inline-flex items-center gap-2 text-xs font-bold text-[#9DECF6]/92")}>
+            <CashflowLegendDot tone="income" />
+            Pemasukan
+          </span>
+          <span className={cn(chartLabel, "inline-flex items-center gap-2 text-xs font-bold text-[#F9A8D4]/92")}>
+            <CashflowLegendDot tone="expense" />
+            Pengeluaran
+          </span>
           <div className="relative">
             <button
               type="button"
@@ -966,5 +1049,18 @@ function WireframeCashflowTrend({
         </div>
       </div>
     </WireframeCard>
+  );
+}
+
+function CashflowLegendDot({ tone }: { tone: "income" | "expense" }) {
+  return (
+    <span
+      className={cn(
+        "h-2 w-2 rounded-full",
+        tone === "income"
+          ? "bg-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.42)]"
+          : "bg-[#F472B6] shadow-[0_0_12px_rgba(236,72,153,0.42)]"
+      )}
+    />
   );
 }

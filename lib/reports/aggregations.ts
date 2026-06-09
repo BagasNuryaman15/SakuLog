@@ -17,6 +17,8 @@ export type DashboardAggregates = {
   monthIncome: number;
   monthExpense: number;
   monthBalance: number;
+  dailyAverageExpense: number;
+  weeklyAverageExpense: number;
   todayExpense: number;
   weekExpense: number;
   topExpenseCategory: TopExpenseCategory | null;
@@ -33,6 +35,15 @@ function isInRange(transaction: Transaction, range: DateRange) {
     transaction.transaction_date >= range.startDate &&
     transaction.transaction_date <= range.endDate
   );
+}
+
+function getElapsedDays(range: DateRange) {
+  const startDate = new Date(`${range.startDate}T00:00:00`);
+  const endDate = new Date(`${range.endDate}T00:00:00`);
+  const millisecondsPerDay = 24 * 60 * 60 * 1000;
+  const elapsedDays = Math.floor((endDate.getTime() - startDate.getTime()) / millisecondsPerDay) + 1;
+
+  return Math.max(elapsedDays, 1);
 }
 
 function getExpenses(transactions: Transaction[]) {
@@ -118,11 +129,15 @@ export function calculateDashboardAggregates({
   const monthTransactions = transactions.filter((transaction) => isInRange(transaction, monthRange));
   const monthIncome = calculateTotalIncome(monthTransactions);
   const monthExpense = calculateTotalExpense(monthTransactions);
+  const elapsedMonthDays = getElapsedDays(monthRange);
+  const elapsedMonthWeeks = Math.max(Math.ceil(elapsedMonthDays / 7), 1);
 
   return {
     monthIncome,
     monthExpense,
     monthBalance: calculateBalance(monthIncome, monthExpense),
+    dailyAverageExpense: monthExpense / elapsedMonthDays,
+    weeklyAverageExpense: monthExpense / elapsedMonthWeeks,
     todayExpense: calculateRangeExpense(transactions, todayRange),
     weekExpense: calculateRangeExpense(transactions, weekRange),
     topExpenseCategory: calculateTopExpenseCategory(monthTransactions),

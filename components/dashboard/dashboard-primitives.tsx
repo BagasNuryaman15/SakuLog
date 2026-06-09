@@ -107,25 +107,25 @@ export function WireframeSparkline({
       area: "rgba(45,212,191,0.1)",
       glow: "rgba(45,212,191,0.22)",
       line: "#5EEAD4",
-      surface: "border-[#B36BFF]/10 bg-transparent"
+      surface: "bg-transparent"
     },
     violet: {
       area: "rgba(176,64,255,0.1)",
       glow: "rgba(176,64,255,0.22)",
       line: "#B36BFF",
-      surface: "border-[#B36BFF]/10 bg-transparent"
+      surface: "bg-transparent"
     },
     magenta: {
       area: "rgba(244,114,182,0.085)",
       glow: "rgba(244,114,182,0.2)",
       line: "#F9A8D4",
-      surface: "border-[#B36BFF]/10 bg-transparent"
+      surface: "bg-transparent"
     },
     blueViolet: {
       area: "rgba(129,140,248,0.09)",
       glow: "rgba(129,140,248,0.2)",
       line: "#A5B4FC",
-      surface: "border-[#B36BFF]/10 bg-transparent"
+      surface: "bg-transparent"
     }
   };
   const colors = toneClass[tone];
@@ -133,12 +133,12 @@ export function WireframeSparkline({
   const linePath = hasRealSeries
     ? buildSparklinePath(values)
     : "M0 30 C32 29.5 45 30.5 62 30 C86 29.5 102 30.4 126 30 C148 29.6 164 30.3 180 30";
-  const areaOpacity = hasRealSeries ? 1 : 0.14;
-  const glowOpacity = hasRealSeries ? 1 : 0.16;
-  const lineOpacity = hasRealSeries ? 1 : 0.28;
+  const areaOpacity = hasRealSeries ? 1 : 0.2;
+  const glowOpacity = hasRealSeries ? 1 : 0.34;
+  const lineOpacity = hasRealSeries ? 1 : 0.52;
 
   return (
-    <div className={cn("h-11 overflow-hidden rounded-sm border-b", colors.surface, className)} aria-hidden="true">
+    <div className={cn("h-11 overflow-hidden", colors.surface, className)} aria-hidden="true">
       <svg className="h-full w-full" viewBox="0 0 180 44" preserveAspectRatio="none">
         <path d={`${linePath} L180 44 L0 44 Z`} fill={colors.area} opacity={areaOpacity} />
         <path d={linePath} fill="none" opacity={glowOpacity} stroke={colors.glow} strokeLinecap="round" strokeWidth="5" />

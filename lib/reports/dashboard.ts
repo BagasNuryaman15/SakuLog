@@ -17,6 +17,8 @@ export type DashboardSummary = {
   monthIncome: number;
   monthExpense: number;
   monthBalance: number;
+  dailyAverageExpense: number;
+  weeklyAverageExpense: number;
   todayExpense: number;
   weekExpense: number;
   topExpenseCategory: TopExpenseCategory | null;
@@ -40,6 +42,8 @@ export function getEmptyDashboardSummary(): DashboardSummary {
     monthIncome: 0,
     monthExpense: 0,
     monthBalance: 0,
+    dailyAverageExpense: 0,
+    weeklyAverageExpense: 0,
     todayExpense: 0,
     weekExpense: 0,
     topExpenseCategory: null,
