@@ -342,6 +342,7 @@ function WireframeHero({ summary }: { summary: DashboardSummary }) {
 function WireframeKpis({ summary }: { summary: DashboardSummary }) {
   const expenseIncomeRatio =
     summary.monthIncome > 0 ? Math.round((summary.monthExpense / summary.monthIncome) * 100) : null;
+  const { dailyAverageExpense, weeklyAverageExpense } = getAverageExpenseMetrics(summary);
   const kpis: Array<{
     icon: LucideIcon;
     label: string;
@@ -372,14 +373,14 @@ function WireframeKpis({ summary }: { summary: DashboardSummary }) {
     {
       icon: CalendarDays,
       label: "Daily average",
-      value: summary.dailyAverageExpense,
+      value: dailyAverageExpense,
       tone: "violet",
       caption: "Rata-rata per hari"
     },
     {
       icon: CircleDollarSign,
       label: "Weekly average",
-      value: summary.weeklyAverageExpense,
+      value: weeklyAverageExpense,
       tone: "blueViolet",
       caption: "Rata-rata per minggu"
     }
@@ -392,6 +393,24 @@ function WireframeKpis({ summary }: { summary: DashboardSummary }) {
       ))}
     </div>
   );
+}
+
+function getAverageExpenseMetrics(summary: DashboardSummary) {
+  const elapsedDays = Math.max(new Date().getDate(), 1);
+  const elapsedWeeks = Math.max(Math.ceil(elapsedDays / 7), 1);
+
+  return {
+    dailyAverageExpense: resolveAverageExpense(summary.dailyAverageExpense, summary.monthExpense, elapsedDays),
+    weeklyAverageExpense: resolveAverageExpense(summary.weeklyAverageExpense, summary.monthExpense, elapsedWeeks)
+  };
+}
+
+function resolveAverageExpense(value: number, monthExpense: number, divisor: number) {
+  if (Number.isFinite(value) && (value > 0 || monthExpense === 0)) {
+    return value;
+  }
+
+  return monthExpense / divisor;
 }
 
 function WireframeKpi({
