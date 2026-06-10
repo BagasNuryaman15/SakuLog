@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
-import type { Transaction, TransactionFilter } from "@/types/transaction";
+import type { Transaction, TransactionFilter } from "@/features/transactions/types";
 
 function normalizeTransaction(transaction: Record<string, unknown>): Transaction {
   return transaction as Transaction;

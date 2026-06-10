@@ -4,13 +4,13 @@ import {
   validateExpenseValues,
   validateIncomeValues,
   validateTransactionUpdateValues
-} from "@/lib/transactions/validators";
+} from "@/features/transactions/validators";
 import type {
   ExpenseFormValues,
   IncomeFormValues,
   Transaction,
   TransactionUpdateValues
-} from "@/types/transaction";
+} from "@/features/transactions/types";
 import type { TablesInsert, TablesUpdate } from "@/types/supabase";
 
 function normalizeTransaction(transaction: Record<string, unknown>): Transaction {

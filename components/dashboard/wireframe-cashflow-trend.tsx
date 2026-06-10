@@ -18,7 +18,7 @@ import {
   metricLabel,
   navLabel,
   rightRailTitle
-} from "./dashboard-style-tokens";
+} from "@/shared/design/tokens";
 
 export function WireframeCashflowTrend({
   cashflowRange,

@@ -17,7 +17,7 @@ import {
   kpiSurfaceToneClass,
   metricValuePlaceholder,
   type AccentTone
-} from "./dashboard-style-tokens";
+} from "@/shared/design/tokens";
 
 export function WireframeKpis({ summary }: { summary: DashboardSummary }) {
   const expenseIncomeRatio =

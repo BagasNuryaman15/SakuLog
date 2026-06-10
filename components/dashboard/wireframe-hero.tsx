@@ -15,7 +15,7 @@ import {
   metricLabel,
   metricValuePlaceholder,
   nestedSurfaceClass
-} from "./dashboard-style-tokens";
+} from "@/shared/design/tokens";
 
 export function WireframeHero({ summary }: { summary: DashboardSummary }) {
   const cashflowStatus = getCashflowStatus(summary.monthBalance);

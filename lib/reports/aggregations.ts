@@ -1,5 +1,5 @@
 import type { DateRange } from "@/lib/reports/date-ranges";
-import type { Transaction } from "@/types/transaction";
+import type { Transaction } from "@/features/transactions/types";
 
 export type TopExpenseCategory = {
   category: string;

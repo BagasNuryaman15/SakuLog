@@ -8,7 +8,7 @@ import {
   rightRailSurfaceClass,
   rightRailTitle,
   type AccentTone
-} from "./dashboard-style-tokens";
+} from "@/shared/design/tokens";
 
 export function WireframeMoneySignals({ summary }: { summary: DashboardSummary }) {
   const signals: Array<{

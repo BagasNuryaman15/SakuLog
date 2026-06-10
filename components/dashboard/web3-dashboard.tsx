@@ -9,7 +9,7 @@ import {
   type DashboardSummary
 } from "@/lib/reports/dashboard";
 import { type CashflowRange } from "./dashboard-helpers";
-import { shellClass } from "./dashboard-style-tokens";
+import { shellClass } from "@/shared/design/tokens";
 import { WireframeTopBar } from "./wireframe-top-bar";
 import { WireframeHero } from "./wireframe-hero";
 import { WireframeKpis } from "./wireframe-kpis";

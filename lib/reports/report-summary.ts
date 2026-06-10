@@ -13,7 +13,7 @@ import {
   getCurrentYearRange
 } from "@/lib/reports/date-ranges";
 import { createClient } from "@/lib/supabase/server";
-import type { Transaction } from "@/types/transaction";
+import type { Transaction } from "@/features/transactions/types";
 
 export type PeriodSummary = {
   label: string;

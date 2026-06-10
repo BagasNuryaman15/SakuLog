@@ -5,10 +5,10 @@ import {
   radiusInput,
   radiusSection,
   shadowPage
-} from "@/components/dashboard/dashboard-style-tokens";
-import { ExpenseGlyph, IncomeGlyph } from "@/components/forms/transaction-glyphs";
+} from "@/shared/design/tokens";
+import { ExpenseGlyph, IncomeGlyph } from "@/features/transactions/components/transaction-glyphs";
 import { cn } from "@/lib/utils";
-import type { TransactionType } from "@/types/transaction";
+import type { TransactionType } from "@/features/transactions/types";
 
 type TransactionTypeChoiceProps = {
   onSelect: (type: TransactionType) => void;

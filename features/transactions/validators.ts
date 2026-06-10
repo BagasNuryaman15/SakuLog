@@ -2,7 +2,7 @@ import type {
   ExpenseFormValues,
   IncomeFormValues,
   TransactionUpdateValues
-} from "@/types/transaction";
+} from "@/features/transactions/types";
 
 export type ValidationErrors<T> = Partial<Record<keyof T, string>>;
 

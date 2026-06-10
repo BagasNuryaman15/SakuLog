@@ -1,8 +1,8 @@
-import type { expenseCategories, incomeCategories, incomeSources } from "@/lib/constants/categories";
+import type { expenseCategories, incomeCategories, incomeSources } from "@/features/transactions/constants/categories";
 import type {
   expensePaymentMethods,
   incomeReceiptMethods
-} from "@/lib/constants/payment-methods";
+} from "@/features/transactions/constants/payment-methods";
 import type { Tables } from "@/types/supabase";
 
 export type TransactionType = "expense" | "income";

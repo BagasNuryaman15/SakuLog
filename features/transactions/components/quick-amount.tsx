@@ -1,7 +1,7 @@
 "use client";
 
-import { borderWhite10, radiusButton } from "@/components/dashboard/dashboard-style-tokens";
-import { quickAmounts } from "@/lib/constants/quick-amounts";
+import { borderWhite10, radiusButton } from "@/shared/design/tokens";
+import { quickAmounts } from "@/features/transactions/constants/quick-amounts";
 import { cn } from "@/lib/utils";
 
 type QuickAmountProps = {

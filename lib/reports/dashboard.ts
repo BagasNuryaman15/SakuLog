@@ -11,7 +11,7 @@ import {
 } from "@/lib/reports/date-ranges";
 import { generateDashboardInsights } from "@/lib/reports/insights";
 import { createClient } from "@/lib/supabase/client";
-import type { Transaction } from "@/types/transaction";
+import type { Transaction } from "@/features/transactions/types";
 
 export type DashboardSummary = {
   monthIncome: number;

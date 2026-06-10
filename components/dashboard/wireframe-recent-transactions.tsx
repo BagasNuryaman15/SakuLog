@@ -7,7 +7,7 @@ import {
   metricLabel,
   rightRailSurfaceClass,
   rightRailTitle
-} from "./dashboard-style-tokens";
+} from "@/shared/design/tokens";
 
 export function WireframeRecentTransactions({ summary }: { summary: DashboardSummary }) {
   const transactions = summary.recentTransactions.slice(0, 4);

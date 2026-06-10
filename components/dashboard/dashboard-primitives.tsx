@@ -11,7 +11,7 @@ import {
   type AccentTone,
   type BlockTone,
   type LineTone
-} from "./dashboard-style-tokens";
+} from "@/shared/design/tokens";
 
 export function ZoneLabel({ children, className }: { children: string; className?: string }) {
   return <p className={cn(sectionLabel, className)}>{children}</p>;

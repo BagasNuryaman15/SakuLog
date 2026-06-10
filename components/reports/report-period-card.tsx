@@ -7,7 +7,7 @@ import {
   radiusPanel,
   radiusPill,
   shadowPage
-} from "@/components/dashboard/dashboard-style-tokens";
+} from "@/shared/design/tokens";
 import { formatCurrencyIDR } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 

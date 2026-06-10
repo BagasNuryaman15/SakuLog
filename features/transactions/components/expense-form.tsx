@@ -8,35 +8,34 @@ import {
   radiusInput,
   radiusSection,
   shadowPage
-} from "@/components/dashboard/dashboard-style-tokens";
-import { QuickAmount } from "@/components/forms/quick-amount";
+} from "@/shared/design/tokens";
+import { QuickAmount } from "@/features/transactions/components/quick-amount";
 import { Button } from "@/components/ui/button";
-import { incomeCategories, incomeSources } from "@/lib/constants/categories";
-import { incomeReceiptMethods } from "@/lib/constants/payment-methods";
-import { createIncomeTransaction } from "@/lib/transactions/mutations";
-import { validateIncomeValues, type ValidationErrors } from "@/lib/transactions/validators";
+import { expenseCategories } from "@/features/transactions/constants/categories";
+import { expensePaymentMethods } from "@/features/transactions/constants/payment-methods";
+import { createExpenseTransaction } from "@/features/transactions/services/mutations";
+import { validateExpenseValues, type ValidationErrors } from "@/features/transactions/validators";
 import { cn } from "@/lib/utils";
-import type { IncomeFormValues } from "@/types/transaction";
+import type { ExpenseFormValues } from "@/features/transactions/types";
 
-type IncomeFormProps = {
+type ExpenseFormProps = {
   onBack: () => void;
 };
 
-function getInitialFormValues(): IncomeFormValues {
+function getInitialFormValues(): ExpenseFormValues {
   return {
     name: "",
     amount: 0,
     category: "",
-    source: "",
-    receiptMethod: "",
+    paymentMethod: "",
     transactionDate: new Date().toISOString().slice(0, 10),
     note: ""
   };
 }
 
-export function IncomeForm({ onBack }: IncomeFormProps) {
-  const [values, setValues] = useState<IncomeFormValues>(getInitialFormValues);
-  const [errors, setErrors] = useState<ValidationErrors<IncomeFormValues>>({});
+export function ExpenseForm({ onBack }: ExpenseFormProps) {
+  const [values, setValues] = useState<ExpenseFormValues>(getInitialFormValues);
+  const [errors, setErrors] = useState<ValidationErrors<ExpenseFormValues>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -53,7 +52,10 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
     }).format(values.amount);
   }, [values.amount]);
 
-  function updateValue<Key extends keyof IncomeFormValues>(key: Key, value: IncomeFormValues[Key]) {
+  function updateValue<Key extends keyof ExpenseFormValues>(
+    key: Key,
+    value: ExpenseFormValues[Key]
+  ) {
     setValues((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined }));
     setIsSubmitted(false);
@@ -61,7 +63,7 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
   }
 
   function validateForm() {
-    const validation = validateIncomeValues(values);
+    const validation = validateExpenseValues(values);
 
     setErrors(validation.errors);
     return validation.isValid;
@@ -79,13 +81,13 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
     setIsSaving(true);
 
     try {
-      await createIncomeTransaction(values);
+      await createExpenseTransaction(values);
       setValues(getInitialFormValues());
       setErrors({});
       setIsSubmitted(true);
     } catch (error) {
       setIsSubmitted(false);
-      setSaveError(error instanceof Error ? error.message : "Gagal menyimpan pemasukan.");
+      setSaveError(error instanceof Error ? error.message : "Gagal menyimpan pengeluaran.");
     } finally {
       setIsSaving(false);
     }
@@ -95,9 +97,9 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
     <section className={cn(radiusSection, borderWhite10, shadowPage, "border bg-black/24 p-5 backdrop-blur-2xl sm:p-6")}>
       <div className={cn(borderWhite10, "flex flex-col gap-4 border-b pb-5 sm:flex-row sm:items-center sm:justify-between")}>
         <div>
-          <p className="text-sm font-medium text-emerald-200/78">Pemasukan</p>
+          <p className="text-sm font-medium text-rose-200/78">Pengeluaran</p>
           <h2 className="mt-1 text-2xl font-semibold tracking-[-0.04em] text-white">
-            Tambah Pemasukan
+            Tambah Pengeluaran
           </h2>
         </div>
         <Button type="button" variant="ghost" onClick={onBack} className="justify-start sm:w-auto">
@@ -108,13 +110,13 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Nama pemasukan" error={errors.name}>
+          <Field label="Nama pengeluaran" error={errors.name}>
             <input
               type="text"
               value={values.name}
               onChange={(event) => updateValue("name", event.target.value)}
               className="finance-input"
-              placeholder="Contoh: Uang bulanan"
+              placeholder="Contoh: Makan siang"
             />
           </Field>
 
@@ -135,31 +137,16 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
             />
           </Field>
 
-          <Field label="Kategori pemasukan" error={errors.category}>
+          <Field label="Kategori" error={errors.category}>
             <select
               value={values.category}
               onChange={(event) => updateValue("category", event.target.value)}
               className="finance-input"
             >
               <option value="">Pilih kategori</option>
-              {incomeCategories.map((category) => (
+              {expenseCategories.map((category) => (
                 <option key={category} value={category}>
                   {category}
-                </option>
-              ))}
-            </select>
-          </Field>
-
-          <Field label="Sumber pemasukan" error={errors.source}>
-            <select
-              value={values.source}
-              onChange={(event) => updateValue("source", event.target.value)}
-              className="finance-input"
-            >
-              <option value="">Pilih sumber</option>
-              {incomeSources.map((source) => (
-                <option key={source} value={source}>
-                  {source}
                 </option>
               ))}
             </select>
@@ -174,14 +161,14 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
             />
           </Field>
 
-          <Field label="Metode penerimaan" error={errors.receiptMethod}>
+          <Field label="Metode pembayaran" error={errors.paymentMethod}>
             <select
-              value={values.receiptMethod}
-              onChange={(event) => updateValue("receiptMethod", event.target.value)}
+              value={values.paymentMethod}
+              onChange={(event) => updateValue("paymentMethod", event.target.value)}
               className="finance-input"
             >
               <option value="">Pilih metode</option>
-              {incomeReceiptMethods.map((method) => (
+              {expensePaymentMethods.map((method) => (
                 <option key={method} value={method}>
                   {method}
                 </option>
@@ -202,7 +189,7 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
         {isSubmitted ? (
           <div className={cn(radiusInput, "flex items-center gap-2 border border-emerald-200/20 bg-emerald-300/10 px-3 py-2 text-sm text-emerald-100 shadow-sm")}>
             <CheckCircle2 className="h-4 w-4" />
-            Pemasukan berhasil disimpan. Kamu bisa menambahkan transaksi lain.
+            Pengeluaran berhasil disimpan. Kamu bisa menambahkan transaksi lain.
           </div>
         ) : null}
 
@@ -219,7 +206,7 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
               Menyimpan
             </>
           ) : (
-            "Simpan Pemasukan"
+            "Simpan Pengeluaran"
           )}
         </Button>
       </form>

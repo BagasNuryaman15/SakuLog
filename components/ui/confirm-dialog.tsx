@@ -8,7 +8,7 @@ import {
   radiusPanel,
   shadowElevated,
   shadowInset
-} from "@/components/dashboard/dashboard-style-tokens";
+} from "@/shared/design/tokens";
 import { cn } from "@/lib/utils";
 
 type ConfirmDialogProps = {

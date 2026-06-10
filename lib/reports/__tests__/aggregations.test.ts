@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Transaction } from "@/types/transaction";
+import type { Transaction } from "@/features/transactions/types";
 import {
   calculateTotalIncome,
   calculateTotalExpense,

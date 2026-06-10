@@ -7,7 +7,7 @@ import {
   metricLabel,
   rightRailSurfaceClass,
   rightRailTitle
-} from "./dashboard-style-tokens";
+} from "@/shared/design/tokens";
 
 export function WireframeMiniInsight({ summary }: { summary: DashboardSummary }) {
   const topCategory = summary.topExpenseCategory;

@@ -16,7 +16,7 @@ import {
   topbarControlClass,
   topbarCtaClass,
   topbarIconButtonClass
-} from "./dashboard-style-tokens";
+} from "@/shared/design/tokens";
 
 export function WireframeTopBar({ monthLabel }: { monthLabel: string }) {
   return (

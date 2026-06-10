@@ -8,7 +8,7 @@ import {
   navLabel,
   rightRailSurfaceClass,
   rightRailTitle
-} from "./dashboard-style-tokens";
+} from "@/shared/design/tokens";
 
 export function WireframeCategory({ summary }: { summary: DashboardSummary }) {
   const categoryRows = getExpenseCategoryRows(summary);
