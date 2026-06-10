@@ -126,7 +126,7 @@ export function AppSidebar() {
                     <Link
                       href={item.href}
                       className={cn(
-                        "group relative flex h-10 items-center rounded-[0.72rem] text-sm font-semibold text-[#9B89B8]/74 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+                        "group relative flex h-10 items-center rounded-[0.72rem] text-sm font-semibold text-[#9B89B8]/72 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
                         isCollapsed ? "justify-center px-0" : "gap-3 px-3",
                         "hover:-translate-y-px hover:bg-[rgba(255,255,255,0.045)] hover:text-[#F8F4FF]",
                         isActive &&
@@ -147,7 +147,7 @@ export function AppSidebar() {
                       <span
                         className={cn(
                           "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center transition-colors duration-200",
-                          isActive ? "text-[#F8F4FF]" : "text-[#9B89B8]/76 group-hover:text-[#F8F4FF]"
+                          isActive ? "text-[#F8F4FF]" : "text-[#9B89B8]/72 group-hover:text-[#F8F4FF]"
                         )}
                       >
                         <Icon className="h-[1.15rem] w-[1.15rem]" strokeWidth={2.1} />
@@ -276,7 +276,7 @@ function SidebarBranchLink({
     <Link
       href={href}
       className={cn(
-        "group relative flex h-8 items-center rounded-[0.58rem] px-3 text-xs font-semibold text-[#9B89B8]/74 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/24 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+        "group relative flex h-8 items-center rounded-[0.58rem] px-3 text-xs font-semibold text-[#9B89B8]/72 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/24 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
         "hover:-translate-y-px hover:bg-white/[0.04] hover:text-[#F8F4FF]",
         isActive && "bg-white/[0.065] text-[#F8F4FF] ring-1 ring-inset ring-white/[0.07]"
       )}

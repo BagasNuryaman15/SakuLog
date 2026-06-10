@@ -3,12 +3,19 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 
+import {
+  borderWhite10,
+  radiusInput,
+  radiusSection,
+  shadowPage
+} from "@/components/dashboard/dashboard-style-tokens";
 import { QuickAmount } from "@/components/forms/quick-amount";
 import { Button } from "@/components/ui/button";
 import { incomeCategories, incomeSources } from "@/lib/constants/categories";
 import { incomeReceiptMethods } from "@/lib/constants/payment-methods";
 import { createIncomeTransaction } from "@/lib/transactions/mutations";
 import { validateIncomeValues, type ValidationErrors } from "@/lib/transactions/validators";
+import { cn } from "@/lib/utils";
 import type { IncomeFormValues } from "@/types/transaction";
 
 type IncomeFormProps = {
@@ -85,8 +92,8 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
   }
 
   return (
-    <section className="rounded-[1.8rem] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:p-6">
-      <div className="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
+    <section className={cn(radiusSection, borderWhite10, shadowPage, "border bg-black/24 p-5 backdrop-blur-2xl sm:p-6")}>
+      <div className={cn(borderWhite10, "flex flex-col gap-4 border-b pb-5 sm:flex-row sm:items-center sm:justify-between")}>
         <div>
           <p className="text-sm font-medium text-emerald-200/78">Pemasukan</p>
           <h2 className="mt-1 text-2xl font-semibold tracking-[-0.04em] text-white">
@@ -121,7 +128,7 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
               className="finance-input"
               placeholder="0"
             />
-            <p className="mt-2 text-xs text-indigo-100/48">{formattedAmount}</p>
+            <p className="mt-2 text-xs text-indigo-100/40">{formattedAmount}</p>
             <QuickAmount
               value={values.amount}
               onChange={(amount) => updateValue("amount", amount)}
@@ -193,14 +200,14 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
         </Field>
 
         {isSubmitted ? (
-          <div className="flex items-center gap-2 rounded-2xl border border-emerald-200/20 bg-emerald-300/10 px-3 py-2 text-sm text-emerald-100 shadow-sm">
+          <div className={cn(radiusInput, "flex items-center gap-2 border border-emerald-200/20 bg-emerald-300/10 px-3 py-2 text-sm text-emerald-100 shadow-sm")}>
             <CheckCircle2 className="h-4 w-4" />
             Pemasukan berhasil disimpan. Kamu bisa menambahkan transaksi lain.
           </div>
         ) : null}
 
         {saveError ? (
-          <div className="rounded-2xl border border-red-300/20 bg-red-500/10 px-3 py-2 text-sm text-red-100 shadow-sm">
+          <div className={cn(radiusInput, "border border-red-300/20 bg-red-500/10 px-3 py-2 text-sm text-red-100 shadow-sm")}>
             {saveError}
           </div>
         ) : null}
@@ -233,9 +240,9 @@ function Field({
 }) {
   return (
     <div className="block space-y-2">
-      <span className="flex items-center justify-between text-sm font-medium text-indigo-100/70">
+      <span className="flex items-center justify-between text-sm font-medium text-indigo-100/72">
         {label}
-        {optional ? <span className="text-xs font-normal text-indigo-100/42">Opsional</span> : null}
+        {optional ? <span className="text-xs font-normal text-indigo-100/40">Opsional</span> : null}
       </span>
       {children}
       {error ? <span className="block text-xs text-rose-200">{error}</span> : null}

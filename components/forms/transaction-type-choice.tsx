@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  borderWhite10,
+  radiusInput,
+  radiusSection,
+  shadowPage
+} from "@/components/dashboard/dashboard-style-tokens";
 import { ExpenseGlyph, IncomeGlyph } from "@/components/forms/transaction-glyphs";
 import { cn } from "@/lib/utils";
 import type { TransactionType } from "@/types/transaction";
@@ -39,7 +45,10 @@ export function TransactionTypeChoice({ onSelect }: TransactionTypeChoiceProps) 
             type="button"
             onClick={() => onSelect(choice.type)}
             className={cn(
-              "group relative overflow-hidden rounded-[1.8rem] border border-white/10 bg-black/24 p-6 text-left shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl transition-all",
+              radiusSection,
+              borderWhite10,
+              shadowPage,
+              "group relative overflow-hidden border bg-black/24 p-6 text-left backdrop-blur-2xl transition-all",
               "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_18%_0%,rgba(129,140,248,0.18),transparent_18rem)] before:opacity-0 before:transition-opacity",
               "hover:-translate-y-1 hover:border-indigo-200/24 hover:before:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70",
               choice.glow
@@ -47,7 +56,8 @@ export function TransactionTypeChoice({ onSelect }: TransactionTypeChoiceProps) 
           >
             <div
               className={cn(
-                "relative flex h-16 w-16 items-center justify-center rounded-2xl border transition group-hover:scale-105",
+                radiusInput,
+                "relative flex h-16 w-16 items-center justify-center border transition group-hover:scale-105",
                 choice.tone
               )}
             >
@@ -55,7 +65,7 @@ export function TransactionTypeChoice({ onSelect }: TransactionTypeChoiceProps) 
             </div>
             <div className="relative mt-8 space-y-2">
               <h2 className="text-2xl font-semibold tracking-[-0.045em] text-white">{choice.title}</h2>
-              <p className="max-w-sm text-sm leading-6 text-indigo-100/52">{choice.description}</p>
+              <p className="max-w-sm text-sm leading-6 text-indigo-100/56">{choice.description}</p>
             </div>
           </button>
         );

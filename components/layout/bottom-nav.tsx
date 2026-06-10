@@ -31,7 +31,7 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex min-h-12 flex-col items-center justify-center gap-1 rounded-2xl px-1 text-[11px] font-medium text-indigo-100/54 transition-all",
+                "flex min-h-12 flex-col items-center justify-center gap-1 rounded-2xl px-1 text-[11px] font-medium text-indigo-100/56 transition-all",
                 "hover:bg-[#B36BFF]/[0.06] hover:text-white",
                 isActive &&
                   "border border-[#E0B3FF]/18 bg-[linear-gradient(135deg,rgba(43,15,107,0.48),rgba(154,53,255,0.22),rgba(255,255,255,0.055))] text-white shadow-[0_12px_34px_rgba(79,70,229,0.2),0_0_14px_rgba(176,64,255,0.12)]"

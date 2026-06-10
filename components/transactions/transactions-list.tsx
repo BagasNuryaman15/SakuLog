@@ -3,8 +3,16 @@
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { ArrowDownLeft, ArrowUpRight, Loader2, Pencil, Trash2, X } from "lucide-react";
 
+import {
+  borderWhite10,
+  radiusInput,
+  radiusSection,
+  shadowInset,
+  shadowPage
+} from "@/components/dashboard/dashboard-style-tokens";
 import { QuickAmount } from "@/components/forms/quick-amount";
 import { Button } from "@/components/ui/button";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { expenseCategories, incomeCategories, incomeSources } from "@/lib/constants/categories";
 import { expensePaymentMethods, incomeReceiptMethods } from "@/lib/constants/payment-methods";
 import { deleteTransaction, updateTransaction } from "@/lib/transactions/mutations";
@@ -33,6 +41,22 @@ const filters: Array<{ label: string; value: TransactionFilter }> = [
   { label: "Expense", value: "expense" },
   { label: "Income", value: "income" }
 ];
+
+const transactionPanelClass = cn(
+  radiusSection,
+  borderWhite10,
+  shadowPage,
+  "border bg-black/24 backdrop-blur-2xl"
+);
+
+const editControlClass = cn(
+  radiusInput,
+  borderWhite10,
+  shadowInset,
+  "w-full border bg-white/[0.045] px-3 text-sm text-white outline-none transition focus:border-indigo-200/35 focus:bg-white/[0.07] focus:ring-2 focus:ring-ring/25"
+);
+const editInputClass = cn(editControlClass, "h-10");
+const editTextareaClass = cn(editControlClass, "min-h-24 py-3");
 
 function formatDate(date: string) {
   return dateFormatter.format(new Date(`${date}T00:00:00`));
@@ -63,6 +87,7 @@ export function TransactionsList() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<Transaction | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<TransactionUpdateValues | null>(null);
   const [editErrors, setEditErrors] = useState<ValidationErrors<TransactionUpdateValues>>({});
@@ -145,13 +170,15 @@ export function TransactionsList() {
     setEditError(null);
   }
 
-  async function handleDelete(transaction: Transaction) {
-    const confirmed = window.confirm(`Hapus transaksi "${transaction.name}"?`);
+  function requestDelete(transaction: Transaction) {
+    setConfirmDelete(transaction);
+  }
 
-    if (!confirmed) {
-      return;
-    }
+  async function handleConfirmDelete() {
+    if (!confirmDelete) return;
 
+    const transaction = confirmDelete;
+    setConfirmDelete(null);
     setDeletingId(transaction.id);
     setError(null);
 
@@ -195,19 +222,19 @@ export function TransactionsList() {
 
   return (
     <section className="space-y-5">
-      <div className="flex flex-col gap-4 rounded-[1.8rem] border border-white/10 bg-black/24 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:flex-row sm:items-center sm:justify-between">
+      <div className={cn(transactionPanelClass, "flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between")}>
         <div>
           <p className="text-sm font-semibold text-white">Transaction history</p>
-          <p className="mt-1 text-sm text-indigo-100/48">{totalLabel}</p>
+          <p className="mt-1 text-sm text-indigo-100/40">{totalLabel}</p>
         </div>
-        <div className="grid grid-cols-3 gap-2 rounded-2xl border border-white/10 bg-white/[0.045] p-1">
+        <div className={cn(radiusInput, borderWhite10, "grid grid-cols-3 gap-2 border bg-white/[0.045] p-1")}>
           {filters.map((item) => (
             <button
               key={item.value}
               type="button"
               onClick={() => setFilter(item.value)}
               className={cn(
-                "rounded-xl px-3 py-2 text-xs font-medium text-indigo-100/52 transition-all",
+                "rounded-xl px-3 py-2 text-xs font-medium text-indigo-100/56 transition-all",
                 filter === item.value &&
                   "bg-[linear-gradient(135deg,rgba(99,102,241,0.32),rgba(255,255,255,0.08))] text-white shadow-sm"
               )}
@@ -219,20 +246,20 @@ export function TransactionsList() {
       </div>
 
       {error ? (
-        <div className="rounded-2xl border border-red-300/20 bg-red-500/10 px-4 py-3 text-sm text-red-100 shadow-sm">
+        <div className={cn(radiusInput, "border border-red-300/20 bg-red-500/10 px-4 py-3 text-sm text-red-100 shadow-sm")}>
           {error}
         </div>
       ) : null}
 
       {isLoading ? (
-        <div className="rounded-[1.8rem] border border-white/10 bg-black/24 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
-          <Loader2 className="mx-auto h-5 w-5 animate-spin text-indigo-100/54" />
-          <p className="mt-3 text-sm text-indigo-100/48">Memuat transaksi...</p>
+        <div className={cn(transactionPanelClass, "p-8 text-center")}>
+          <Loader2 className="mx-auto h-5 w-5 animate-spin text-indigo-100/56" />
+          <p className="mt-3 text-sm text-indigo-100/40">Memuat transaksi...</p>
         </div>
       ) : transactions.length === 0 ? (
-        <div className="rounded-[1.8rem] border border-white/10 bg-black/24 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
+        <div className={cn(transactionPanelClass, "p-8 text-center")}>
           <p className="text-sm font-semibold text-white">Belum ada transaksi</p>
-          <p className="mt-2 text-sm text-indigo-100/48">
+          <p className="mt-2 text-sm text-indigo-100/40">
             Tambahkan pengeluaran atau pemasukan dari halaman Add.
           </p>
         </div>
@@ -248,7 +275,7 @@ export function TransactionsList() {
               editErrors={editErrors}
               editError={editError}
               isUpdating={isUpdating}
-              onDelete={() => void handleDelete(transaction)}
+              onDelete={() => requestDelete(transaction)}
               onEdit={() => startEdit(transaction)}
               onCancelEdit={cancelEdit}
               onEditValueChange={updateEditValue}
@@ -257,6 +284,16 @@ export function TransactionsList() {
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmDelete !== null}
+        title={`Hapus transaksi "${confirmDelete?.name ?? ""}"?`}
+        description="Transaksi yang dihapus tidak bisa dikembalikan. Pastikan kamu yakin sebelum melanjutkan."
+        confirmLabel="Hapus"
+        cancelLabel="Batal"
+        onConfirm={() => void handleConfirmDelete()}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </section>
   );
 }
@@ -301,14 +338,14 @@ function TransactionItem({
     return (
       <form
         onSubmit={onEditSubmit}
-        className="rounded-[1.8rem] border border-white/10 bg-black/28 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.3)] backdrop-blur-2xl"
+        className={cn(radiusSection, borderWhite10, shadowPage, "border bg-black/28 p-5 backdrop-blur-2xl")}
       >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-semibold text-white">
               Edit {transaction.type === "income" ? "Pemasukan" : "Pengeluaran"}
             </p>
-            <p className="mt-1 text-xs text-indigo-100/48">
+            <p className="mt-1 text-xs text-indigo-100/40">
               Simpan perubahan untuk transaksi ini.
             </p>
           </div>
@@ -324,7 +361,7 @@ function TransactionItem({
               type="text"
               value={editValues.name}
               onChange={(event) => onEditValueChange("name", event.target.value)}
-              className="h-10 w-full rounded-2xl border border-white/10 bg-white/[0.045] px-3 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-indigo-200/35 focus:bg-white/[0.07] focus:ring-2 focus:ring-ring/25"
+              className={editInputClass}
             />
           </EditField>
 
@@ -334,7 +371,7 @@ function TransactionItem({
               min="0"
               value={editValues.amount || ""}
               onChange={(event) => onEditValueChange("amount", Number(event.target.value))}
-              className="h-10 w-full rounded-2xl border border-white/10 bg-white/[0.045] px-3 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-indigo-200/35 focus:bg-white/[0.07] focus:ring-2 focus:ring-ring/25"
+              className={editInputClass}
             />
             <QuickAmount
               value={editValues.amount}
@@ -346,7 +383,7 @@ function TransactionItem({
             <select
               value={editValues.category}
               onChange={(event) => onEditValueChange("category", event.target.value)}
-              className="h-10 w-full rounded-2xl border border-white/10 bg-white/[0.045] px-3 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-indigo-200/35 focus:bg-white/[0.07] focus:ring-2 focus:ring-ring/25"
+              className={editInputClass}
             >
               {(editValues.type === "income" ? incomeCategories : expenseCategories).map(
                 (category) => (
@@ -363,7 +400,7 @@ function TransactionItem({
               <select
                 value={editValues.source ?? ""}
                 onChange={(event) => onEditValueChange("source", event.target.value)}
-                className="h-10 w-full rounded-2xl border border-white/10 bg-white/[0.045] px-3 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-indigo-200/35 focus:bg-white/[0.07] focus:ring-2 focus:ring-ring/25"
+                className={editInputClass}
               >
                 <option value="">Pilih sumber</option>
                 {incomeSources.map((source) => (
@@ -382,7 +419,7 @@ function TransactionItem({
             <select
               value={editValues.paymentMethod}
               onChange={(event) => onEditValueChange("paymentMethod", event.target.value)}
-              className="h-10 w-full rounded-2xl border border-white/10 bg-white/[0.045] px-3 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-indigo-200/35 focus:bg-white/[0.07] focus:ring-2 focus:ring-ring/25"
+              className={editInputClass}
             >
               {(editValues.type === "income" ? incomeReceiptMethods : expensePaymentMethods).map(
                 (method) => (
@@ -399,7 +436,7 @@ function TransactionItem({
               type="date"
               value={editValues.transactionDate}
               onChange={(event) => onEditValueChange("transactionDate", event.target.value)}
-              className="h-10 w-full rounded-2xl border border-white/10 bg-white/[0.045] px-3 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-indigo-200/35 focus:bg-white/[0.07] focus:ring-2 focus:ring-ring/25"
+              className={editInputClass}
             />
           </EditField>
         </div>
@@ -408,12 +445,12 @@ function TransactionItem({
           <textarea
             value={editValues.note ?? ""}
             onChange={(event) => onEditValueChange("note", event.target.value)}
-            className="min-h-24 w-full rounded-2xl border border-white/10 bg-white/[0.045] px-3 py-3 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-indigo-200/35 focus:bg-white/[0.07] focus:ring-2 focus:ring-ring/25"
+            className={editTextareaClass}
           />
         </EditField>
 
         {editError ? (
-          <div className="mt-4 rounded-2xl border border-red-300/20 bg-red-500/10 px-3 py-2 text-sm text-red-100 shadow-sm">
+          <div className={cn(radiusInput, "mt-4 border border-red-300/20 bg-red-500/10 px-3 py-2 text-sm text-red-100 shadow-sm")}>
             {editError}
           </div>
         ) : null}
@@ -433,7 +470,7 @@ function TransactionItem({
   }
 
   return (
-    <article className="rounded-[1.8rem] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] backdrop-blur-2xl transition-all hover:-translate-y-0.5 hover:border-indigo-200/22 hover:bg-white/[0.055]">
+    <article className={cn(transactionPanelClass, "p-5 transition-all hover:-translate-y-0.5 hover:border-indigo-200/22 hover:bg-white/[0.055]")}>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex gap-3">
           <div
@@ -456,7 +493,7 @@ function TransactionItem({
                 {transaction.type}
               </span>
             </div>
-            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm text-indigo-100/46">
+            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm text-indigo-100/40">
               <span>{transaction.category}</span>
               <span>{transaction.payment_method}</span>
               {transaction.type === "income" && transaction.source ? (
@@ -465,7 +502,7 @@ function TransactionItem({
               <span>{formatDate(transaction.transaction_date)}</span>
             </div>
             {transaction.note ? (
-              <p className="mt-3 text-sm leading-6 text-indigo-100/48">{transaction.note}</p>
+              <p className="mt-3 text-sm leading-6 text-indigo-100/40">{transaction.note}</p>
             ) : null}
           </div>
         </div>
@@ -515,7 +552,7 @@ function EditField({
 }) {
   return (
     <label className={cn("block space-y-2", className)}>
-      <span className="text-sm font-medium text-indigo-100/70">{label}</span>
+      <span className="text-sm font-medium text-indigo-100/72">{label}</span>
       {children}
       {error ? <span className="block text-xs text-rose-200">{error}</span> : null}
     </label>

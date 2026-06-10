@@ -38,11 +38,11 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="mt-8 space-y-5">
       <div className="space-y-2">
-        <label htmlFor="email" className="text-sm font-medium text-indigo-50/78">
+        <label htmlFor="email" className="text-sm font-medium text-indigo-50/72">
           Email
         </label>
         <div className="relative">
-          <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-indigo-100/42" />
+          <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-indigo-100/40" />
           <input
             id="email"
             name="email"
@@ -58,11 +58,11 @@ export function LoginForm() {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="password" className="text-sm font-medium text-indigo-50/78">
+        <label htmlFor="password" className="text-sm font-medium text-indigo-50/72">
           Password
         </label>
         <div className="relative">
-          <LockKeyhole className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-indigo-100/42" />
+          <LockKeyhole className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-indigo-100/40" />
           <input
             id="password"
             name="password"
@@ -83,12 +83,12 @@ export function LoginForm() {
         </div>
       ) : null}
 
-      <div className="flex items-center justify-between gap-4 text-sm text-indigo-50/54">
+      <div className="flex items-center justify-between gap-4 text-sm text-indigo-50/56">
         <label className="flex items-center gap-2">
           <span className="h-4 w-4 rounded-md border border-white/14 bg-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]" />
           Keep session
         </label>
-        <span className="text-indigo-100/42">Private access</span>
+        <span className="text-indigo-100/40">Private access</span>
       </div>
 
       <Button type="submit" className="h-12 w-full" disabled={isLoading}>

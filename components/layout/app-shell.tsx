@@ -14,7 +14,7 @@ export function AppShell({ children }: AppShellProps) {
       <div className="pointer-events-none fixed inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.008)_1px,transparent_1px)] bg-[size:72px_72px] opacity-32" />
       <AppSidebar />
       <div className="relative z-10 flex min-h-screen flex-1 flex-col bg-[rgba(2,2,4,0.42)]">
-        <main className="w-full max-w-none flex-1 px-4 pb-28 pt-5 sm:px-6 sm:pt-6 lg:px-6 lg:pb-10">
+        <main className="mx-auto w-full max-w-[90rem] flex-1 px-4 pb-28 pt-5 sm:px-6 sm:pt-6 lg:px-6 lg:pb-10">
           {children}
         </main>
         <BottomNav />

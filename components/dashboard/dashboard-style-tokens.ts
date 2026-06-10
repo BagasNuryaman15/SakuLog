@@ -2,6 +2,39 @@ export type AccentTone = "cyan" | "violet" | "magenta" | "blueViolet";
 export type BlockTone = "default" | "primary" | "cta" | AccentTone;
 export type LineTone = "default" | "primary" | "muted" | AccentTone;
 
+/* ── Opacity tiers ── */
+export const opacityPrimary = "/96";
+export const opacitySecondary = "/84";
+export const opacityTertiary = "/72";
+export const opacityMuted = "/56";
+export const opacityGhost = "/40";
+
+/* ── Shadow tokens ── */
+export const shadowCard =
+  "shadow-[inset_0_1px_0_rgba(255,255,255,0.034),inset_0_0_0_1px_rgba(255,255,255,0.006),0_24px_64px_rgba(0,0,0,0.52)]";
+export const shadowElevated =
+  "shadow-[inset_0_1px_0_rgba(255,255,255,0.046),0_36px_88px_rgba(0,0,0,0.58),0_0_34px_rgba(123,0,212,0.045)]";
+export const shadowSubtle =
+  "shadow-[inset_0_1px_0_rgba(255,255,255,0.03),0_20px_52px_rgba(0,0,0,0.48)]";
+export const shadowInset =
+  "shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]";
+export const shadowPage =
+  "shadow-[0_24px_80px_rgba(0,0,0,0.28)]";
+
+/* ── Border tokens ── */
+export const borderDefault = "border-[rgba(214,226,255,0.078)]";
+export const borderSubtle = "border-[rgba(214,226,255,0.068)]";
+export const borderStrong = "border-[rgba(214,226,255,0.125)]";
+export const borderWhite10 = "border-white/10";
+
+/* ── Radius tokens ── */
+export const radiusCard = "rounded-[1.5rem]";
+export const radiusPanel = "rounded-[1.7rem]";
+export const radiusSection = "rounded-[1.8rem]";
+export const radiusButton = "rounded-xl";
+export const radiusInput = "rounded-2xl";
+export const radiusPill = "rounded-full";
+
 export const shellClass =
   "w-full min-w-0 rounded-[1.5rem] bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px),radial-gradient(circle_at_88%_4%,rgba(146,82,255,0.052),transparent_30%),radial-gradient(circle_at_11%_88%,rgba(33,50,74,0.18),transparent_34%),radial-gradient(circle_at_74%_112%,rgba(34,211,238,0.018),transparent_36%),linear-gradient(135deg,rgba(3,3,5,0.995),rgba(6,7,10,0.985)_48%,rgba(2,2,4,0.995))] bg-[size:72px_72px,72px_72px,auto,auto,auto,auto] p-0 text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.026),0_30px_80px_rgba(0,0,0,0.58)]";
 export const cardClass =
