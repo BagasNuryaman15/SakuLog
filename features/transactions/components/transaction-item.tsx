@@ -74,8 +74,8 @@ export function TransactionItem({
         "p-5 transition-all hover:-translate-y-0.5 hover:border-indigo-200/22 hover:bg-white/[0.055]"
       )}
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex gap-3">
+      <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex min-w-0 flex-1 gap-3">
           <div
             className={cn(
               "flex h-11 w-11 shrink-0 items-center justify-center rounded-md border shadow-sm",
@@ -84,42 +84,47 @@ export function TransactionItem({
           >
             <Icon className="h-5 w-5" />
           </div>
-          <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <h2 className="font-semibold tracking-[-0.02em] text-white">{transaction.name}</h2>
+          <div className="min-w-0 flex-1">
+            <div className="flex min-w-0 flex-wrap items-center gap-2">
+              <h2 className="min-w-0 max-w-full truncate font-semibold tracking-[-0.02em] text-white">
+                {transaction.name}
+              </h2>
               <span
                 className={cn(
-                  "rounded-xl border px-2 py-1 text-[11px] font-medium uppercase tracking-[0.12em] shadow-sm",
+                  "shrink-0 rounded-xl border px-2 py-1 text-[11px] font-medium uppercase tracking-[0.12em] shadow-sm",
                   accent
                 )}
               >
                 {transaction.type}
               </span>
             </div>
-            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm text-indigo-100/40">
-              <span>{transaction.category}</span>
-              <span>{transaction.payment_method}</span>
+            <div className="mt-2 flex min-w-0 flex-wrap gap-x-3 gap-y-1 text-sm text-indigo-100/40">
+              <span className="max-w-full truncate sm:max-w-[14rem]">{transaction.category}</span>
+              <span className="max-w-full truncate sm:max-w-[14rem]">{transaction.payment_method}</span>
               {transaction.type === "income" && transaction.source ? (
-                <span>Sumber: {transaction.source}</span>
+                <span className="max-w-full truncate sm:max-w-[14rem]">Sumber: {transaction.source}</span>
               ) : null}
-              <span>{formatDate(transaction.transaction_date)}</span>
+              <span className="shrink-0">{formatDate(transaction.transaction_date)}</span>
             </div>
             {transaction.note ? (
-              <p className="mt-3 text-sm leading-6 text-indigo-100/40">{transaction.note}</p>
+              <p className="mt-3 line-clamp-2 break-words text-sm leading-6 text-indigo-100/40">
+                {transaction.note}
+              </p>
             ) : null}
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 sm:items-end">
+        <div className="flex min-w-0 flex-col gap-3 sm:w-44 sm:shrink-0 sm:items-end">
           <p
             className={cn(
-              "text-lg font-semibold tracking-tight",
+              "max-w-full truncate whitespace-nowrap text-left text-lg font-semibold tracking-tight tabular-nums sm:text-right",
               transaction.type === "income" ? "text-emerald-200" : "text-rose-200"
             )}
+            title={formatAmount(transaction)}
           >
             {formatAmount(transaction)}
           </p>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 sm:justify-end">
             <Button type="button" variant="outline" size="sm" onClick={onEdit}>
               <Pencil className="h-4 w-4" />
               Edit

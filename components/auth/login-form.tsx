@@ -83,12 +83,14 @@ export function LoginForm() {
         </div>
       ) : null}
 
-      <div className="flex items-center justify-between gap-4 text-sm text-indigo-50/56">
-        <label className="flex items-center gap-2">
-          <span className="h-4 w-4 rounded-md border border-white/14 bg-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]" />
-          Keep session
-        </label>
-        <span className="text-indigo-100/40">Private access</span>
+      <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] px-3 py-2.5 text-sm text-indigo-50/56 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+        <LockKeyhole className="mt-0.5 h-4 w-4 shrink-0 text-indigo-100/40" aria-hidden="true" />
+        <div className="min-w-0">
+          <p className="font-medium text-indigo-50/68">Private session</p>
+          <p className="mt-0.5 text-xs leading-5 text-indigo-100/40">
+            Sesi login dikelola otomatis oleh Supabase di perangkat ini.
+          </p>
+        </div>
       </div>
 
       <Button type="submit" className="h-12 w-full" disabled={isLoading}>
