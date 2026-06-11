@@ -40,6 +40,16 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const fieldIds = {
+    name: "income-name",
+    amount: "income-amount",
+    amountPreview: "income-amount-preview",
+    category: "income-category",
+    source: "income-source",
+    transactionDate: "income-transaction-date",
+    receiptMethod: "income-receipt-method",
+    note: "income-note"
+  };
 
   const formattedAmount = useMemo(() => {
     if (!values.amount) {
@@ -108,18 +118,24 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Nama pemasukan" error={errors.name}>
+          <Field id={fieldIds.name} label="Nama pemasukan" error={errors.name}>
             <input
+              id={fieldIds.name}
+              name="name"
               type="text"
               value={values.name}
               onChange={(event) => updateValue("name", event.target.value)}
               className="finance-input"
               placeholder="Contoh: Uang bulanan"
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={getErrorId(fieldIds.name, errors.name)}
             />
           </Field>
 
-          <Field label="Nominal" error={errors.amount}>
+          <Field id={fieldIds.amount} label="Nominal" error={errors.amount}>
             <input
+              id={fieldIds.amount}
+              name="amount"
               type="number"
               min="0"
               inputMode="numeric"
@@ -127,19 +143,25 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
               onChange={(event) => updateValue("amount", Number(event.target.value))}
               className="finance-input"
               placeholder="0"
+              aria-invalid={Boolean(errors.amount)}
+              aria-describedby={getDescribedBy(fieldIds.amountPreview, getErrorId(fieldIds.amount, errors.amount))}
             />
-            <p className="mt-2 text-xs text-indigo-100/40">{formattedAmount}</p>
+            <p id={fieldIds.amountPreview} className="mt-2 text-xs text-indigo-100/40">{formattedAmount}</p>
             <QuickAmount
               value={values.amount}
               onChange={(amount) => updateValue("amount", amount)}
             />
           </Field>
 
-          <Field label="Kategori pemasukan" error={errors.category}>
+          <Field id={fieldIds.category} label="Kategori pemasukan" error={errors.category}>
             <select
+              id={fieldIds.category}
+              name="category"
               value={values.category}
               onChange={(event) => updateValue("category", event.target.value)}
               className="finance-input"
+              aria-invalid={Boolean(errors.category)}
+              aria-describedby={getErrorId(fieldIds.category, errors.category)}
             >
               <option value="">Pilih kategori</option>
               {incomeCategories.map((category) => (
@@ -150,11 +172,15 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
             </select>
           </Field>
 
-          <Field label="Sumber pemasukan" error={errors.source}>
+          <Field id={fieldIds.source} label="Sumber pemasukan" error={errors.source}>
             <select
+              id={fieldIds.source}
+              name="source"
               value={values.source}
               onChange={(event) => updateValue("source", event.target.value)}
               className="finance-input"
+              aria-invalid={Boolean(errors.source)}
+              aria-describedby={getErrorId(fieldIds.source, errors.source)}
             >
               <option value="">Pilih sumber</option>
               {incomeSources.map((source) => (
@@ -165,20 +191,28 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
             </select>
           </Field>
 
-          <Field label="Tanggal" error={errors.transactionDate}>
+          <Field id={fieldIds.transactionDate} label="Tanggal" error={errors.transactionDate}>
             <input
+              id={fieldIds.transactionDate}
+              name="transactionDate"
               type="date"
               value={values.transactionDate}
               onChange={(event) => updateValue("transactionDate", event.target.value)}
               className="finance-input"
+              aria-invalid={Boolean(errors.transactionDate)}
+              aria-describedby={getErrorId(fieldIds.transactionDate, errors.transactionDate)}
             />
           </Field>
 
-          <Field label="Metode penerimaan" error={errors.receiptMethod}>
+          <Field id={fieldIds.receiptMethod} label="Metode penerimaan" error={errors.receiptMethod}>
             <select
+              id={fieldIds.receiptMethod}
+              name="receiptMethod"
               value={values.receiptMethod}
               onChange={(event) => updateValue("receiptMethod", event.target.value)}
               className="finance-input"
+              aria-invalid={Boolean(errors.receiptMethod)}
+              aria-describedby={getErrorId(fieldIds.receiptMethod, errors.receiptMethod)}
             >
               <option value="">Pilih metode</option>
               {incomeReceiptMethods.map((method) => (
@@ -190,8 +224,10 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
           </Field>
         </div>
 
-        <Field label="Catatan" optional>
+        <Field id={fieldIds.note} label="Catatan" optional>
           <textarea
+            id={fieldIds.note}
+            name="note"
             value={values.note}
             onChange={(event) => updateValue("note", event.target.value)}
             className="finance-input"
@@ -228,24 +264,38 @@ export function IncomeForm({ onBack }: IncomeFormProps) {
 }
 
 function Field({
+  id,
   label,
   error,
   optional,
   children
 }: {
+  id: string;
   label: string;
   error?: string;
   optional?: boolean;
   children: React.ReactNode;
 }) {
+  const errorId = getErrorId(id, error);
+
   return (
     <div className="block space-y-2">
-      <span className="flex items-center justify-between text-sm font-medium text-indigo-100/72">
+      <label htmlFor={id} className="flex items-center justify-between text-sm font-medium text-indigo-100/72">
         {label}
         {optional ? <span className="text-xs font-normal text-indigo-100/40">Opsional</span> : null}
-      </span>
+      </label>
       {children}
-      {error ? <span className="block text-xs text-rose-200">{error}</span> : null}
+      {error ? <span id={errorId} className="block text-xs text-rose-200">{error}</span> : null}
     </div>
   );
+}
+
+function getErrorId(id: string, error?: string) {
+  return error ? `${id}-error` : undefined;
+}
+
+function getDescribedBy(...ids: Array<string | undefined>) {
+  const describedBy = ids.filter(Boolean).join(" ");
+
+  return describedBy || undefined;
 }

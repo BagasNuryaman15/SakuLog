@@ -39,6 +39,15 @@ export function ExpenseForm({ onBack }: ExpenseFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const fieldIds = {
+    name: "expense-name",
+    amount: "expense-amount",
+    amountPreview: "expense-amount-preview",
+    category: "expense-category",
+    transactionDate: "expense-transaction-date",
+    paymentMethod: "expense-payment-method",
+    note: "expense-note"
+  };
 
   const formattedAmount = useMemo(() => {
     if (!values.amount) {
@@ -110,18 +119,24 @@ export function ExpenseForm({ onBack }: ExpenseFormProps) {
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Nama pengeluaran" error={errors.name}>
+          <Field id={fieldIds.name} label="Nama pengeluaran" error={errors.name}>
             <input
+              id={fieldIds.name}
+              name="name"
               type="text"
               value={values.name}
               onChange={(event) => updateValue("name", event.target.value)}
               className="finance-input"
               placeholder="Contoh: Makan siang"
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={getErrorId(fieldIds.name, errors.name)}
             />
           </Field>
 
-          <Field label="Nominal" error={errors.amount}>
+          <Field id={fieldIds.amount} label="Nominal" error={errors.amount}>
             <input
+              id={fieldIds.amount}
+              name="amount"
               type="number"
               min="0"
               inputMode="numeric"
@@ -129,19 +144,25 @@ export function ExpenseForm({ onBack }: ExpenseFormProps) {
               onChange={(event) => updateValue("amount", Number(event.target.value))}
               className="finance-input"
               placeholder="0"
+              aria-invalid={Boolean(errors.amount)}
+              aria-describedby={getDescribedBy(fieldIds.amountPreview, getErrorId(fieldIds.amount, errors.amount))}
             />
-            <p className="mt-2 text-xs text-indigo-100/40">{formattedAmount}</p>
+            <p id={fieldIds.amountPreview} className="mt-2 text-xs text-indigo-100/40">{formattedAmount}</p>
             <QuickAmount
               value={values.amount}
               onChange={(amount) => updateValue("amount", amount)}
             />
           </Field>
 
-          <Field label="Kategori" error={errors.category}>
+          <Field id={fieldIds.category} label="Kategori" error={errors.category}>
             <select
+              id={fieldIds.category}
+              name="category"
               value={values.category}
               onChange={(event) => updateValue("category", event.target.value)}
               className="finance-input"
+              aria-invalid={Boolean(errors.category)}
+              aria-describedby={getErrorId(fieldIds.category, errors.category)}
             >
               <option value="">Pilih kategori</option>
               {expenseCategories.map((category) => (
@@ -152,20 +173,28 @@ export function ExpenseForm({ onBack }: ExpenseFormProps) {
             </select>
           </Field>
 
-          <Field label="Tanggal" error={errors.transactionDate}>
+          <Field id={fieldIds.transactionDate} label="Tanggal" error={errors.transactionDate}>
             <input
+              id={fieldIds.transactionDate}
+              name="transactionDate"
               type="date"
               value={values.transactionDate}
               onChange={(event) => updateValue("transactionDate", event.target.value)}
               className="finance-input"
+              aria-invalid={Boolean(errors.transactionDate)}
+              aria-describedby={getErrorId(fieldIds.transactionDate, errors.transactionDate)}
             />
           </Field>
 
-          <Field label="Metode pembayaran" error={errors.paymentMethod}>
+          <Field id={fieldIds.paymentMethod} label="Metode pembayaran" error={errors.paymentMethod}>
             <select
+              id={fieldIds.paymentMethod}
+              name="paymentMethod"
               value={values.paymentMethod}
               onChange={(event) => updateValue("paymentMethod", event.target.value)}
               className="finance-input"
+              aria-invalid={Boolean(errors.paymentMethod)}
+              aria-describedby={getErrorId(fieldIds.paymentMethod, errors.paymentMethod)}
             >
               <option value="">Pilih metode</option>
               {expensePaymentMethods.map((method) => (
@@ -177,8 +206,10 @@ export function ExpenseForm({ onBack }: ExpenseFormProps) {
           </Field>
         </div>
 
-        <Field label="Catatan" optional>
+        <Field id={fieldIds.note} label="Catatan" optional>
           <textarea
+            id={fieldIds.note}
+            name="note"
             value={values.note}
             onChange={(event) => updateValue("note", event.target.value)}
             className="finance-input"
@@ -215,24 +246,38 @@ export function ExpenseForm({ onBack }: ExpenseFormProps) {
 }
 
 function Field({
+  id,
   label,
   error,
   optional,
   children
 }: {
+  id: string;
   label: string;
   error?: string;
   optional?: boolean;
   children: React.ReactNode;
 }) {
+  const errorId = getErrorId(id, error);
+
   return (
     <div className="block space-y-2">
-      <span className="flex items-center justify-between text-sm font-medium text-indigo-100/72">
+      <label htmlFor={id} className="flex items-center justify-between text-sm font-medium text-indigo-100/72">
         {label}
         {optional ? <span className="text-xs font-normal text-indigo-100/40">Opsional</span> : null}
-      </span>
+      </label>
       {children}
-      {error ? <span className="block text-xs text-rose-200">{error}</span> : null}
+      {error ? <span id={errorId} className="block text-xs text-rose-200">{error}</span> : null}
     </div>
   );
+}
+
+function getErrorId(id: string, error?: string) {
+  return error ? `${id}-error` : undefined;
+}
+
+function getDescribedBy(...ids: Array<string | undefined>) {
+  const describedBy = ids.filter(Boolean).join(" ");
+
+  return describedBy || undefined;
 }
