@@ -10,6 +10,7 @@ import {
   Plus,
   ReceiptText,
   Settings,
+  ShieldCheck,
   type LucideIcon
 } from "lucide-react";
 
@@ -36,7 +37,10 @@ export function AppSidebar() {
     },
     {
       title: "Tools",
-      items: mainNavigation.filter((item) => ["Transactions", "Add"].includes(item.title))
+      items: [
+        ...mainNavigation.filter((item) => item.title === "Add"),
+        ...mainNavigation.filter((item) => item.title === "Transactions")
+      ]
     },
     {
       title: "Settings",
@@ -120,6 +124,7 @@ export function AppSidebar() {
                 const Icon = icons[item.icon];
                 const isActive = pathname === item.href;
                 const isAddItem = item.href === "/add";
+                const tooltipLabel = isAddItem ? "Add transaction" : item.title;
 
                 return (
                   <div key={item.href}>
@@ -129,14 +134,19 @@ export function AppSidebar() {
                         "group relative flex h-10 items-center rounded-[0.72rem] text-sm font-semibold text-[#9B89B8]/72 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
                         isCollapsed ? "justify-center px-0" : "gap-3 px-3",
                         "hover:-translate-y-px hover:bg-[rgba(255,255,255,0.045)] hover:text-[#F8F4FF]",
+                        isAddItem &&
+                          !isActive &&
+                          "border border-[#BFA7FF]/12 bg-[linear-gradient(135deg,rgba(92,36,241,0.14),rgba(179,107,255,0.075))] text-[#D8B4FE]/88 shadow-[0_0_18px_rgba(106,44,255,0.05),inset_0_1px_0_rgba(255,255,255,0.034)]",
                         isActive &&
-                          (isCollapsed
-                            ? "bg-[rgba(255,255,255,0.078)] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
-                            : "border border-white/[0.08] bg-[rgba(255,255,255,0.07)] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]")
+                          (isAddItem
+                            ? "border border-[#D8B4FE]/24 bg-[linear-gradient(135deg,rgba(92,36,241,0.36),rgba(179,107,255,0.18),rgba(255,255,255,0.06))] text-[#F8F4FF] shadow-[0_0_20px_rgba(176,64,255,0.12),inset_0_1px_0_rgba(255,255,255,0.08)]"
+                            : isCollapsed
+                              ? "bg-[rgba(255,255,255,0.078)] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+                              : "border border-white/[0.08] bg-[rgba(255,255,255,0.07)] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]")
                       )}
-                      aria-current={isActive && !isAddItem ? "page" : undefined}
-                      aria-label={isCollapsed ? item.title : undefined}
-                      title={isCollapsed ? item.title : undefined}
+                      aria-current={isActive ? "page" : undefined}
+                      aria-label={isCollapsed ? tooltipLabel : undefined}
+                      title={isCollapsed ? tooltipLabel : undefined}
                     >
                       {isActive ? (
                         <span
@@ -147,7 +157,11 @@ export function AppSidebar() {
                       <span
                         className={cn(
                           "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center transition-colors duration-200",
-                          isActive ? "text-[#F8F4FF]" : "text-[#9B89B8]/72 group-hover:text-[#F8F4FF]"
+                          isActive
+                            ? "text-[#F8F4FF]"
+                            : isAddItem
+                              ? "text-[#D8B4FE]/90 group-hover:text-[#F8F4FF]"
+                              : "text-[#9B89B8]/72 group-hover:text-[#F8F4FF]"
                         )}
                       >
                         <Icon className="h-[1.15rem] w-[1.15rem]" strokeWidth={2.1} />
@@ -155,7 +169,7 @@ export function AppSidebar() {
                       <span className={cn("relative z-10 whitespace-nowrap transition", isCollapsed && "hidden")}>
                         {item.title}
                       </span>
-                      <SidebarTooltip label={item.title} show={isCollapsed} />
+                      <SidebarTooltip label={tooltipLabel} show={isCollapsed} />
                     </Link>
                     {isAddItem && !isCollapsed ? (
                       <Suspense fallback={<AddBranchLinksStatic />}>
@@ -193,17 +207,17 @@ export function AppSidebar() {
               "group relative flex h-10 w-10 items-center justify-center rounded-[0.75rem] border border-white/[0.08] bg-white/[0.045] text-xs font-bold text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
               !isCollapsed && "mb-3"
             )}
-            title="Session secured"
-            aria-label="Session secured"
+            title="Private session"
+            aria-label="Private session"
           >
-            AN
-            <SidebarTooltip label="Session secured" show={isCollapsed} />
+            <ShieldCheck className="h-4 w-4" strokeWidth={2.2} />
+            <SidebarTooltip label="Private session" show={isCollapsed} />
           </div>
           <p className={cn("text-sm font-semibold text-[#F8F4FF]", isCollapsed && "sr-only")}>
-            Session secured
+            Private session
           </p>
           <p className={cn("mt-2 text-xs leading-5 text-[#9B89B8]", isCollapsed && "hidden")}>
-            Workspace pribadi untuk membaca cashflow tanpa noise.
+            Sesi Supabase aktif untuk workspace pribadi.
           </p>
           <LogoutButton
             className={cn(
