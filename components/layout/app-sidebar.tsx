@@ -57,18 +57,23 @@ export function AppSidebar() {
     >
       <div
         className={cn(
-          "relative flex min-h-0 w-full flex-1 flex-col overflow-visible border border-[rgba(214,226,255,0.07)] bg-[linear-gradient(180deg,rgba(5,6,10,0.985),rgba(2,2,4,0.99)_58%,rgba(4,3,8,0.99))] shadow-[inset_0_1px_0_rgba(255,255,255,0.032),0_24px_60px_rgba(0,0,0,0.62)] backdrop-blur-[18px]",
-          isCollapsed ? "rounded-[1.2rem] px-2 py-4" : "rounded-[1.25rem] px-4 py-4"
+          "relative flex min-h-0 w-full flex-1 flex-col overflow-visible border border-[rgba(214,226,255,0.082)] bg-[linear-gradient(180deg,rgba(6,7,12,0.99),rgba(2,2,5,0.992)_58%,rgba(5,3,10,0.99))] shadow-[inset_0_1px_0_rgba(255,255,255,0.038),0_26px_62px_rgba(0,0,0,0.6),0_0_22px_rgba(123,0,212,0.035)] backdrop-blur-[18px]",
+          isCollapsed ? "rounded-[1.45rem] px-2.5 py-5" : "rounded-[1.35rem] px-4 py-4"
         )}
       >
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(circle_at_50%_0%,rgba(146,82,255,0.035),transparent_38%),radial-gradient(circle_at_60%_42%,rgba(34,211,238,0.012),transparent_34%)]" />
+        <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(circle_at_50%_0%,rgba(146,82,255,0.045),transparent_34%),radial-gradient(circle_at_18%_18%,rgba(103,232,249,0.014),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.012),transparent_18%,rgba(123,0,212,0.018)_100%)]" />
 
-        <div className="relative flex h-12 items-center justify-between gap-3 px-1">
+        <div
+          className={cn(
+            "relative flex items-center justify-between gap-3",
+            isCollapsed ? "h-11 px-0" : "h-12 px-1"
+          )}
+        >
           {isCollapsed ? (
             <button
               type="button"
               onClick={() => setIsCollapsed(false)}
-              className="group group/brand mx-auto flex h-10 w-10 items-center justify-center rounded-[0.8rem] border border-white/[0.08] bg-[rgba(11,12,18,0.78)] text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition hover:-translate-y-px hover:border-[#BFA7FF]/22 hover:bg-white/[0.045] hover:text-[#F8F4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              className="group group/brand mx-auto flex h-11 w-11 items-center justify-center rounded-[1rem] border border-transparent text-[#C7B8E8] transition hover:-translate-y-px hover:border-white/[0.08] hover:bg-white/[0.035] hover:text-[#F8F4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               aria-label="Expand sidebar"
               title="Expand sidebar"
             >
@@ -79,13 +84,13 @@ export function AppSidebar() {
             <>
               <Link
                 href="/dashboard"
-                className="group group/brand flex h-12 min-w-0 items-center gap-3 rounded-[0.9rem] border border-white/[0.08] bg-[rgba(11,12,18,0.78)] px-2.5 text-sm font-semibold text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition hover:-translate-y-px hover:border-[#BFA7FF]/22 hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="group group/brand flex h-12 min-w-0 items-center gap-3 rounded-[0.95rem] border border-white/[0.09] bg-[linear-gradient(180deg,rgba(15,16,24,0.86),rgba(7,8,13,0.76))] px-2.5 text-sm font-semibold text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_10px_24px_rgba(0,0,0,0.24)] transition hover:-translate-y-px hover:border-[#BFA7FF]/24 hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 aria-label="SakuLog dashboard"
               >
                 <SidebarBrandSlot />
                 <span className="min-w-0">
-                  <span className="block truncate leading-none">SakuLog</span>
-                  <span className="mt-1 block truncate text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#67E8F9]/48">
+                  <span className="block truncate leading-none tracking-[-0.015em]">SakuLog</span>
+                  <span className="mt-1.5 block truncate text-[0.62rem] font-bold uppercase tracking-[0.18em] text-[#67E8F9]/46">
                     Money OS
                   </span>
                 </span>
@@ -93,7 +98,7 @@ export function AppSidebar() {
               <button
                 type="button"
                 onClick={() => setIsCollapsed(true)}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.75rem] border border-white/[0.08] bg-[rgba(10,11,15,0.66)] text-[#B9A9D8] transition hover:-translate-y-px hover:border-[#BFA7FF]/22 hover:bg-white/[0.045] hover:text-[#F8F4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.78rem] border border-white/[0.08] bg-[rgba(10,11,15,0.64)] text-[#B9A9D8] transition hover:-translate-y-px hover:border-[#BFA7FF]/22 hover:bg-white/[0.045] hover:text-[#F8F4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 aria-label="Collapse sidebar"
               >
                 <PanelLeftClose className="h-4 w-4" />
@@ -102,16 +107,11 @@ export function AppSidebar() {
           )}
         </div>
 
-        <div
-          className={cn(
-            "relative mt-4 h-px bg-[rgba(214,226,255,0.06)]",
-            isCollapsed ? "mx-auto w-10" : "mx-1"
-          )}
-        />
+        <div className={cn("relative h-px bg-[rgba(214,226,255,0.06)]", isCollapsed ? "mx-auto mt-5 w-9" : "mx-1 mt-4")} />
 
-        <nav className="relative mt-4 space-y-3" aria-label="Dashboard navigation">
+        <nav className={cn("relative", isCollapsed ? "mt-5 space-y-4" : "mt-4 space-y-3")} aria-label="Dashboard navigation">
           {navigationSections.map((section) => (
-            <div key={section.title} className="space-y-1">
+            <div key={section.title} className={cn(isCollapsed ? "space-y-2.5" : "space-y-1")}>
               <p
                 className={cn(
                   "px-3 text-xs font-medium uppercase tracking-[0.18em] text-[#6F5F86] transition",
@@ -127,53 +127,42 @@ export function AppSidebar() {
                 const tooltipLabel = isAddItem ? "Add transaction" : item.title;
 
                 return (
-                  <div key={item.href}>
+                  <div key={item.href} className={cn("relative", isAddItem && "group/add")}>
                     <Link
                       href={item.href}
                       className={cn(
-                        "group relative flex h-10 items-center rounded-[0.72rem] text-sm font-semibold text-[#9B89B8]/72 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
-                        isCollapsed ? "justify-center px-0" : "gap-3 px-3",
-                        "hover:-translate-y-px hover:bg-[rgba(255,255,255,0.045)] hover:text-[#F8F4FF]",
-                        isAddItem &&
-                          !isActive &&
-                          "border border-[#BFA7FF]/12 bg-[linear-gradient(135deg,rgba(92,36,241,0.14),rgba(179,107,255,0.075))] text-[#D8B4FE]/88 shadow-[0_0_18px_rgba(106,44,255,0.05),inset_0_1px_0_rgba(255,255,255,0.034)]",
-                        isActive &&
-                          (isAddItem
-                            ? "border border-[#D8B4FE]/24 bg-[linear-gradient(135deg,rgba(92,36,241,0.36),rgba(179,107,255,0.18),rgba(255,255,255,0.06))] text-[#F8F4FF] shadow-[0_0_20px_rgba(176,64,255,0.12),inset_0_1px_0_rgba(255,255,255,0.08)]"
-                            : isCollapsed
-                              ? "bg-[rgba(255,255,255,0.078)] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
-                              : "border border-white/[0.08] bg-[rgba(255,255,255,0.07)] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]")
+                        "group group/navitem relative flex h-10 items-center text-sm font-semibold text-[#9B89B8]/72 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+                        isCollapsed
+                          ? "justify-center rounded-[0.7rem] px-0"
+                          : "gap-3 rounded-[0.78rem] px-2.5 hover:-translate-y-px hover:bg-[rgba(255,255,255,0.04)] hover:text-[#F8F4FF]",
+                        isAddItem && !isActive && "text-[#D8B4FE]/82",
+                        isActive && "text-[#F8F4FF]"
                       )}
                       aria-current={isActive ? "page" : undefined}
                       aria-label={isCollapsed ? tooltipLabel : undefined}
-                      title={isCollapsed ? tooltipLabel : undefined}
                     >
-                      {isActive ? (
-                        <span
-                          className="pointer-events-none absolute inset-0 rounded-[0.72rem] ring-1 ring-inset ring-white/[0.075]"
-                          aria-hidden="true"
-                        />
-                      ) : null}
                       <span
                         className={cn(
-                          "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center transition-colors duration-200",
+                          "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center transition-all duration-200",
+                          isCollapsed &&
+                            "rounded-[0.72rem] border border-transparent group-hover/navitem:-translate-y-px group-hover/navitem:scale-[1.04] group-hover/navitem:border-white/[0.08] group-hover/navitem:bg-white/[0.045] group-focus-visible/navitem:border-white/[0.08] group-focus-visible/navitem:bg-white/[0.045]",
                           isActive
                             ? "text-[#F8F4FF]"
                             : isAddItem
-                              ? "text-[#D8B4FE]/90 group-hover:text-[#F8F4FF]"
-                              : "text-[#9B89B8]/72 group-hover:text-[#F8F4FF]"
+                              ? "text-[#D8B4FE]/86 group-hover/navitem:text-[#F8F4FF]"
+                              : "text-[#9B89B8]/68 group-hover/navitem:text-[#F8F4FF]"
                         )}
                       >
-                        <Icon className="h-[1.15rem] w-[1.15rem]" strokeWidth={2.1} />
+                        <Icon className="h-[1.08rem] w-[1.08rem]" strokeWidth={2.15} />
                       </span>
                       <span className={cn("relative z-10 whitespace-nowrap transition", isCollapsed && "hidden")}>
                         {item.title}
                       </span>
-                      <SidebarTooltip label={tooltipLabel} show={isCollapsed} />
+                      <SidebarTooltip label={tooltipLabel} show={isCollapsed && !isAddItem} />
                     </Link>
-                    {isAddItem && !isCollapsed ? (
-                      <Suspense fallback={<AddBranchLinksStatic />}>
-                        <AddBranchLinks pathname={pathname} />
+                    {isAddItem ? (
+                      <Suspense fallback={<AddBranchMenuStatic isCollapsed={isCollapsed} />}>
+                        <AddBranchMenu isCollapsed={isCollapsed} pathname={pathname} />
                       </Suspense>
                     ) : null}
                   </div>
@@ -195,7 +184,7 @@ export function AppSidebar() {
             "relative mt-auto border-[rgba(214,226,255,0.08)] transition-all",
             isCollapsed
               ? "flex flex-col items-center gap-2.5 pb-2.5 pt-4"
-              : "overflow-hidden rounded-[0.9rem] border bg-[rgba(255,255,255,0.045)] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]"
+              : "overflow-hidden rounded-[0.95rem] border bg-[linear-gradient(180deg,rgba(255,255,255,0.046),rgba(123,0,212,0.026))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.034)]"
           )}
         >
           <span
@@ -204,7 +193,7 @@ export function AppSidebar() {
           />
           <div
             className={cn(
-              "group relative flex h-10 w-10 items-center justify-center rounded-[0.75rem] border border-white/[0.08] bg-white/[0.045] text-xs font-bold text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
+              "group relative flex h-10 w-10 items-center justify-center rounded-[0.78rem] border border-white/[0.08] bg-[rgba(255,255,255,0.044)] text-xs font-bold text-[#C7B8E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
               !isCollapsed && "mb-3"
             )}
             title="Private session"
@@ -221,8 +210,8 @@ export function AppSidebar() {
           </p>
           <LogoutButton
             className={cn(
-              "mt-3 border-[rgba(214,226,255,0.1)] bg-white/[0.055] px-3 text-[#C7B8E8] hover:border-[#BFA7FF]/24 hover:bg-white/[0.085] hover:text-[#F8F4FF] focus-visible:ring-[#BFA7FF]/28",
-              isCollapsed && "h-10 w-10 justify-center rounded-[0.75rem] px-0"
+              "mt-3 border-[rgba(214,226,255,0.1)] bg-white/[0.052] px-3 text-[#C7B8E8] hover:border-[#BFA7FF]/24 hover:bg-white/[0.078] hover:text-[#F8F4FF] focus-visible:ring-[#BFA7FF]/28",
+              isCollapsed && "h-10 w-10 justify-center rounded-[0.78rem] px-0"
             )}
             labelClassName={cn(isCollapsed && "sr-only")}
             variant="secondary"
@@ -233,32 +222,43 @@ export function AppSidebar() {
   );
 }
 
-function AddBranchLinksStatic() {
+function AddBranchMenuStatic({ isCollapsed }: { isCollapsed: boolean }) {
   return (
-    <div className="ml-7 mt-1.5 space-y-1 border-l border-white/[0.07] pl-3">
-      <SidebarBranchLink href="/add?type=expense" isActive={false} label="Pengeluaran" />
-      <SidebarBranchLink href="/add?type=income" isActive={false} label="Pemasukan" />
+    <div className={addBranchMenuClass(isCollapsed)}>
+      <SidebarBranchLink href="/add?type=expense" isActive={false} isCollapsed={isCollapsed} label="Pengeluaran" />
+      <SidebarBranchLink href="/add?type=income" isActive={false} isCollapsed={isCollapsed} label="Pemasukan" />
     </div>
   );
 }
 
-function AddBranchLinks({ pathname }: { pathname: string }) {
+function AddBranchMenu({ isCollapsed, pathname }: { isCollapsed: boolean; pathname: string }) {
   const searchParams = useSearchParams();
   const addType = searchParams.get("type");
 
   return (
-    <div className="ml-7 mt-1.5 space-y-1 border-l border-white/[0.07] pl-3">
+    <div className={addBranchMenuClass(isCollapsed)}>
       <SidebarBranchLink
         href="/add?type=expense"
         isActive={pathname === "/add" && addType === "expense"}
+        isCollapsed={isCollapsed}
         label="Pengeluaran"
       />
       <SidebarBranchLink
         href="/add?type=income"
         isActive={pathname === "/add" && addType === "income"}
+        isCollapsed={isCollapsed}
         label="Pemasukan"
       />
     </div>
+  );
+}
+
+function addBranchMenuClass(isCollapsed: boolean) {
+  return cn(
+    "pointer-events-none space-y-1 opacity-0 transition-all duration-150 group-hover/add:pointer-events-auto group-hover/add:opacity-100 group-focus-within/add:pointer-events-auto group-focus-within/add:opacity-100",
+    isCollapsed
+      ? "absolute left-full top-0 z-40 ml-3 w-36 rounded-[0.82rem] border border-white/[0.085] bg-[rgba(5,6,10,0.975)] p-1.5 shadow-[0_16px_34px_rgba(0,0,0,0.42),0_0_14px_rgba(123,0,212,0.045)] backdrop-blur group-hover/add:translate-x-1 group-focus-within/add:translate-x-1 before:absolute before:left-[-0.95rem] before:top-5 before:h-[3.65rem] before:border-l before:border-white/[0.105] after:absolute after:left-[-0.75rem] after:top-0 after:h-full after:w-4"
+      : "relative ml-7 mt-1.5 max-h-0 overflow-hidden border-l border-white/[0.075] pl-3 group-hover/add:max-h-20 group-focus-within/add:max-h-20"
   );
 }
 
@@ -269,7 +269,7 @@ function SidebarTooltip({ label, show }: { label: string; show: boolean }) {
 
   return (
     <span
-      className="pointer-events-none absolute left-full top-1/2 z-40 ml-3 -translate-y-1/2 whitespace-nowrap rounded-[0.62rem] border border-white/[0.08] bg-[rgba(5,6,10,0.96)] px-3 py-2 text-xs font-semibold text-[#F8F4FF] opacity-0 shadow-[0_16px_34px_rgba(0,0,0,0.42)] backdrop-blur transition-all duration-150 before:absolute before:left-[-0.32rem] before:top-1/2 before:h-2.5 before:w-2.5 before:-translate-y-1/2 before:rotate-45 before:border-b before:border-l before:border-white/[0.08] before:bg-[rgba(5,6,10,0.96)] group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100"
+      className="pointer-events-none absolute left-full top-1/2 z-40 ml-3 -translate-y-1/2 whitespace-nowrap rounded-[0.62rem] border border-white/[0.09] bg-[rgba(5,6,10,0.97)] px-3 py-2 text-xs font-semibold text-[#F8F4FF] opacity-0 shadow-[0_16px_34px_rgba(0,0,0,0.42),0_0_14px_rgba(123,0,212,0.045)] backdrop-blur transition-all duration-150 before:absolute before:left-[-0.32rem] before:top-1/2 before:h-2.5 before:w-2.5 before:-translate-y-1/2 before:rotate-45 before:border-b before:border-l before:border-white/[0.09] before:bg-[rgba(5,6,10,0.97)] group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100"
       role="tooltip"
     >
       {label}
@@ -279,10 +279,12 @@ function SidebarTooltip({ label, show }: { label: string; show: boolean }) {
 
 function SidebarBranchLink({
   href,
+  isCollapsed,
   isActive,
   label
 }: {
   href: string;
+  isCollapsed: boolean;
   isActive: boolean;
   label: string;
 }) {
@@ -290,11 +292,15 @@ function SidebarBranchLink({
     <Link
       href={href}
       className={cn(
-        "group relative flex h-8 items-center rounded-[0.58rem] px-3 text-xs font-semibold text-[#9B89B8]/72 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/24 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
-        "hover:-translate-y-px hover:bg-white/[0.04] hover:text-[#F8F4FF]",
-        isActive && "bg-white/[0.065] text-[#F8F4FF] ring-1 ring-inset ring-white/[0.07]"
+        "group group/branch relative flex h-7 items-center rounded-[0.52rem] text-[0.68rem] font-semibold text-[#9B89B8]/78 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/24 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+        isCollapsed ? "px-2.5" : "px-2.5",
+        "before:absolute before:top-1/2 before:h-px before:bg-white/[0.075]",
+        isCollapsed ? "before:left-[-1.45rem] before:w-5" : "before:left-[-0.78rem] before:w-2.5",
+        "hover:bg-white/[0.04] hover:text-[#F8F4FF]",
+        isActive && "bg-white/[0.045] text-[#F8F4FF]"
       )}
       aria-current={isActive ? "page" : undefined}
+      aria-label={label}
     >
       <span className="truncate">{label}</span>
     </Link>
@@ -303,9 +309,13 @@ function SidebarBranchLink({
 
 function SidebarBrandSlot() {
   return (
-    <span className="relative flex h-6 w-6 shrink-0 items-center justify-center text-[0.82rem] font-black tracking-[-0.06em] text-[#F8F4FF]">
-      <span className="absolute inset-0 rounded-[0.4rem] bg-[linear-gradient(135deg,rgba(103,232,249,0.12),rgba(179,107,255,0.2),rgba(225,77,170,0.12))] opacity-70" />
-      <span className="relative">S</span>
+    <span className="relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-[0.82rem] border border-white/[0.105] bg-[linear-gradient(145deg,rgba(11,12,18,0.98),rgba(4,5,9,0.96))] text-[0.82rem] font-black tracking-[-0.04em] text-[#F8F4FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.075),0_10px_24px_rgba(0,0,0,0.24),0_0_16px_rgba(176,64,255,0.07)]">
+      <span
+        className="absolute inset-0 bg-[radial-gradient(circle_at_28%_22%,rgba(103,232,249,0.18),transparent_28%),linear-gradient(135deg,rgba(103,232,249,0.045),rgba(179,107,255,0.16),rgba(225,77,170,0.06))] opacity-80 transition-opacity group-hover/brand:opacity-100"
+        aria-hidden="true"
+      />
+      <span className="absolute inset-[4px] rounded-[0.55rem] border border-white/[0.055]" aria-hidden="true" />
+      <span className="relative translate-y-px">S</span>
     </span>
   );
 }

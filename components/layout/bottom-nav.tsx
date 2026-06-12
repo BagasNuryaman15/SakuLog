@@ -25,20 +25,30 @@ export function BottomNav() {
         {mainNavigation.map((item) => {
           const Icon = icons[item.icon];
           const isActive = pathname === item.href;
+          const isAddItem = item.href === "/add";
 
           return (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "flex min-h-12 flex-col items-center justify-center gap-1 rounded-2xl px-1 text-[11px] font-medium text-indigo-100/56 transition-all",
-                "hover:bg-[#B36BFF]/[0.06] hover:text-white",
-                isActive &&
-                  "border border-[#E0B3FF]/18 bg-[linear-gradient(135deg,rgba(43,15,107,0.48),rgba(154,53,255,0.22),rgba(255,255,255,0.055))] text-white shadow-[0_12px_34px_rgba(79,70,229,0.2),0_0_14px_rgba(176,64,255,0.12)]"
+                "flex min-h-12 flex-col items-center justify-center gap-1 rounded-2xl border border-transparent px-1 text-[11px] font-medium text-indigo-100/58 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+                "hover:border-white/[0.08] hover:bg-white/[0.045] hover:text-white",
+                isAddItem &&
+                  !isActive &&
+                  "text-[#D8B4FE]/88 hover:border-[#BFA7FF]/16 hover:bg-[linear-gradient(135deg,rgba(92,36,241,0.16),rgba(179,107,255,0.075))]",
+                isActive && "text-white"
               )}
+              aria-current={isActive ? "page" : undefined}
               aria-label={item.title}
             >
-              <Icon className={cn("h-4 w-4", isActive && "text-cyan-100")} />
+              <Icon
+                className={cn(
+                  "h-4 w-4 text-indigo-100/66",
+                  isAddItem && "text-[#D8B4FE]/90",
+                  isActive && "text-[#F8F4FF]"
+                )}
+              />
               <span className="max-w-full truncate">{item.title}</span>
             </Link>
           );
