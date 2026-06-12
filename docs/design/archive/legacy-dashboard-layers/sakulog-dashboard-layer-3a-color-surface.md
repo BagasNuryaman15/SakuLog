@@ -1,3 +1,6 @@
+> Status: Archived / Superseded
+> This document is historical only. Do not use it as the active source of truth for SakuLog V1.5. Use docs/product/PRD_V1_5.md and docs/design/dashboard-v1-5-design-direction.md instead.
+
 # SakuLog Dashboard — Layer 3A Color & Surface Foundation
 
 ## 1. Purpose
