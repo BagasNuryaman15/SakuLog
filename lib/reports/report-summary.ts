@@ -88,7 +88,7 @@ export async function getReportSummaries(): Promise<ReportSummaries> {
 
   return {
     today: buildPeriodSummary("Daily", "Pulse transaksi hari ini", filterByRange(transactions, todayRange)),
-    week: buildPeriodSummary("Weekly", "Pola keluar masuk 7 hari", filterByRange(transactions, weekRange)),
+    week: buildPeriodSummary("Weekly", "Pola minggu berjalan", filterByRange(transactions, weekRange)),
     month: buildPeriodSummary("Monthly", "Kategori dan cashflow bulan ini", filterByRange(transactions, monthRange)),
     year: buildPeriodSummary("Yearly", "Trend besar sepanjang tahun", filterByRange(transactions, yearRange))
   };
@@ -109,7 +109,7 @@ function emptyPeriod(label: string, description: string): PeriodSummary {
 export function getEmptyReportSummaries(): ReportSummaries {
   return {
     today: emptyPeriod("Daily", "Pulse transaksi hari ini"),
-    week: emptyPeriod("Weekly", "Pola keluar masuk 7 hari"),
+    week: emptyPeriod("Weekly", "Pola minggu berjalan"),
     month: emptyPeriod("Monthly", "Kategori dan cashflow bulan ini"),
     year: emptyPeriod("Yearly", "Trend besar sepanjang tahun")
   };

@@ -65,7 +65,7 @@ export function WireframeTopBar({
             title="Search dashboard belum tersedia"
           >
             <Search className="h-4 w-4 shrink-0 text-[#67E8F9]/42" />
-            <span className="truncate">Search segera hadir</span>
+            <span className="truncate">Search coming soon</span>
             <span
               className={cn(
                 topbarCommandKeyClass,
