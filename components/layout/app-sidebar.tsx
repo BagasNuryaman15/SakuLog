@@ -131,11 +131,11 @@ export function AppSidebar() {
                     <Link
                       href={item.href}
                       className={cn(
-                        "group group/navitem relative flex h-10 items-center text-sm font-semibold text-[#9B89B8]/72 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+                        "group group/navitem relative flex h-10 items-center text-sm font-semibold text-[#9B89B8]/68 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/28 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
                         isCollapsed
                           ? "justify-center rounded-[0.7rem] px-0"
-                          : "gap-3 rounded-[0.78rem] px-2.5 hover:-translate-y-px hover:bg-[rgba(255,255,255,0.04)] hover:text-[#F8F4FF]",
-                        isAddItem && !isActive && "text-[#D8B4FE]/82",
+                          : "gap-3 rounded-[0.78rem] px-2.5 hover:-translate-y-px hover:bg-[rgba(255,255,255,0.032)] hover:text-[#F8F4FF]",
+                        isAddItem && !isActive && "text-[#D8B4FE]/76",
                         isActive && "text-[#F8F4FF]"
                       )}
                       aria-current={isActive ? "page" : undefined}
@@ -143,17 +143,17 @@ export function AppSidebar() {
                     >
                       <span
                         className={cn(
-                          "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center transition-all duration-200",
-                          isCollapsed &&
-                            "rounded-[0.72rem] border border-transparent group-hover/navitem:-translate-y-px group-hover/navitem:scale-[1.04] group-hover/navitem:border-white/[0.08] group-hover/navitem:bg-white/[0.045] group-focus-visible/navitem:border-white/[0.08] group-focus-visible/navitem:bg-white/[0.045]",
+                          "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center transition-all duration-200 before:absolute before:inset-0 before:rounded-[0.72rem] before:border before:border-transparent before:bg-transparent before:opacity-0 before:transition-all before:duration-200",
+                          "group-hover/navitem:-translate-y-px group-hover/navitem:before:border-white/[0.07] group-hover/navitem:before:bg-white/[0.035] group-hover/navitem:before:opacity-100 group-focus-visible/navitem:before:border-white/[0.08] group-focus-visible/navitem:before:bg-white/[0.04] group-focus-visible/navitem:before:opacity-100",
+                          isCollapsed && "group-hover/navitem:scale-[1.035]",
                           isActive
-                            ? "text-[#F8F4FF]"
+                            ? "text-[#F8F4FF] before:border-white/[0.08] before:bg-white/[0.045] before:opacity-100 before:shadow-[0_0_18px_rgba(191,167,255,0.055),inset_0_1px_0_rgba(255,255,255,0.035)]"
                             : isAddItem
-                              ? "text-[#D8B4FE]/86 group-hover/navitem:text-[#F8F4FF]"
-                              : "text-[#9B89B8]/68 group-hover/navitem:text-[#F8F4FF]"
+                              ? "text-[#D8B4FE]/78 group-hover/navitem:text-[#F8F4FF]"
+                              : "text-[#9B89B8]/62 group-hover/navitem:text-[#F8F4FF]"
                         )}
                       >
-                        <Icon className="h-[1.08rem] w-[1.08rem]" strokeWidth={2.15} />
+                        <Icon className="relative z-10 h-[1.08rem] w-[1.08rem]" strokeWidth={2.15} />
                       </span>
                       <span className={cn("relative z-10 whitespace-nowrap transition", isCollapsed && "hidden")}>
                         {item.title}
@@ -225,40 +225,58 @@ export function AppSidebar() {
 function AddBranchMenuStatic({ isCollapsed }: { isCollapsed: boolean }) {
   return (
     <div className={addBranchMenuClass(isCollapsed)}>
-      <SidebarBranchLink href="/add?type=expense" isActive={false} isCollapsed={isCollapsed} label="Pengeluaran" />
-      <SidebarBranchLink href="/add?type=income" isActive={false} isCollapsed={isCollapsed} label="Pemasukan" />
+      <div className={addBranchPanelClass(isCollapsed)}>
+        <SidebarBranchLink href="/add?type=expense" isActive={false} isCollapsed={isCollapsed} label="Pengeluaran" />
+        <SidebarBranchLink href="/add?type=income" isActive={false} isCollapsed={isCollapsed} label="Pemasukan" />
+      </div>
     </div>
   );
 }
 
-function AddBranchMenu({ isCollapsed, pathname }: { isCollapsed: boolean; pathname: string }) {
+function AddBranchMenu({
+  isCollapsed,
+  pathname
+}: {
+  isCollapsed: boolean;
+  pathname: string;
+}) {
   const searchParams = useSearchParams();
   const addType = searchParams.get("type");
 
   return (
     <div className={addBranchMenuClass(isCollapsed)}>
-      <SidebarBranchLink
-        href="/add?type=expense"
-        isActive={pathname === "/add" && addType === "expense"}
-        isCollapsed={isCollapsed}
-        label="Pengeluaran"
-      />
-      <SidebarBranchLink
-        href="/add?type=income"
-        isActive={pathname === "/add" && addType === "income"}
-        isCollapsed={isCollapsed}
-        label="Pemasukan"
-      />
+      <div className={addBranchPanelClass(isCollapsed)}>
+        <SidebarBranchLink
+          href="/add?type=expense"
+          isActive={pathname === "/add" && addType === "expense"}
+          isCollapsed={isCollapsed}
+          label="Pengeluaran"
+        />
+        <SidebarBranchLink
+          href="/add?type=income"
+          isActive={pathname === "/add" && addType === "income"}
+          isCollapsed={isCollapsed}
+          label="Pemasukan"
+        />
+      </div>
     </div>
   );
 }
 
 function addBranchMenuClass(isCollapsed: boolean) {
   return cn(
-    "pointer-events-none space-y-1 opacity-0 transition-all duration-150 group-hover/add:pointer-events-auto group-hover/add:opacity-100 group-focus-within/add:pointer-events-auto group-focus-within/add:opacity-100",
+    "pointer-events-none opacity-0 transition-all duration-150 group-hover/add:pointer-events-auto group-hover/add:opacity-100 group-focus-within/add:pointer-events-auto group-focus-within/add:opacity-100",
     isCollapsed
-      ? "absolute left-full top-0 z-40 ml-3 w-36 rounded-[0.82rem] border border-white/[0.085] bg-[rgba(5,6,10,0.975)] p-1.5 shadow-[0_16px_34px_rgba(0,0,0,0.42),0_0_14px_rgba(123,0,212,0.045)] backdrop-blur group-hover/add:translate-x-1 group-focus-within/add:translate-x-1 before:absolute before:left-[-0.95rem] before:top-5 before:h-[3.65rem] before:border-l before:border-white/[0.105] after:absolute after:left-[-0.75rem] after:top-0 after:h-full after:w-4"
+      ? "relative ml-2 max-h-0 w-[8rem] overflow-hidden pb-0 pl-[1.65rem] pt-1 before:absolute before:left-3 before:top-0 before:h-full before:border-l before:border-white/[0.08] after:absolute after:left-0 after:top-0 after:h-full after:w-[2.75rem] group-hover/add:max-h-[4.9rem] group-focus-within/add:max-h-[4.9rem]"
       : "relative ml-7 mt-1.5 max-h-0 overflow-hidden border-l border-white/[0.075] pl-3 group-hover/add:max-h-20 group-focus-within/add:max-h-20"
+  );
+}
+
+function addBranchPanelClass(isCollapsed: boolean) {
+  return cn(
+    "space-y-1",
+    isCollapsed &&
+      "rounded-[0.68rem] border border-white/[0.085] bg-[rgba(5,6,10,0.94)] p-1 shadow-[0_14px_28px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur"
   );
 }
 
@@ -295,12 +313,17 @@ function SidebarBranchLink({
         "group group/branch relative flex h-7 items-center rounded-[0.52rem] text-[0.68rem] font-semibold text-[#9B89B8]/78 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFA7FF]/24 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
         isCollapsed ? "px-2.5" : "px-2.5",
         "before:absolute before:top-1/2 before:h-px before:bg-white/[0.075]",
-        isCollapsed ? "before:left-[-1.45rem] before:w-5" : "before:left-[-0.78rem] before:w-2.5",
+        isCollapsed ? "before:left-[-1.35rem] before:w-6" : "before:left-[-0.78rem] before:w-2.5",
         "hover:bg-white/[0.04] hover:text-[#F8F4FF]",
         isActive && "bg-white/[0.045] text-[#F8F4FF]"
       )}
       aria-current={isActive ? "page" : undefined}
       aria-label={label}
+      onClick={(event) => {
+        if (isCollapsed && event.detail > 0) {
+          event.currentTarget.blur();
+        }
+      }}
     >
       <span className="truncate">{label}</span>
     </Link>
