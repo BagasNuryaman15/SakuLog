@@ -7,6 +7,8 @@ import {
   calculateRangeExpense,
   calculateTopExpenseCategory,
   calculateExpenseCategoryBreakdown,
+  calculatePaymentMethodBreakdown,
+  calculateTopPaymentLeak,
   getRecentDashboardTransactions,
   calculateDashboardAggregates
 } from "../aggregations";
@@ -120,6 +122,165 @@ describe("calculateExpenseCategoryBreakdown", () => {
     expect(result[0].percentage).toBe(60);
     expect(result[1].category).toBe("Transport");
     expect(result[1].percentage).toBe(40);
+  });
+});
+
+describe("calculatePaymentMethodBreakdown", () => {
+  it("returns empty array for empty transactions", () => {
+    expect(calculatePaymentMethodBreakdown([])).toEqual([]);
+  });
+
+  it("returns empty array for income-only transactions", () => {
+    const txns = [
+      makeTransaction({ type: "income", amount: 5000, payment_method: "Cash" }),
+      makeTransaction({ type: "income", amount: 7000, payment_method: "QRIS / M-Banking" })
+    ];
+
+    expect(calculatePaymentMethodBreakdown(txns)).toEqual([]);
+  });
+
+  it("ignores income transactions in mixed transaction sets", () => {
+    const txns = [
+      makeTransaction({ type: "income", amount: 9000, payment_method: "Cash" }),
+      makeTransaction({ type: "expense", amount: 3000, payment_method: "Cash" }),
+      makeTransaction({ type: "expense", amount: 7000, payment_method: "E-wallet" })
+    ];
+
+    expect(calculatePaymentMethodBreakdown(txns)).toEqual([
+      { paymentMethod: "E-wallet", total: 7000, count: 1, percentage: 70 },
+      { paymentMethod: "Cash", total: 3000, count: 1, percentage: 30 }
+    ]);
+  });
+
+  it("groups multiple expense transactions with the same payment method", () => {
+    const txns = [
+      makeTransaction({ amount: 3000, payment_method: "Cash" }),
+      makeTransaction({ amount: 2000, payment_method: " Cash " }),
+      makeTransaction({ amount: 5000, payment_method: "QRIS / M-Banking" })
+    ];
+
+    expect(calculatePaymentMethodBreakdown(txns)).toEqual([
+      { paymentMethod: "Cash", total: 5000, count: 2, percentage: 50 },
+      { paymentMethod: "QRIS / M-Banking", total: 5000, count: 1, percentage: 50 }
+    ]);
+  });
+
+  it("groups different payment methods separately", () => {
+    const txns = [
+      makeTransaction({ amount: 1000, payment_method: "Cash" }),
+      makeTransaction({ amount: 2000, payment_method: "QRIS / M-Banking" }),
+      makeTransaction({ amount: 3000, payment_method: "E-wallet" })
+    ];
+
+    expect(calculatePaymentMethodBreakdown(txns).map((item) => item.paymentMethod)).toEqual([
+      "E-wallet",
+      "QRIS / M-Banking",
+      "Cash"
+    ]);
+  });
+
+  it("falls back to Lainnya for null payment method", () => {
+    const txns = [makeTransaction({ amount: 1000, payment_method: null })];
+
+    expect(calculatePaymentMethodBreakdown(txns)).toEqual([
+      { paymentMethod: "Lainnya", total: 1000, count: 1, percentage: 100 }
+    ]);
+  });
+
+  it("falls back to Lainnya for undefined payment method", () => {
+    const txns = [makeTransaction({ amount: 1000, payment_method: undefined })];
+
+    expect(calculatePaymentMethodBreakdown(txns)).toEqual([
+      { paymentMethod: "Lainnya", total: 1000, count: 1, percentage: 100 }
+    ]);
+  });
+
+  it("falls back to Lainnya for empty or whitespace payment methods", () => {
+    const txns = [
+      makeTransaction({ amount: 1000, payment_method: "" }),
+      makeTransaction({ amount: 2000, payment_method: "   " })
+    ];
+
+    expect(calculatePaymentMethodBreakdown(txns)).toEqual([
+      { paymentMethod: "Lainnya", total: 3000, count: 2, percentage: 100 }
+    ]);
+  });
+
+  it("sorts by total descending with deterministic tie ordering", () => {
+    const txns = [
+      makeTransaction({ amount: 5000, payment_method: "QRIS / M-Banking" }),
+      makeTransaction({ amount: 9000, payment_method: "E-wallet" }),
+      makeTransaction({ amount: 5000, payment_method: "Cash" })
+    ];
+
+    expect(calculatePaymentMethodBreakdown(txns).map((item) => item.paymentMethod)).toEqual([
+      "E-wallet",
+      "Cash",
+      "QRIS / M-Banking"
+    ]);
+  });
+
+  it("calculates percentages from total expenses", () => {
+    const txns = [
+      makeTransaction({ amount: 2500, payment_method: "Cash" }),
+      makeTransaction({ amount: 7500, payment_method: "E-wallet" })
+    ];
+
+    expect(calculatePaymentMethodBreakdown(txns)).toEqual([
+      { paymentMethod: "E-wallet", total: 7500, count: 1, percentage: 75 },
+      { paymentMethod: "Cash", total: 2500, count: 1, percentage: 25 }
+    ]);
+  });
+
+  it("uses 0 percentage when total expense is 0", () => {
+    const txns = [
+      makeTransaction({ amount: 0, payment_method: "Cash" }),
+      makeTransaction({ amount: 0, payment_method: "E-wallet" })
+    ];
+
+    const result = calculatePaymentMethodBreakdown(txns);
+
+    expect(result).toEqual([
+      { paymentMethod: "Cash", total: 0, count: 1, percentage: 0 },
+      { paymentMethod: "E-wallet", total: 0, count: 1, percentage: 0 }
+    ]);
+    expect(result.every((item) => Number.isFinite(item.percentage))).toBe(true);
+  });
+
+  it("does not mutate input transactions", () => {
+    const txns = [
+      makeTransaction({ amount: 1000, payment_method: " Cash " }),
+      makeTransaction({ amount: 2000, payment_method: null })
+    ];
+    const before = JSON.stringify(txns);
+
+    calculatePaymentMethodBreakdown(txns);
+
+    expect(JSON.stringify(txns)).toBe(before);
+  });
+});
+
+describe("calculateTopPaymentLeak", () => {
+  it("returns the payment method with the highest total expense", () => {
+    const txns = [
+      makeTransaction({ amount: 4000, payment_method: "Cash" }),
+      makeTransaction({ amount: 9000, payment_method: "E-wallet" }),
+      makeTransaction({ amount: 1000, payment_method: "Cash" })
+    ];
+
+    expect(calculateTopPaymentLeak(txns)).toEqual({
+      paymentMethod: "E-wallet",
+      total: 9000,
+      count: 1,
+      percentage: 64
+    });
+  });
+
+  it("returns null when there are no expenses", () => {
+    const txns = [makeTransaction({ type: "income", amount: 5000 })];
+
+    expect(calculateTopPaymentLeak([])).toBeNull();
+    expect(calculateTopPaymentLeak(txns)).toBeNull();
   });
 });
 

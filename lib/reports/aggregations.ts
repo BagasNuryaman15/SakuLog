@@ -13,6 +13,13 @@ export type ExpenseCategoryBreakdownItem = {
   percentage: number;
 };
 
+export type PaymentMethodBreakdownItem = {
+  paymentMethod: string;
+  total: number;
+  count: number;
+  percentage: number;
+};
+
 export type DashboardAggregates = {
   monthIncome: number;
   monthExpense: number;
@@ -28,6 +35,18 @@ export type DashboardAggregates = {
 
 function toAmount(transaction: Transaction) {
   return Number(transaction.amount) || 0;
+}
+
+function toExpenseAmount(transaction: Transaction) {
+  const amount = toAmount(transaction);
+
+  return Number.isFinite(amount) ? Math.max(amount, 0) : 0;
+}
+
+function normalizePaymentMethod(paymentMethod: Transaction["payment_method"] | undefined) {
+  const normalized = paymentMethod?.trim();
+
+  return normalized || "Lainnya";
 }
 
 function isInRange(transaction: Transaction, range: DateRange) {
@@ -109,6 +128,43 @@ export function calculateExpenseCategoryBreakdown(transactions: Transaction[]): 
       amount,
       percentage: Math.round((amount / totalExpense) * 100)
     }));
+}
+
+export function calculatePaymentMethodBreakdown(transactions: Transaction[]): PaymentMethodBreakdownItem[] {
+  const methodTotals = getExpenses(transactions).reduce<Record<string, { total: number; count: number }>>(
+    (result, transaction) => {
+      const paymentMethod = normalizePaymentMethod(transaction.payment_method);
+      const current = result[paymentMethod] ?? { total: 0, count: 0 };
+
+      result[paymentMethod] = {
+        total: current.total + toExpenseAmount(transaction),
+        count: current.count + 1
+      };
+
+      return result;
+    },
+    {}
+  );
+  const totalExpense = Object.values(methodTotals).reduce((total, item) => total + item.total, 0);
+
+  return Object.entries(methodTotals)
+    .map(([paymentMethod, item]) => ({
+      paymentMethod,
+      total: item.total,
+      count: item.count,
+      percentage: totalExpense > 0 ? Math.round((item.total / totalExpense) * 100) : 0
+    }))
+    .sort((current, next) => {
+      if (next.total !== current.total) {
+        return next.total - current.total;
+      }
+
+      return current.paymentMethod.localeCompare(next.paymentMethod);
+    });
+}
+
+export function calculateTopPaymentLeak(transactions: Transaction[]): PaymentMethodBreakdownItem | null {
+  return calculatePaymentMethodBreakdown(transactions)[0] ?? null;
 }
 
 export function getRecentDashboardTransactions(transactions: Transaction[], limit = 5) {
