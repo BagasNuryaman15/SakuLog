@@ -20,6 +20,37 @@ export type PaymentMethodBreakdownItem = {
   percentage: number;
 };
 
+export type FinancialStatus = "aman" | "waspada" | "minus";
+
+export type DashboardMoneyStatus = {
+  monthIncome: number;
+  monthExpense: number;
+  monthBalance: number;
+  status: FinancialStatus;
+};
+
+export type DashboardKpis = {
+  monthIncome: number;
+  monthExpense: number;
+  dailyAverageExpense: number;
+  topExpenseCategory: TopExpenseCategory | null;
+};
+
+export type DashboardTodayWeekSnapshot = {
+  todayExpense: number;
+  weekExpense: number;
+  weekExpenseTransactionCount: number;
+  weekTopExpenseCategory: TopExpenseCategory | null;
+};
+
+export type DashboardV15Data = {
+  moneyStatus: DashboardMoneyStatus;
+  kpis: DashboardKpis;
+  paymentLeak: PaymentMethodBreakdownItem | null;
+  todayWeekSnapshot: DashboardTodayWeekSnapshot;
+  recentTransactions: Transaction[];
+};
+
 export type DashboardAggregates = {
   monthIncome: number;
   monthExpense: number;
@@ -31,10 +62,13 @@ export type DashboardAggregates = {
   topExpenseCategory: TopExpenseCategory | null;
   expenseCategoryBreakdown: ExpenseCategoryBreakdownItem[];
   recentTransactions: Transaction[];
+  v15: DashboardV15Data;
 };
 
 function toAmount(transaction: Transaction) {
-  return Number(transaction.amount) || 0;
+  const amount = Number(transaction.amount);
+
+  return Number.isFinite(amount) ? amount : 0;
 }
 
 function toExpenseAmount(transaction: Transaction) {
@@ -85,8 +119,31 @@ export function calculateBalance(income: number, expense: number) {
   return income - expense;
 }
 
+export function calculateFinancialStatus({
+  income,
+  expense
+}: {
+  income: number;
+  expense: number;
+}): FinancialStatus {
+  if (expense > income) {
+    return "minus";
+  }
+
+  // Dashboard V1.5 keeps the status simple: 80% of income is the warning line.
+  if (income > 0 && expense >= income * 0.8) {
+    return "waspada";
+  }
+
+  return "aman";
+}
+
 export function calculateRangeExpense(transactions: Transaction[], range: DateRange) {
   return calculateTotalExpense(transactions.filter((transaction) => isInRange(transaction, range)));
+}
+
+export function calculateRangeExpenseTransactionCount(transactions: Transaction[], range: DateRange) {
+  return getExpenses(transactions.filter((transaction) => isInRange(transaction, range))).length;
 }
 
 export function calculateTopExpenseCategory(transactions: Transaction[]): TopExpenseCategory | null {
@@ -168,7 +225,15 @@ export function calculateTopPaymentLeak(transactions: Transaction[]): PaymentMet
 }
 
 export function getRecentDashboardTransactions(transactions: Transaction[], limit = 5) {
-  return transactions.slice(0, limit);
+  return [...transactions]
+    .sort((current, next) => {
+      if (next.transaction_date !== current.transaction_date) {
+        return next.transaction_date.localeCompare(current.transaction_date);
+      }
+
+      return next.created_at.localeCompare(current.created_at);
+    })
+    .slice(0, limit);
 }
 
 export function calculateDashboardAggregates({
@@ -183,21 +248,51 @@ export function calculateDashboardAggregates({
   weekRange: DateRange;
 }): DashboardAggregates {
   const monthTransactions = transactions.filter((transaction) => isInRange(transaction, monthRange));
+  const weekTransactions = transactions.filter((transaction) => isInRange(transaction, weekRange));
   const monthIncome = calculateTotalIncome(monthTransactions);
   const monthExpense = calculateTotalExpense(monthTransactions);
+  const monthBalance = calculateBalance(monthIncome, monthExpense);
   const elapsedMonthDays = getElapsedDays(monthRange);
   const elapsedMonthWeeks = Math.max(Math.ceil(elapsedMonthDays / 7), 1);
+  const dailyAverageExpense = monthExpense / elapsedMonthDays;
+  const weeklyAverageExpense = monthExpense / elapsedMonthWeeks;
+  const todayExpense = calculateRangeExpense(transactions, todayRange);
+  const weekExpense = calculateRangeExpense(transactions, weekRange);
+  const topExpenseCategory = calculateTopExpenseCategory(monthTransactions);
+  const recentTransactions = getRecentDashboardTransactions(transactions);
 
   return {
     monthIncome,
     monthExpense,
-    monthBalance: calculateBalance(monthIncome, monthExpense),
-    dailyAverageExpense: monthExpense / elapsedMonthDays,
-    weeklyAverageExpense: monthExpense / elapsedMonthWeeks,
-    todayExpense: calculateRangeExpense(transactions, todayRange),
-    weekExpense: calculateRangeExpense(transactions, weekRange),
-    topExpenseCategory: calculateTopExpenseCategory(monthTransactions),
+    monthBalance,
+    dailyAverageExpense,
+    weeklyAverageExpense,
+    todayExpense,
+    weekExpense,
+    topExpenseCategory,
     expenseCategoryBreakdown: calculateExpenseCategoryBreakdown(monthTransactions),
-    recentTransactions: getRecentDashboardTransactions(transactions)
+    recentTransactions,
+    v15: {
+      moneyStatus: {
+        monthIncome,
+        monthExpense,
+        monthBalance,
+        status: calculateFinancialStatus({ income: monthIncome, expense: monthExpense })
+      },
+      kpis: {
+        monthIncome,
+        monthExpense,
+        dailyAverageExpense,
+        topExpenseCategory
+      },
+      paymentLeak: calculateTopPaymentLeak(monthTransactions),
+      todayWeekSnapshot: {
+        todayExpense,
+        weekExpense,
+        weekExpenseTransactionCount: calculateRangeExpenseTransactionCount(transactions, weekRange),
+        weekTopExpenseCategory: calculateTopExpenseCategory(weekTransactions)
+      },
+      recentTransactions
+    }
   };
 }

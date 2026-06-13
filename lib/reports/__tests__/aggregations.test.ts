@@ -4,7 +4,9 @@ import {
   calculateTotalIncome,
   calculateTotalExpense,
   calculateBalance,
+  calculateFinancialStatus,
   calculateRangeExpense,
+  calculateRangeExpenseTransactionCount,
   calculateTopExpenseCategory,
   calculateExpenseCategoryBreakdown,
   calculatePaymentMethodBreakdown,
@@ -69,6 +71,23 @@ describe("calculateBalance", () => {
   });
 });
 
+describe("calculateFinancialStatus", () => {
+  it("returns aman when expense is below the warning threshold", () => {
+    expect(calculateFinancialStatus({ income: 100000, expense: 79000 })).toBe("aman");
+    expect(calculateFinancialStatus({ income: 0, expense: 0 })).toBe("aman");
+  });
+
+  it("returns waspada when expense reaches 80% of income", () => {
+    expect(calculateFinancialStatus({ income: 100000, expense: 80000 })).toBe("waspada");
+    expect(calculateFinancialStatus({ income: 100000, expense: 100000 })).toBe("waspada");
+  });
+
+  it("returns minus when expense is greater than income", () => {
+    expect(calculateFinancialStatus({ income: 100000, expense: 100001 })).toBe("minus");
+    expect(calculateFinancialStatus({ income: 0, expense: 1 })).toBe("minus");
+  });
+});
+
 describe("calculateRangeExpense", () => {
   it("only counts expenses within the date range", () => {
     const txns = [
@@ -79,6 +98,20 @@ describe("calculateRangeExpense", () => {
     ];
     const range = { startDate: "2025-06-05", endDate: "2025-06-15" };
     expect(calculateRangeExpense(txns, range)).toBe(2000);
+  });
+});
+
+describe("calculateRangeExpenseTransactionCount", () => {
+  it("counts only expense transactions within the date range", () => {
+    const txns = [
+      makeTransaction({ type: "expense", transaction_date: "2025-06-01" }),
+      makeTransaction({ type: "expense", transaction_date: "2025-06-10" }),
+      makeTransaction({ type: "income", transaction_date: "2025-06-10" }),
+      makeTransaction({ type: "expense", transaction_date: "2025-06-20" })
+    ];
+    const range = { startDate: "2025-06-05", endDate: "2025-06-15" };
+
+    expect(calculateRangeExpenseTransactionCount(txns, range)).toBe(1);
   });
 });
 
@@ -292,9 +325,108 @@ describe("getRecentDashboardTransactions", () => {
     expect(getRecentDashboardTransactions(txns, 3)).toHaveLength(3);
     expect(getRecentDashboardTransactions(txns)).toHaveLength(5); // default
   });
+
+  it("sorts by transaction date and created date without mutating input", () => {
+    const txns = [
+      makeTransaction({
+        id: "older",
+        transaction_date: "2025-06-09",
+        created_at: "2025-06-09T12:00:00Z"
+      }),
+      makeTransaction({
+        id: "newer-created",
+        transaction_date: "2025-06-10",
+        created_at: "2025-06-10T12:00:00Z"
+      }),
+      makeTransaction({
+        id: "same-day-older-created",
+        transaction_date: "2025-06-10",
+        created_at: "2025-06-10T08:00:00Z"
+      })
+    ];
+    const before = txns.map((transaction) => transaction.id);
+
+    expect(getRecentDashboardTransactions(txns).map((transaction) => transaction.id)).toEqual([
+      "newer-created",
+      "same-day-older-created",
+      "older"
+    ]);
+    expect(txns.map((transaction) => transaction.id)).toEqual(before);
+  });
 });
 
 describe("calculateDashboardAggregates", () => {
+  it("returns safe empty Dashboard V1.5 data for no transactions", () => {
+    const result = calculateDashboardAggregates({
+      transactions: [],
+      monthRange: { startDate: "2025-06-01", endDate: "2025-06-30" },
+      todayRange: { startDate: "2025-06-10", endDate: "2025-06-10" },
+      weekRange: { startDate: "2025-06-09", endDate: "2025-06-15" }
+    });
+
+    expect(result.v15).toEqual({
+      moneyStatus: {
+        monthIncome: 0,
+        monthExpense: 0,
+        monthBalance: 0,
+        status: "aman"
+      },
+      kpis: {
+        monthIncome: 0,
+        monthExpense: 0,
+        dailyAverageExpense: 0,
+        topExpenseCategory: null
+      },
+      paymentLeak: null,
+      todayWeekSnapshot: {
+        todayExpense: 0,
+        weekExpense: 0,
+        weekExpenseTransactionCount: 0,
+        weekTopExpenseCategory: null
+      },
+      recentTransactions: []
+    });
+    expect(Number.isFinite(result.v15.kpis.dailyAverageExpense)).toBe(true);
+  });
+
+  it("supports income-only months without payment leak", () => {
+    const txns = [
+      makeTransaction({ type: "income", amount: 500000, transaction_date: "2025-06-10" })
+    ];
+
+    const result = calculateDashboardAggregates({
+      transactions: txns,
+      monthRange: { startDate: "2025-06-01", endDate: "2025-06-30" },
+      todayRange: { startDate: "2025-06-10", endDate: "2025-06-10" },
+      weekRange: { startDate: "2025-06-09", endDate: "2025-06-15" }
+    });
+
+    expect(result.v15.moneyStatus).toEqual({
+      monthIncome: 500000,
+      monthExpense: 0,
+      monthBalance: 500000,
+      status: "aman"
+    });
+    expect(result.v15.paymentLeak).toBeNull();
+  });
+
+  it("supports expense-only months as minus", () => {
+    const txns = [
+      makeTransaction({ type: "expense", amount: 75000, transaction_date: "2025-06-10" })
+    ];
+
+    const result = calculateDashboardAggregates({
+      transactions: txns,
+      monthRange: { startDate: "2025-06-01", endDate: "2025-06-30" },
+      todayRange: { startDate: "2025-06-10", endDate: "2025-06-10" },
+      weekRange: { startDate: "2025-06-09", endDate: "2025-06-15" }
+    });
+
+    expect(result.v15.moneyStatus.status).toBe("minus");
+    expect(result.v15.moneyStatus.monthBalance).toBe(-75000);
+    expect(result.v15.paymentLeak?.paymentMethod).toBe("Cash");
+  });
+
   it("computes all fields for a mixed transaction set", () => {
     const txns = [
       makeTransaction({ type: "income", amount: 5000000, transaction_date: "2025-06-05", category: "Orang Tua" }),
@@ -317,5 +449,106 @@ describe("calculateDashboardAggregates", () => {
     expect(result.topExpenseCategory?.category).toBe("Makanan");
     expect(result.expenseCategoryBreakdown).toHaveLength(2);
     expect(result.recentTransactions).toHaveLength(3);
+    expect(result.v15.moneyStatus.status).toBe("aman");
+    expect(result.v15.kpis.topExpenseCategory?.category).toBe("Makanan");
+  });
+
+  it("computes Dashboard V1.5 payment leak and today/week snapshot", () => {
+    const txns = [
+      makeTransaction({
+        id: "income",
+        type: "income",
+        amount: 200000,
+        transaction_date: "2025-06-02",
+        created_at: "2025-06-02T08:00:00Z"
+      }),
+      makeTransaction({
+        id: "qris-food",
+        amount: 50000,
+        category: "Makanan",
+        payment_method: "QRIS / M-Banking",
+        transaction_date: "2025-06-10",
+        created_at: "2025-06-10T09:00:00Z"
+      }),
+      makeTransaction({
+        id: "qris-snack",
+        amount: 30000,
+        category: "Jajan",
+        payment_method: "QRIS / M-Banking",
+        transaction_date: "2025-06-11",
+        created_at: "2025-06-11T09:00:00Z"
+      }),
+      makeTransaction({
+        id: "cash-transport",
+        amount: 20000,
+        category: "Transport",
+        payment_method: "Cash",
+        transaction_date: "2025-06-10",
+        created_at: "2025-06-10T10:00:00Z"
+      }),
+      makeTransaction({
+        id: "outside-week",
+        amount: 40000,
+        category: "Makanan",
+        payment_method: "E-wallet",
+        transaction_date: "2025-06-01",
+        created_at: "2025-06-01T10:00:00Z"
+      })
+    ];
+    const before = JSON.stringify(txns);
+
+    const result = calculateDashboardAggregates({
+      transactions: txns,
+      monthRange: { startDate: "2025-06-01", endDate: "2025-06-30" },
+      todayRange: { startDate: "2025-06-10", endDate: "2025-06-10" },
+      weekRange: { startDate: "2025-06-09", endDate: "2025-06-15" }
+    });
+
+    expect(result.v15.paymentLeak).toEqual({
+      paymentMethod: "QRIS / M-Banking",
+      total: 80000,
+      count: 2,
+      percentage: 57
+    });
+    expect(result.v15.todayWeekSnapshot).toEqual({
+      todayExpense: 70000,
+      weekExpense: 100000,
+      weekExpenseTransactionCount: 3,
+      weekTopExpenseCategory: { category: "Makanan", amount: 50000, percentage: 50 }
+    });
+    expect(result.v15.recentTransactions.map((transaction) => transaction.id)).toEqual([
+      "qris-snack",
+      "cash-transport",
+      "qris-food",
+      "income",
+      "outside-week"
+    ]);
+    expect(JSON.stringify(txns)).toBe(before);
+  });
+
+  it("keeps the legacy dashboard contract available while adding v15", () => {
+    const txns = [
+      makeTransaction({ type: "income", amount: 100000, transaction_date: "2025-06-10" }),
+      makeTransaction({ type: "expense", amount: 80000, transaction_date: "2025-06-10" })
+    ];
+
+    const result = calculateDashboardAggregates({
+      transactions: txns,
+      monthRange: { startDate: "2025-06-01", endDate: "2025-06-30" },
+      todayRange: { startDate: "2025-06-10", endDate: "2025-06-10" },
+      weekRange: { startDate: "2025-06-09", endDate: "2025-06-15" }
+    });
+
+    expect(result.monthIncome).toBe(100000);
+    expect(result.monthExpense).toBe(80000);
+    expect(result.monthBalance).toBe(20000);
+    expect(result.dailyAverageExpense).toBeGreaterThan(0);
+    expect(result.weeklyAverageExpense).toBeGreaterThan(0);
+    expect(result.todayExpense).toBe(80000);
+    expect(result.weekExpense).toBe(80000);
+    expect(result.topExpenseCategory).not.toBeNull();
+    expect(result.expenseCategoryBreakdown).toHaveLength(1);
+    expect(result.recentTransactions).toHaveLength(2);
+    expect(result.v15.moneyStatus.status).toBe("waspada");
   });
 });

@@ -22,6 +22,28 @@ function makeEmptySummary(overrides: Partial<DashboardSummary> = {}): DashboardS
     topExpenseCategory: null,
     expenseCategoryBreakdown: [],
     recentTransactions: [],
+    v15: {
+      moneyStatus: {
+        monthIncome: 0,
+        monthExpense: 0,
+        monthBalance: 0,
+        status: "aman"
+      },
+      kpis: {
+        monthIncome: 0,
+        monthExpense: 0,
+        dailyAverageExpense: 0,
+        topExpenseCategory: null
+      },
+      paymentLeak: null,
+      todayWeekSnapshot: {
+        todayExpense: 0,
+        weekExpense: 0,
+        weekExpenseTransactionCount: 0,
+        weekTopExpenseCategory: null
+      },
+      recentTransactions: []
+    },
     insights: [],
     monthSeries: [],
     ...overrides

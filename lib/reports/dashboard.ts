@@ -1,7 +1,6 @@
 import {
   calculateDashboardAggregates,
-  type ExpenseCategoryBreakdownItem,
-  type TopExpenseCategory
+  type DashboardAggregates
 } from "@/lib/reports/aggregations";
 import {
   getCurrentMonthRange,
@@ -13,17 +12,7 @@ import { generateDashboardInsights } from "@/lib/reports/insights";
 import { createClient } from "@/lib/supabase/client";
 import type { Transaction } from "@/features/transactions/types";
 
-export type DashboardSummary = {
-  monthIncome: number;
-  monthExpense: number;
-  monthBalance: number;
-  dailyAverageExpense: number;
-  weeklyAverageExpense: number;
-  todayExpense: number;
-  weekExpense: number;
-  topExpenseCategory: TopExpenseCategory | null;
-  expenseCategoryBreakdown: ExpenseCategoryBreakdownItem[];
-  recentTransactions: Transaction[];
+export type DashboardSummary = DashboardAggregates & {
   insights: string[];
   monthSeries: Array<{
     key: string;
@@ -38,17 +27,15 @@ function normalizeTransaction(transaction: Record<string, unknown>): Transaction
 }
 
 export function getEmptyDashboardSummary(): DashboardSummary {
+  const emptyAggregates = calculateDashboardAggregates({
+    transactions: [],
+    monthRange: getCurrentMonthRange(),
+    todayRange: getTodayRange(),
+    weekRange: getCurrentWeekRange()
+  });
+
   return {
-    monthIncome: 0,
-    monthExpense: 0,
-    monthBalance: 0,
-    dailyAverageExpense: 0,
-    weeklyAverageExpense: 0,
-    todayExpense: 0,
-    weekExpense: 0,
-    topExpenseCategory: null,
-    expenseCategoryBreakdown: [],
-    recentTransactions: [],
+    ...emptyAggregates,
     insights: ["Mulai catat transaksi pertama kamu agar SakuLog bisa membaca pola uangmu."],
     monthSeries: getDashboardMonthSeries([])
   };
